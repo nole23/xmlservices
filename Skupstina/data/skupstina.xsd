@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.parlament.gov.rs/amandmani"
+    xmlns:skup="http://www.parlament.gov.rs/amandmani">
+    <xs:element name="dokument">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="skup:naslov_sl_lista"/>
+                <xs:element maxOccurs="unbounded" ref="skup:propisi"/>
+                <xs:element minOccurs="0" ref="skup:sadrzaj"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="naslov_sl_lista">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="broj_lista" type="xs:string"/>
+                <xs:element name="cena" type="xs:float"/>
+                <xs:element ref="skup:mesto_datum"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="mesto_datum">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="mesto" type="xs:string"/>
+                <xs:element name="datum" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="propisi">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="odbornik" type="xs:string"/>
+                <xs:element name="preambula" type="xs:string"/>
+                <xs:element name="naziv_propisa"/>
+                <xs:element name="uvodni_deo" type="skup:delovi"/>
+                <xs:element name="glavni_deo" type="skup:delovi"/>
+                <xs:element name="zavrsni_deo">
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:extension base="skup:delovi">
+                                <xs:sequence>
+                                    <xs:element name="potpis_presednika" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType abstract="false" name="delovi">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="1" ref="skup:glava"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="clan">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="skup:podaci_clana"/>
+                <xs:element name="opis" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="podaci_clana">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="naslov_clana" type="xs:string"/>
+                <xs:element name="broj_clana" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="glava">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="skup:podaci_glave"/>
+                <xs:element default="" maxOccurs="unbounded" minOccurs="0" name="podnaslov_glave"/>
+                <xs:element maxOccurs="unbounded" minOccurs="1" ref="skup:clan"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="podaci_glave">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="naslov_glave" type="xs:string"/>
+                <xs:element name="broj_glave" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sadrzaj">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="odbornik" type="xs:string"/>
+                <xs:element name="broj_clana" type="xs:int"/>
+                <xs:element name="naziv_propisa" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
