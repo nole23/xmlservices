@@ -28,7 +28,7 @@ public class TestController {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<String> saveAdmin() throws FileNotFoundException {
 		
 		
@@ -57,7 +57,7 @@ public class TestController {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/delete", method = RequestMethod.PUT)
 	public ResponseEntity<String> deleteXML() throws FileNotFoundException {
 		 databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(),
 		 dUtil.getPort(), dUtil.getDatabase(), dUtil.getUsername(), dUtil.getPassword(),

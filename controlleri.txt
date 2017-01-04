@@ -1,0 +1,13 @@
+UserController (logovanje, registracija, profile - vraca sve podatke registrovanog korisnika) - MOJEEE :P
+
+SearchController(po referenci, po metapodacima, po tekstu)
+
+ActController(predlaganje akta, predlagadnje amandmana na predlog akta, brisanje akta, brisanje amandmana) --- NOVICINO :P
+
+PresidentController(usavajanje akata, usvajanje amandmana)
+
+
+------------------BRISANJE FIZICKO!!!!!!!!!!!!!!!!!!!!!!!!-------------------------------------------------------------------------
+
+
+

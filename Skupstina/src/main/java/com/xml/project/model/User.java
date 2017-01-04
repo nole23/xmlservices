@@ -18,26 +18,25 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
 
 	private String lName;
-	
+
 	private String fName;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String username;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String email;
-	
+
 	private String pass;
-	
+
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private User_Role role;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<ProposalAct> acts = new HashSet<ProposalAct>();
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Amandman> amandmans = new HashSet<Amandman>();
 
@@ -112,9 +111,5 @@ public class User {
 	public void setAmandmans(Set<Amandman> amandmans) {
 		this.amandmans = amandmans;
 	}
-	
-	
-	
-	
 
 }
