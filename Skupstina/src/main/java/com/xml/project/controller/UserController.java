@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xml.project.dto.LoginDTO;
+import com.xml.project.dto.UserDTO;
 import com.xml.project.model.Role;
 import com.xml.project.model.User;
 import com.xml.project.model.User_Role;
@@ -46,7 +47,15 @@ public class UserController {
 	@Autowired
 	UserRoleRepository userRoleRepository;
 
-	/* USER LOGIN */
+	/***
+	 * 
+	 * @param loginDTO
+	 *            stores username and password of user
+	 * @return returns the web token if data are correct, otherwise returns
+	 *         "invalid login" message
+	 * @see LoginDTO
+	 * @author stefan
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
 		try {
@@ -64,7 +73,12 @@ public class UserController {
 		}
 	}
 
-	/* POPULATE THE DATABASE WITH ROLES AND ONE USER */
+	/***
+	 * 
+	 * @return populates the database with user roles and creates default user
+	 *         with role of PRESIDENT
+	 * @author stefan
+	 */
 	@RequestMapping(value = "/populate", method = RequestMethod.GET)
 	public ResponseEntity<String> populate() {
 
@@ -97,5 +111,34 @@ public class UserController {
 		}
 
 		return new ResponseEntity<String>("Succesfully created user roles", HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/xml")
+	public ResponseEntity<String> saveUser(@RequestBody UserDTO userDTO) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		User user = new User();
+		User_Role user_role = new User_Role();
+
+		if (userService.findByUsername(userDTO.getUsername()) != null)
+			return new ResponseEntity<String>("User width {" + userDTO.getUsername() + "} username exists!",
+					HttpStatus.CONFLICT);
+		if (userService.findByEmail(userDTO.getEmail()) != null)
+			return new ResponseEntity<String>("User width {" + userDTO.getEmail() + "} email exists!",
+					HttpStatus.CONFLICT);
+		// set user role
+		user_role.setRole(roleRepository.findByName("ALDERMAN"));
+		user.setRole(user_role);
+
+		// set user credentials
+		user.setEmail(userDTO.getEmail());
+		user.setUsername(userDTO.getUsername());
+		user.setPass(encoder.encode(userDTO.getPass()));
+		user.setfName(userDTO.getfName());
+		user.setlName(userDTO.getlName());
+
+		user = userService.save(user);
+		userRoleRepository.save(user_role);
+
+		return new ResponseEntity<String>("User has been created", HttpStatus.CREATED);
 	}
 }
