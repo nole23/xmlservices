@@ -1,14 +1,10 @@
 package com.xml.project.model;
 
-import java.sql.Blob;
-
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -17,48 +13,27 @@ public class Act {
 	@Id
 	@GeneratedValue
 	private Long id;
-
-	@Column(nullable=false)
-	private String name;
+	private String link;
 	
-	@Column(nullable=false)
-	@Lob
-	private Blob content;
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	private User user;
 	
-	@ManyToOne(cascade=CascadeType.REFRESH,fetch = FetchType.EAGER)
-	private ActCategory actCategory;
-
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getName() {
-		return name;
+	public String getLink() {
+		return link;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setLink(String link) {
+		this.link = link;
 	}
-
-	public Blob getContent() {
-		return content;
+	public User getUser() {
+		return user;
 	}
-
-	public void setContent(Blob content) {
-		this.content = content;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
-	public ActCategory getActCategory() {
-		return actCategory;
-	}
-
-	public void setActCategory(ActCategory actCategory) {
-		this.actCategory = actCategory;
-	}
-	
-	
 }

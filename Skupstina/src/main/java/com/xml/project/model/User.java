@@ -39,6 +39,9 @@ public class User {
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Amandman> amandmans = new HashSet<Amandman>();
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private Set<Act> act = new HashSet<Act>();
 
 	public Long getId() {
 		return id;
@@ -112,4 +115,11 @@ public class User {
 		this.amandmans = amandmans;
 	}
 
+	public Set<Act> getAct() {
+		return act;
+	}
+
+	public void setAct(Set<Act> act) {
+		this.act = act;
+	}
 }

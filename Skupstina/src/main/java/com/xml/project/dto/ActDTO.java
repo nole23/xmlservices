@@ -1,33 +1,26 @@
 package com.xml.project.dto;
 
-import java.sql.Blob;
-
 import com.xml.project.model.Act;
-import com.xml.project.model.ActCategory;
-
 
 public class ActDTO {
 
 	private Long id;
-	private String name;
-	private Blob content;
-	private ActCategory actCategory;
+	private String link;
+	private UserDTO userDTO;
 	
 	public ActDTO() {}
 	
-	public ActDTO(Long id, String name, Blob content, ActCategory actCategory) {
+	public ActDTO(Long id, String link, UserDTO userDTO) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.content = content;
-		this.actCategory = actCategory;
+		this.link = link;
+		this.userDTO = userDTO;
 	}
 	
 	public ActDTO(Act act) {
 		this.id = act.getId();
-		this.name = act.getName();
-		this.content = act.getContent();
-		this.actCategory = act.getActCategory();
+		this.link = act.getLink();
+		this.userDTO = new UserDTO(act.getUser());
 	}
 
 	public Long getId() {
@@ -38,33 +31,19 @@ public class ActDTO {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getLink() {
+		return link;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setLink(String link) {
+		this.link = link;
 	}
 
-	public Blob getContent() {
-		return content;
+	public UserDTO getUserDTO() {
+		return userDTO;
 	}
 
-	public void setContent(Blob content) {
-		this.content = content;
-	}
-
-	public ActCategory getActCategory() {
-		return actCategory;
-	}
-
-	public void setActCategory(ActCategory actCategory) {
-		this.actCategory = actCategory;
-	}
-
-	@Override
-	public String toString() {
-		return "ActDTO [id=" + id + ", name=" + name + ", content=" + content
-				+ ", actCategory=" + actCategory + "]";
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
 	}
 }
