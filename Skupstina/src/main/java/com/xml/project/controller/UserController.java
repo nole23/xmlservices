@@ -1,5 +1,7 @@
 package com.xml.project.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -113,6 +115,15 @@ public class UserController {
 		return new ResponseEntity<String>("Succesfully created user roles", HttpStatus.CREATED);
 	}
 
+	/***
+	 * 
+	 * @param userDTO
+	 *            xml data format of user to be registered
+	 * @return message if user is registered or error if user with given
+	 *         username or email already exists
+	 * @see UserDTO
+	 * @author stefan
+	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/xml")
 	public ResponseEntity<String> saveUser(@RequestBody UserDTO userDTO) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -137,8 +148,24 @@ public class UserController {
 		user.setlName(userDTO.getlName());
 
 		user = userService.save(user);
+		user_role.setUser(user);
 		userRoleRepository.save(user_role);
 
 		return new ResponseEntity<String>("User has been created", HttpStatus.CREATED);
 	}
+	
+	/***
+	 * 
+	 * @param principal contains user data - this is from spring security
+	 * @return xml data about registerd user
+	 * @see Principal
+	 * @author stefan
+	 */
+	@RequestMapping(value = "/profile", method = RequestMethod.GET, produces = { "application/xml", "text/xml" })
+	public ResponseEntity<UserDTO> getProfile(Principal principal) {
+
+		User user = userService.findByUsername(principal.getName());
+		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.FOUND);
+	}
+
 }

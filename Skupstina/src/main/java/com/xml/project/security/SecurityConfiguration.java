@@ -58,10 +58,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 			.authorizeRequests()
-				.antMatchers( "/test/get","/api/user/login","/api/user/populate","/api/user/register").
+				.antMatchers( "/test/get","/api/user/login","/api/user/populate","/api/user/register","/api/user/profile").
 					permitAll();
 					/*.and()
-					.authorizeRequests()*/
+					.authorizeRequests()
+					.antMatchers("/api/user/profile")
+					.hasAuthority("PRESIDENT|ALDERMAN")
+					.anyRequest().authenticated();*/
+					
 					
 				
 				
