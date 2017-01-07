@@ -34,15 +34,6 @@ public class User {
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private User_Role role;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<ProposalAct> acts = new HashSet<ProposalAct>();
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Amandman> amandmans = new HashSet<Amandman>();
-	
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	private Set<Act> act = new HashSet<Act>();
-
 	public Long getId() {
 		return id;
 	}
@@ -99,27 +90,4 @@ public class User {
 		this.role = role;
 	}
 
-	public Set<ProposalAct> getActs() {
-		return acts;
-	}
-
-	public void setActs(Set<ProposalAct> acts) {
-		this.acts = acts;
-	}
-
-	public Set<Amandman> getAmandmans() {
-		return amandmans;
-	}
-
-	public void setAmandmans(Set<Amandman> amandmans) {
-		this.amandmans = amandmans;
-	}
-
-	public Set<Act> getAct() {
-		return act;
-	}
-
-	public void setAct(Set<Act> act) {
-		this.act = act;
-	}
 }

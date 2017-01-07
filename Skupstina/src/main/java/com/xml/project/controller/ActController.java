@@ -1,31 +1,43 @@
 package com.xml.project.controller;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.InputStreamHandle;
-import com.xml.project.model.Act;
+import com.xml.project.dto.JaxbDTO;
+import com.xml.project.jaxb.Clan;
+import com.xml.project.jaxb.Dokument;
+import com.xml.project.jaxb.Glava;
+import com.xml.project.jaxb.GlavniDeo;
+import com.xml.project.jaxb.MestoDatum;
+import com.xml.project.jaxb.PodaciClana;
+import com.xml.project.jaxb.PodaciGlave;
+import com.xml.project.jaxb.Propisi;
+import com.xml.project.jaxb.Sadrzaj;
+import com.xml.project.jaxb.SluzbeniList;
 import com.xml.project.model.User;
-import com.xml.project.repository.ActRepository;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
 
@@ -33,78 +45,103 @@ import com.xml.project.util.DatabaseUtil;
 @RequestMapping(value = "api/act")
 public class ActController {
 
-	private DatabaseClient databaseClient;
-	private DatabaseUtil dUtil = new DatabaseUtil();
-	
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-	ActRepository actRepository;
+	private Map<Long, Dokument> dokument = new HashMap<Long, Dokument>();
+	
+	private DatabaseClient databaseClient;
+	private DatabaseUtil dUtil = new DatabaseUtil();
 	
 	/**
-	 * 
-	 * @param principal korisnik
-	 * @param uploadfile fajl koji ucitavamo
-	 * @param tip da li je amandman ili akt
-	 * @return cuvamo prvo na serveru fajl kreiramo ime za cuvanje u MarkLogic bazi sacuvamo u bazu i na kraju obrisemo iz
-	 * 		   servera
-	 * @throws IOException
-	 * 
-	 * Treba samo zastiti od nezeljeni ispada
+	 * Treba ispraviti kod, treba da prihvata xml i da moze prihvatiti vise xml istog imena
+	 * @param principal
+	 * @param jaxbDTO
+	 * @return
+	 * @throws JAXBException
+	 * @throws FileNotFoundException
 	 */
-	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = { "application/xml", "text/xml" })
-	public ResponseEntity<String> saveAct(Principal principal, @RequestParam("uploadfile") MultipartFile uploadfile) throws IOException {
+	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<String> saveAct(Principal principal, @RequestBody JaxbDTO jaxbDTO) throws JAXBException, FileNotFoundException {
 		
-		//konekcija sa MarckLogic bazom
-		 databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(),
+		//Otvaranje konekcije ka MarkLogic
+		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(),
 				 dUtil.getPort(), dUtil.getDatabase(), dUtil.getUsername(), dUtil.getPassword(),
 				 dUtil.getAuthType());
 		 
 		 XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
 		
-		//ko je dodao akt
-		User user = userService.findByUsername(principal.getName());
+		//Ko dodaje dokument
+		//User user = userService.findByUsername(principal.getName());
+			
+		//sta je dodao 
+		MestoDatum mestoDatum = new MestoDatum();
+		mestoDatum.setDatum(jaxbDTO.getDatum());
+		mestoDatum.setMesto(jaxbDTO.getMesto());
 		
-		//Metoda koja cuva na serveru fajl kreira ime za cuvanje tog fajla
-		String filename = uploadfile.getOriginalFilename();
-		String directory = "./data/dodato";
-	    String filepath = Paths.get(directory, filename).toString();
-		System.out.println("dodato na server sa putanjom: "+filepath);
+		SluzbeniList sluzbeniList = new SluzbeniList();
+		sluzbeniList.setBroj_lista(jaxbDTO.getBroj_lista());
+		sluzbeniList.setCena(jaxbDTO.getCena());
+		sluzbeniList.setMestoDatum(mestoDatum);
 		
-	    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-	    stream.write(uploadfile.getBytes());
-	    stream.close();
-	    
-	    String docId = "projekat/act/"+filename;
-		System.out.println("docId je "+docId);
-		    
-		//Ucitati i sacuvati taj xml u MarckLogic bazu
-	    InputStreamHandle handle = new InputStreamHandle(new FileInputStream("/data/dodato/"+filename));
+		PodaciGlave podaciGlave = new PodaciGlave();
+		podaciGlave.setNaslov_glave(jaxbDTO.getNaslov_glave());
+		podaciGlave.setBroj_glave(jaxbDTO.getBroj_glave());
+		
+		PodaciClana podaciClana = new PodaciClana();
+		podaciClana.setNaslov_clana(jaxbDTO.getNaslov_clana());
+		podaciClana.setBroj_clana(jaxbDTO.getBroj_clana());
+		
+		Clan clan = new Clan();
+		clan.setOpis(jaxbDTO.getOpis());
+		clan.setPodaciClana(podaciClana);
+		
+		Glava glava = new Glava();
+		glava.setPodnaslovGlave(jaxbDTO.getPodnaslov_glave());
+		glava.setPodaciGlave(podaciGlave);
+		glava.setClan(clan);
+		
+		GlavniDeo glavniDeo = new GlavniDeo();
+		glavniDeo.setGlava(glava);
+		
+		Propisi propisi = new Propisi();
+		propisi.setGlavniDeo(glavniDeo);
+		
+		Sadrzaj sadrzaj = new Sadrzaj();
+		sadrzaj.setBroj_clana(jaxbDTO.getBroj_clana());
+		sadrzaj.setNaziv_propisa(jaxbDTO.getNaziv_propisa());
+		sadrzaj.setOdbornik(jaxbDTO.getOdbornik());
+		
+		Dokument dokument = new Dokument();
+		dokument.setIme(jaxbDTO.getIme());
+		dokument.setSluzbeniList(sluzbeniList);
+		dokument.setPropisi(propisi);
+		dokument.setSadzaj(sadrzaj);
+		
+		String XML_FILE = "data/dodato/"+jaxbDTO.getIme()+".xml";
+
+		//kreiranje xml fajla
+		JAXBContext context = JAXBContext.newInstance(Dokument.class);
+		Marshaller m = context.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		m.marshal(dokument, new File(XML_FILE));
+		
+		//cuvanje u bazu taj xml
+		String docId = "projekat/act/"+jaxbDTO.getIme()+".xml";
+		InputStreamHandle handle = new InputStreamHandle(new FileInputStream("/data/dodato/"+jaxbDTO.getIme()+".xml"));
 	    xmlMenager.write(docId, handle);
 	    databaseClient.release();
-	    
-		//sacuvati u mySql ko je dodao i sta je dodao(link)
-	    Act act = new Act();
-	    act.setLink(docId);
-	    act.setUser(user);
-	    actRepository.save(act);
-	    
-	    //brisemo sa servera fajl koji smo dodali
-	    File file = new File("./data/dodato/"+filename);
+		
+	    File file = new File("./data/dodato/"+jaxbDTO.getIme()+".xml");
 	    file.delete();
 	    System.out.println("faj obrisan");
+	    
+		//cuvanje u dom stablu
 		
-		return new ResponseEntity<String>("docId je "+filename,HttpStatus.OK);
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
-	
-	/**
-	 * Brisanje akta iz MarkLogic baze podataka
-	 * @param principal korisnik koji brise datoteku
-	 * @param nazivDokumenta link datoteke koja se brise
-	 * @return obrisana datoteka
-	 * @throws FileNotFoundException
-	 */
+
+		
 	@RequestMapping(value = "/delete/{nazivDokumenta}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> deleteXML(Principal principal, @PathVariable String nazivDokumenta) throws FileNotFoundException {
 		
@@ -117,20 +154,19 @@ public class ActController {
 		//Provera da li vlasnik dokumenta brise taj dokument
 		User user = userService.findByUsername(principal.getName());
 		
-		//pronalazenje u mySql bazi putanju do dokumenta koji brisemo
-		Act art = actRepository.findByLink(nazivDokumenta);
-		Long idUser = art.getUser().getId();
-		String docId = art.getLink();
-		if(user.getId() == idUser){
-			//brisanje datog dokumenta iz MarkLogic baze
-			xmlMenager.delete(docId);
-		}
+		String art = "projekat/act/"+nazivDokumenta+".xml";
 
-		//brisanje iz MySql baze
-		actRepository.remove(art);
+		//brisanje 
+		xmlMenager.delete(art);
 		 
-		 databaseClient.release();
+		databaseClient.release();
 
 		return new ResponseEntity<String>("Obrisano", HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
 }

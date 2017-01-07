@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dokument>
+    <ime>skupstina</ime>
+    <propisi>
+        <glavniDeo>
+            <glava>
+                <clan>
+                    <opis>neka ga</opis>
+                    <podaciClana>
+                        <broj_clana>4</broj_clana>
+                        <naslov_clana>jupi</naslov_clana>
+                    </podaciClana>
+                </clan>
+                <podaciGlave>
+                    <broj_glave>1</broj_glave>
+                    <naslov_glave>dobro je</naslov_glave>
+                </podaciGlave>
+                <podnaslovGlave>rado</podnaslovGlave>
+            </glava>
+        </glavniDeo>
+    </propisi>
+    <sadzaj>
+        <broj_clana>4</broj_clana>
+        <naziv_propisa>uspio sam</naziv_propisa>
+        <odbornik>ha</odbornik>
+    </sadzaj>
+    <sluzbeniList>
+        <broj_lista>1</broj_lista>
+        <cena>50.0</cena>
+        <mestoDatum>
+            <mesto>novi sad</mesto>
+        </mestoDatum>
+    </sluzbeniList>
+</dokument>
