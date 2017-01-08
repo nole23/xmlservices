@@ -8,7 +8,7 @@ public class JaxbDTO {
 	private String broj_lista;
 	private float cena;
 	private String mesto;
-	private Date datum;
+	private String datum;
 	private String odbornik;
 	private String preambula;
 	private String naziv_propisa;
@@ -19,7 +19,7 @@ public class JaxbDTO {
 	private String broj_clana;
 	private String opis;
 	
-	public JaxbDTO(String ime, String broj_lista, float cena, String mesto, Date datum, String odbornik, String preambula,
+	public JaxbDTO(String ime, String broj_lista, float cena, String mesto, String datum, String odbornik, String preambula,
 			String naziv_propisa, String naslov_glave, String broj_glave, String podnaslov_glave, String naslov_clana, String broj_clana, String opis) {
 		super();
 		this.ime = ime;
@@ -72,11 +72,11 @@ public class JaxbDTO {
 		this.mesto = mesto;
 	}
 
-	public Date getDatum() {
+	public String getDatum() {
 		return datum;
 	}
 
-	public void setDatum(Date datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 

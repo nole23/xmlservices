@@ -10,6 +10,7 @@ public class Dokument {
 	private Propisi propisi;
 	private Sadrzaj sadzaj;
 	
+	
 	public String getIme() {
 		return ime;
 	}

@@ -1,10 +1,17 @@
 package com.xml.project.jaxb;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 @XmlRootElement(name = "propisi")
 public class Propisi {
 
+	
+	private int id;
+	
 	private String odbornik;
 	private String preambula;
 	private String naziv_propisa;
@@ -13,6 +20,13 @@ public class Propisi {
 	private GlavniDeo glavniDeo;
 	private ZavrsniDeo zavrsniDeo;
 	
+	@XmlAttribute(name="id")
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getOdbornik() {
 		return odbornik;
 	}

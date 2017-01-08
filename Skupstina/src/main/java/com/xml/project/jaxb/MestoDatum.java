@@ -1,14 +1,12 @@
 package com.xml.project.jaxb;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "mesto_datum")
 public class MestoDatum {
 
 	private String mesto;
-	private Date datum;
+	private String datum;
 	
 	public String getMesto() {
 		return mesto;
@@ -16,10 +14,10 @@ public class MestoDatum {
 	public void setMesto(String mesto) {
 		this.mesto = mesto;
 	}
-	public Date getDatum() {
+	public String getDatum() {
 		return datum;
 	}
-	public void setDatum(Date datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 }

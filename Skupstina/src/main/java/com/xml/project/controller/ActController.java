@@ -1,13 +1,8 @@
 package com.xml.project.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -21,22 +16,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.XMLDocumentManager;
-import com.marklogic.client.io.InputStreamHandle;
 import com.xml.project.dto.JaxbDTO;
 import com.xml.project.jaxb.Clan;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.jaxb.Glava;
-import com.xml.project.jaxb.GlavniDeo;
 import com.xml.project.jaxb.MestoDatum;
 import com.xml.project.jaxb.PodaciClana;
 import com.xml.project.jaxb.PodaciGlave;
 import com.xml.project.jaxb.Propisi;
 import com.xml.project.jaxb.Sadrzaj;
 import com.xml.project.jaxb.SluzbeniList;
+import com.xml.project.jaxb.UvodniDeo;
 import com.xml.project.model.User;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
@@ -48,7 +44,11 @@ public class ActController {
 	@Autowired
 	UserService userService;
 	
-	private Map<Long, Dokument> dokument = new HashMap<Long, Dokument>();
+	private Document document;
+	
+	private static String TARGET_NAMESPACE = "http://www.ftn.uns.ac.rs/zavrsni_rad";
+
+	private static String XSI_NAMESPACE = "http://www.w3.org/2001/XMLSchema-instance";
 	
 	private DatabaseClient databaseClient;
 	private DatabaseUtil dUtil = new DatabaseUtil();
@@ -61,7 +61,7 @@ public class ActController {
 	 * @throws JAXBException
 	 * @throws FileNotFoundException
 	 */
-	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/xml")
 	public ResponseEntity<String> saveAct(Principal principal, @RequestBody JaxbDTO jaxbDTO) throws JAXBException, FileNotFoundException {
 		
 		//Otvaranje konekcije ka MarkLogic
@@ -73,7 +73,12 @@ public class ActController {
 		
 		//Ko dodaje dokument
 		//User user = userService.findByUsername(principal.getName());
-			
+		
+		String proba = jaxbDTO.getIme();
+		//String proba1 = jaxbDTO.getSluzbeniList().getBroj_lista();
+		
+		System.out.println("ovo je ime koje smo uvezli "+proba);
+		 
 		//sta je dodao 
 		MestoDatum mestoDatum = new MestoDatum();
 		mestoDatum.setDatum(jaxbDTO.getDatum());
@@ -81,7 +86,6 @@ public class ActController {
 		
 		SluzbeniList sluzbeniList = new SluzbeniList();
 		sluzbeniList.setBroj_lista(jaxbDTO.getBroj_lista());
-		sluzbeniList.setCena(jaxbDTO.getCena());
 		sluzbeniList.setMestoDatum(mestoDatum);
 		
 		PodaciGlave podaciGlave = new PodaciGlave();
@@ -101,11 +105,11 @@ public class ActController {
 		glava.setPodaciGlave(podaciGlave);
 		glava.setClan(clan);
 		
-		GlavniDeo glavniDeo = new GlavniDeo();
-		glavniDeo.setGlava(glava);
+		UvodniDeo uvodniDeo = new UvodniDeo();
+		uvodniDeo.setGlava(glava);
 		
 		Propisi propisi = new Propisi();
-		propisi.setGlavniDeo(glavniDeo);
+		propisi.setUvodniDeo(uvodniDeo);
 		
 		Sadrzaj sadrzaj = new Sadrzaj();
 		sadrzaj.setBroj_clana(jaxbDTO.getBroj_clana());
@@ -127,17 +131,17 @@ public class ActController {
 		m.marshal(dokument, new File(XML_FILE));
 		
 		//cuvanje u bazu taj xml
-		String docId = "projekat/act/"+jaxbDTO.getIme()+".xml";
+		/*String docId = "projekat/act/"+jaxbDTO.getIme()+".xml";
 		InputStreamHandle handle = new InputStreamHandle(new FileInputStream("/data/dodato/"+jaxbDTO.getIme()+".xml"));
 	    xmlMenager.write(docId, handle);
-	    databaseClient.release();
+	    databaseClient.release();*/
 		
-	    File file = new File("./data/dodato/"+jaxbDTO.getIme()+".xml");
+	    /*File file = new File("./data/dodato/"+jaxbDTO.getIme()+".xml");
 	    file.delete();
-	    System.out.println("faj obrisan");
+	    System.out.println("faj obrisan");*/
 	    
 		//cuvanje u dom stablu
-		
+	
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
@@ -164,9 +168,74 @@ public class ActController {
 		return new ResponseEntity<String>("Obrisano", HttpStatus.OK);
 	}
 	
-	
-	
-	
-	
+	@RequestMapping(value = "/testiram/sta/sam/uradio", method = RequestMethod.GET)
+	public ResponseEntity<String> dodaj() throws FileNotFoundException, JAXBException {
+		Element rad = document.createElementNS(TARGET_NAMESPACE, "rad");
+		document.appendChild(rad);
+		
+		rad.setAttributeNS(XSI_NAMESPACE, "xsi:schemaLocation", "http://www.ftn.uns.ac.rs/zavrsni_rad ../xsd/zavrsni_rad.xsd");
+		rad.setAttribute("vrsta_rada", "Diplomski rad");		
+		
+		Element naslovnaStrana = document.createElementNS(TARGET_NAMESPACE, "naslovna_strana");
+		rad.appendChild(naslovnaStrana);
+		
+		Element institucija = document.createElementNS(TARGET_NAMESPACE, "institucija");
+		naslovnaStrana.appendChild(institucija);
+		
+		Element univerzitet = document.createElementNS(TARGET_NAMESPACE, "univerzitet");
+		univerzitet.appendChild(document.createTextNode("Univerzitet u Novom Sadu"));
+		institucija.appendChild(univerzitet);
+
+		Element fakultet = document.createElementNS(TARGET_NAMESPACE, "fakultet");
+		fakultet.appendChild(document.createTextNode("Fakultet tehničkih nauka"));
+		institucija.appendChild(fakultet);
+		
+		Element departman = document.createElementNS(TARGET_NAMESPACE, "departman");
+		departman.appendChild(document.createTextNode("Računarstvo i automatika"));
+		institucija.appendChild(departman);
+
+		Element katedra = document.createElementNS(TARGET_NAMESPACE, "katedra");
+		katedra.appendChild(document.createTextNode("Katedra za informatiku"));
+		institucija.appendChild(katedra);
+		
+		Element autor = document.createElementNS(TARGET_NAMESPACE, "autor");
+		naslovnaStrana.appendChild(autor);
+		
+		Element ime = document.createElementNS(TARGET_NAMESPACE, "ime");
+		ime.appendChild(document.createTextNode("Petar"));
+		autor.appendChild(ime);
+		
+		Element prezime = document.createElementNS(TARGET_NAMESPACE, "prezime");
+		prezime.appendChild(document.createTextNode("Petrović"));
+		autor.appendChild(prezime);
+		
+		Element broj_indeksa = document.createElementNS(TARGET_NAMESPACE, "broj_indeksa");
+		broj_indeksa.appendChild(document.createTextNode("RA 1/2012"));
+		autor.appendChild(broj_indeksa);
+		
+		Element temaSrpski = document.createElementNS(TARGET_NAMESPACE, "tema_rada");
+		temaSrpski.setAttribute("jezik", "srpski");
+		temaSrpski.appendChild(document.createTextNode("Implementacija podsistema banke u okviru sistema platnog prometa."));
+		naslovnaStrana.appendChild(temaSrpski);
+
+		Element temaEngleski = document.createElementNS(TARGET_NAMESPACE, "tema_rada");
+		temaEngleski.setAttribute("jezik", "engleski");
+		temaEngleski.appendChild(document.createTextNode("Implementation of banking subsystem in an electronic payment system."));
+		naslovnaStrana.appendChild(temaEngleski);
+		
+		Element nivoStudija = document.createElementNS(TARGET_NAMESPACE, "nivo_studija");
+		nivoStudija.appendChild(document.createTextNode("OAS"));
+		naslovnaStrana.appendChild(nivoStudija);
+		
+		Element sadrzaj = document.createElementNS(TARGET_NAMESPACE, "sadrzaj");
+		sadrzaj.appendChild(document.createComment("Generisati \"sadrzaj\" analogno."));
+		rad.appendChild(sadrzaj);
+		
+		Element poglavlja = document.createElementNS(TARGET_NAMESPACE, "poglavlja");
+		poglavlja.appendChild(document.createComment("Generisati \"poglavlja\" analogno."));
+		rad.appendChild(poglavlja);
+		
+		return new ResponseEntity<String>("dodato", HttpStatus.OK);
+	}
 	
 }
