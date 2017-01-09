@@ -1,15 +1,11 @@
 package com.xml.project.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -33,6 +29,9 @@ public class User {
 
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private User_Role role;
+	
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private Voting voting;
 
 	public Long getId() {
 		return id;
@@ -90,4 +89,11 @@ public class User {
 		this.role = role;
 	}
 
+	public Voting getVoting() {
+		return voting;
+	}
+
+	public void setVoting(Voting voting) {
+		this.voting = voting;
+	}
 }

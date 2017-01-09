@@ -7,25 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class User_Role {
+public class Voting {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
+	private String tip;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	private User user;
-	
-	@OneToOne(fetch = FetchType.LAZY)
-	private Role role;
 
-	public Role getRole() {
-		return role;
-	}
+	private String name;
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+	private boolean yn;
 
 	public Long getId() {
 		return id;
@@ -35,6 +30,14 @@ public class User_Role {
 		this.id = id;
 	}
 
+	public String getTip() {
+		return tip;
+	}
+
+	public void setTip(String tip) {
+		this.tip = tip;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -42,7 +45,20 @@ public class User_Role {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isYn() {
+		return yn;
+	}
+
+	public void setYn(boolean yn) {
+		this.yn = yn;
+	}
 }
