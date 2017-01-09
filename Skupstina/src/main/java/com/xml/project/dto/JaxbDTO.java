@@ -1,7 +1,5 @@
 package com.xml.project.dto;
 
-import java.util.Date;
-
 public class JaxbDTO {
 
 	private String ime;
@@ -18,9 +16,12 @@ public class JaxbDTO {
 	private String naslov_clana;
 	private String broj_clana;
 	private String opis;
-	
-	public JaxbDTO(String ime, String broj_lista, float cena, String mesto, String datum, String odbornik, String preambula,
-			String naziv_propisa, String naslov_glave, String broj_glave, String podnaslov_glave, String naslov_clana, String broj_clana, String opis) {
+
+	public JaxbDTO(String ime, String broj_lista, float cena, String mesto,
+			String datum, String odbornik, String preambula,
+			String naziv_propisa, String naslov_glave, String broj_glave,
+			String podnaslov_glave, String naslov_clana, String broj_clana,
+			String opis) {
 		super();
 		this.ime = ime;
 		this.broj_lista = broj_lista;
@@ -37,7 +38,7 @@ public class JaxbDTO {
 		this.broj_clana = broj_clana;
 		this.opis = opis;
 	}
-	
+
 	public String getIme() {
 		return ime;
 	}
@@ -46,7 +47,8 @@ public class JaxbDTO {
 		this.ime = ime;
 	}
 
-	public JaxbDTO() {}
+	public JaxbDTO() {
+	}
 
 	public String getBroj_lista() {
 		return broj_lista;

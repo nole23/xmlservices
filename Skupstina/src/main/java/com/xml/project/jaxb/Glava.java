@@ -9,7 +9,7 @@ public class Glava {
 	private int id = 1;
 	private PodaciGlave podaciGlave;
 	private String podnaslovGlave;
-	private Clan clan;
+	private Clan[] clan;
 	
 	@XmlAttribute(name="id")
 	public int getId() {
@@ -30,10 +30,10 @@ public class Glava {
 	public void setPodnaslovGlave(String podnaslovGlave) {
 		this.podnaslovGlave = podnaslovGlave;
 	}
-	public Clan getClan() {
+	public Clan[] getClan() {
 		return clan;
 	}
-	public void setClan(Clan clan) {
+	public void setClan(Clan[] clan) {
 		this.clan = clan;
 	}
 
