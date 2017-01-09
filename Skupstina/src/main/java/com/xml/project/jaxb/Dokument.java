@@ -1,16 +1,26 @@
 package com.xml.project.jaxb;
 
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "dokument")
-public class Dokument {
+public class Dokument implements Serializable{
 	
 	private String ime;
+	private String korisnik;
 	private SluzbeniList sluzbeniList;
 	private Propisi propisi;
 	private Sadrzaj sadzaj;
 	
-	
+	@XmlAttribute
+	public String getKorisnik() {
+		return korisnik;
+	}
+	public void setKorisnik(String korisnik) {
+		this.korisnik = korisnik;
+	}
 	public String getIme() {
 		return ime;
 	}

@@ -1,9 +1,11 @@
 package com.xml.project.jaxb;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "podaci_clana")
-public class PodaciClana {
+public class PodaciClana implements Serializable{
 
 	private String naslov_clana;
 	private String broj_clana;

@@ -4,15 +4,15 @@ import com.marklogic.client.DatabaseClientFactory.Authentication;
 
 public class DatabaseUtil {
 
-	private String host = "147.91.177.194";
+	private String host = "127.0.0.1";
 
-	private String username = "tim16";
+	private String username = "root";
 
 	private int port = 8000;
 
-	private String password = "tim16";
+	private String password = "root";
 
-	private String database = "Tim16";
+	private String database = "tim16";
 
 	private String auth_type = "digest";
 

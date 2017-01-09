@@ -1,9 +1,11 @@
 package com.xml.project.jaxb;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "mesto_datum")
-public class MestoDatum {
+public class MestoDatum implements Serializable{
 
 	private String mesto;
 	private String datum;

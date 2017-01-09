@@ -1,5 +1,7 @@
 package com.xml.project.jaxb;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
@@ -7,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement(name = "propisi")
-public class Propisi {
+public class Propisi implements Serializable{
 
 	
 	private int id;

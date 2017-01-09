@@ -1,9 +1,11 @@
 package com.xml.project.jaxb;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "sluzbeni_list")
-public class SluzbeniList {
+public class SluzbeniList implements Serializable{
 
 	private String broj_lista;
 	private float cena;

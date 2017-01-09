@@ -1,11 +1,12 @@
 package com.xml.project.jaxb;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "zavrsni_deo")
-public class ZavrsniDeo {
+public class ZavrsniDeo implements Serializable{
 
 	private List<Glava> glava;
 	private String potpis_presednika;

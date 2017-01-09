@@ -1,10 +1,12 @@
 package com.xml.project.jaxb;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "clan")
-public class Clan {
+public class Clan implements Serializable{
 
 	private int id = 1;
 	private PodaciClana podaciClana;

@@ -1,0 +1,165 @@
+{
+	"ime":"neko_ime",
+	"sluzbeniList":
+	{
+		"broj_lista":"25",
+		"cena":"625",
+		"mestoDatum":
+		{
+			"mesto":"Bg",
+			"datum":"2017 -05 -02"
+		}
+	},
+	"propisi":
+	{
+		"odbornik":"Stefa",
+		"preambula": "Prembula",
+		"naziv_propisa":"MOj propis",
+		"uvodniDeo":
+		{
+			"glava":
+			[
+				{
+					"id":"1",
+					"podaciGlave":
+					{
+						"naslov_glave":"Naslov 1",
+						"broj_glave":"broj_glave"
+					},
+					"podnaslovGlave":"podnaslov glave",
+					"clan":
+					[
+						{
+							"id":"2",
+							"podaciClana":
+							{
+								"naslov_clana":"naslov_clana",
+								"broj_clana":"broj_clana"
+							},
+							"opis":"opis"
+						}
+					]
+				},
+				{
+					"id":"2",
+					"podaciGlave":
+					{
+						"naslov_glave":"Naslov 2",
+						"broj_glave":"2"
+					},
+					"podnaslovGlave":"podnaslov 2glave",
+					"clan":
+					[
+						{
+							"id":"3",
+							"podaciClana":
+							{
+								"naslov_clana":"naslo2v_clana",
+								"broj_clana":"2"
+							},
+							"opis":"op2is"
+						}
+					]
+				}
+			]
+		},
+		"glavniDeo":
+		{
+			"glava":
+			[
+				{
+					"id":"5",
+					"podaciGlave":
+					{
+						"naslov_glave":"Naslov 1",
+						"broj_glave":"broj_glave"
+					},
+					"podnaslovGlave":"podnaslov glave",
+					"clan":
+					[
+						{
+							"id":"25",
+							"podaciClana":
+							{
+								"naslov_clana":"naslov_clana",
+								"broj_clana":"broj_clana"
+							},
+							"opis":"opis"
+						}
+					]
+				},
+				{
+					"id":"2",
+					"podaciGlave":
+					{
+						"naslov_glave":"Naslov 2",
+						"broj_glave":"25"
+					},
+					"podnaslovGlave":"podnaslov 2glave",
+					"clan":
+					[
+						{
+							"id":"3",
+							"podaciClana":
+							{
+								"naslov_clana":"naslo2v_clana",
+								"broj_clana":"2"
+							},
+							"opis":"op2is"
+						}
+					]
+				}
+			]
+		},
+		"zavrsniDeo":
+		{
+			"glava":
+			[
+				{
+					"id":"5",
+					"podaciGlave":
+					{
+						"naslov_glave":"Naslov 1",
+						"broj_glave":"broj_glave"
+					},
+					"podnaslovGlave":"podnaslov glave",
+					"clan":
+					[
+						{
+							"id":"25",
+							"podaciClana":
+							{
+								"naslov_clana":"naslov_clana",
+								"broj_clana":"broj_clana"
+							},
+							"opis":"opis"
+						}
+					]
+				},
+				{
+					"id":"2",
+					"podaciGlave":
+					{
+						"naslov_glave":"Naslov 2",
+						"broj_glave":"25"
+					},
+					"podnaslovGlave":"podnaslov 2glave",
+					"clan":
+					[
+						{
+							"id":"3",
+							"podaciClana":
+							{
+								"naslov_clana":"naslo2v_clana",
+								"broj_clana":"2"
+							},
+							"opis":"op2is"
+						}
+					]
+				}
+			],
+			"potpis_presednika":"novica"
+		}
+	},
+	"sadzaj":{}
+}
