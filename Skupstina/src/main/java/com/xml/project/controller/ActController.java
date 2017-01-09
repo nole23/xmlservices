@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.XMLDocumentManager;
+import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.InputStreamHandle;
+import com.marklogic.client.io.JAXBHandle;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.User;
 import com.xml.project.service.UserService;
@@ -86,27 +88,38 @@ public class ActController {
 
 		System.out.println("faj obrisan");
 
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<String>("Dokument je snimljen u bazu.", HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/delete/{nazivDokumenta}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{nazivDokumenta}", method = RequestMethod.GET)
 	public ResponseEntity<String> deleteXML(Principal principal, @PathVariable String nazivDokumenta)
-			throws FileNotFoundException {
+			throws FileNotFoundException, JAXBException {
 
 		// konekcija sa bazom
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
 				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
 
-		// Provera da li vlasnik dokumenta brise taj dokument
+		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
 		User user = userService.findByUsername(principal.getName());
 
+		// System.out.println("korisnik je "+user);
 		String art = "projekat/act/" + nazivDokumenta + ".xml";
-		// brisanje
+
+		JAXBContext context = JAXBContext.newInstance("com.xml.project.jaxb");
+		JAXBHandle<Dokument> hendle = new JAXBHandle<Dokument>(context);
+
+		DocumentMetadataHandle metadeate = new DocumentMetadataHandle();
+
+		xmlMenager.read(art, metadeate, hendle);
+
+		Dokument dokument = hendle.get();
+		System.out.println(dokument.getIme());
+		if (!dokument.getKorisnik().equalsIgnoreCase(user.getUsername()))
+			return new ResponseEntity<String>("File isn't yours", HttpStatus.BAD_REQUEST);
+
 		xmlMenager.delete(art);
 		databaseClient.release();
-
-		return new ResponseEntity<String>("Obrisano", HttpStatus.OK);
+		return new ResponseEntity<String>("File deleted", HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/testiram/sta/sam/uradio", method = RequestMethod.POST)
