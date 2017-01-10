@@ -116,16 +116,20 @@ public class ActController {
 
 			Dokument dokument = hendle.get();
 			System.out.println(dokument.getIme());
-			if (!dokument.getKorisnik().equalsIgnoreCase(user.getUsername()))
-				return new ResponseEntity<String>("File isn't yours", HttpStatus.BAD_REQUEST);
+			if (dokument.getKorisnik().equalsIgnoreCase(user.getUsername())
+					|| user.getRole().getRole().getName().equals("PRESIDENT")) {
+				xmlMenager.delete(art);
+				databaseClient.release();
+				return new ResponseEntity<String>("File deleted", HttpStatus.OK);
+			}
+			return new ResponseEntity<String>("File isn't yours", HttpStatus.BAD_REQUEST);
 		} else {
 			art = "projekat/amandman/" + user.getUsername() + "/" + nazivDokumenta + ".xml";
-
+			xmlMenager.delete(art);
+			databaseClient.release();
+			return new ResponseEntity<String>("File deleted", HttpStatus.OK);
 		}
 
-		xmlMenager.delete(art);
-		databaseClient.release();
-		return new ResponseEntity<String>("File deleted", HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/amandman/", method = RequestMethod.POST, consumes = "application/json")
