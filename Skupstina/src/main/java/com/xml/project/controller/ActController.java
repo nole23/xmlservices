@@ -93,8 +93,8 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/delete/{nazivDokumenta}/{tip}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteXML(Principal principal, @PathVariable String nazivDokumenta, @PathVariable String tip)
-			throws FileNotFoundException, JAXBException {
+	public ResponseEntity<String> deleteXML(Principal principal, @PathVariable String nazivDokumenta,
+			@PathVariable String tip) throws FileNotFoundException, JAXBException {
 
 		// konekcija sa bazom
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
@@ -102,10 +102,10 @@ public class ActController {
 
 		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
 		User user = userService.findByUsername(principal.getName());
-		System.out.println("korisnik "+user.getUsername());
+		System.out.println("korisnik " + user.getUsername());
 		// System.out.println("korisnik je "+user);
 		String art;
-		if(tip.equals("act")){
+		if (tip.equals("act")) {
 			art = "projekat/act/" + nazivDokumenta + ".xml";
 			JAXBContext context = JAXBContext.newInstance("com.xml.project.jaxb");
 			JAXBHandle<Dokument> hendle = new JAXBHandle<Dokument>(context);
@@ -119,8 +119,8 @@ public class ActController {
 			if (!dokument.getKorisnik().equalsIgnoreCase(user.getUsername()))
 				return new ResponseEntity<String>("File isn't yours", HttpStatus.BAD_REQUEST);
 		} else {
-			art = "projekat/amandman/" + user.getUsername() +"/"+nazivDokumenta+".xml";
-			
+			art = "projekat/amandman/" + user.getUsername() + "/" + nazivDokumenta + ".xml";
+
 		}
 
 		xmlMenager.delete(art);
@@ -151,7 +151,8 @@ public class ActController {
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		m.marshal(amandman, new File(XML_FILE));
 
-		String docId = "projekat/amandman/" + ime + "/" + amandman.getClan().getPodaciClana().getNaslov_clana() + ".xml";
+		String docId = "projekat/amandman/" + ime + "/" + amandman.getClan().getPodaciClana().getNaslov_clana()
+				+ ".xml";
 
 		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE));
 		xmlMenager.write(docId, handle);
@@ -162,7 +163,7 @@ public class ActController {
 		file = new File("./data/" + ime);
 		file.delete();
 
-		return new ResponseEntity<String>("dodat amandman",HttpStatus.OK);
+		return new ResponseEntity<String>("dodat amandman", HttpStatus.OK);
 	}
 
 }
