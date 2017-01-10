@@ -28,6 +28,7 @@ import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.JAXBHandle;
+import com.xml.project.jaxb.Amandman;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.User;
 import com.xml.project.service.UserService;
@@ -91,8 +92,8 @@ public class ActController {
 		return new ResponseEntity<String>("Dokument je snimljen u bazu.", HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/delete/{nazivDokumenta}", method = RequestMethod.GET)
-	public ResponseEntity<String> deleteXML(Principal principal, @PathVariable String nazivDokumenta)
+	@RequestMapping(value = "/delete/{nazivDokumenta}/{tip}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteXML(Principal principal, @PathVariable String nazivDokumenta, @PathVariable String tip)
 			throws FileNotFoundException, JAXBException {
 
 		// konekcija sa bazom
@@ -101,31 +102,67 @@ public class ActController {
 
 		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
 		User user = userService.findByUsername(principal.getName());
-
+		System.out.println("korisnik "+user.getUsername());
 		// System.out.println("korisnik je "+user);
-		String art = "projekat/act/" + nazivDokumenta + ".xml";
+		String art;
+		if(tip.equals("act")){
+			art = "projekat/act/" + nazivDokumenta + ".xml";
+			JAXBContext context = JAXBContext.newInstance("com.xml.project.jaxb");
+			JAXBHandle<Dokument> hendle = new JAXBHandle<Dokument>(context);
 
-		JAXBContext context = JAXBContext.newInstance("com.xml.project.jaxb");
-		JAXBHandle<Dokument> hendle = new JAXBHandle<Dokument>(context);
+			DocumentMetadataHandle metadeate = new DocumentMetadataHandle();
 
-		DocumentMetadataHandle metadeate = new DocumentMetadataHandle();
+			xmlMenager.read(art, metadeate, hendle);
 
-		xmlMenager.read(art, metadeate, hendle);
-
-		Dokument dokument = hendle.get();
-		System.out.println(dokument.getIme());
-		if (!dokument.getKorisnik().equalsIgnoreCase(user.getUsername()))
-			return new ResponseEntity<String>("File isn't yours", HttpStatus.BAD_REQUEST);
+			Dokument dokument = hendle.get();
+			System.out.println(dokument.getIme());
+			if (!dokument.getKorisnik().equalsIgnoreCase(user.getUsername()))
+				return new ResponseEntity<String>("File isn't yours", HttpStatus.BAD_REQUEST);
+		} else {
+			art = "projekat/amandman/" + user.getUsername() +"/"+nazivDokumenta+".xml";
+			
+		}
 
 		xmlMenager.delete(art);
 		databaseClient.release();
 		return new ResponseEntity<String>("File deleted", HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/testiram/sta/sam/uradio", method = RequestMethod.POST)
-	public ResponseEntity<String> dodaj() throws IOException, JAXBException {
+	@RequestMapping(value = "/amandman/", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<String> dodaj(@RequestBody Amandman amandman, Principal principal)
+			throws IOException, JAXBException {
 
-		return new ResponseEntity<String>(HttpStatus.OK);
+		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
+				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
+		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
+
+		User user = userService.findByUsername(principal.getName());
+
+		String ime = user.getUsername();
+		Path path = Paths.get("./data/" + ime);
+		if (Files.exists(path))
+			return new ResponseEntity<String>("Amandman je vec dodat", HttpStatus.BAD_REQUEST);
+		Files.createDirectories(path);
+
+		String XML_FILE = "data/" + ime + "/" + amandman.getClan().getPodaciClana().getNaslov_clana() + ".xml";
+
+		JAXBContext context = JAXBContext.newInstance(Amandman.class);
+		Marshaller m = context.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		m.marshal(amandman, new File(XML_FILE));
+
+		String docId = "projekat/amandman/" + ime + "/" + amandman.getClan().getPodaciClana().getNaslov_clana() + ".xml";
+
+		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE));
+		xmlMenager.write(docId, handle);
+		databaseClient.release();
+
+		File file = new File(XML_FILE);
+		file.delete();
+		file = new File("./data/" + ime);
+		file.delete();
+
+		return new ResponseEntity<String>("dodat amandman",HttpStatus.OK);
 	}
 
 }

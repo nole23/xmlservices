@@ -29,9 +29,6 @@ public class User {
 
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private User_Role role;
-	
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private Voting voting;
 
 	public Long getId() {
 		return id;
@@ -87,13 +84,5 @@ public class User {
 
 	public void setRole(User_Role role) {
 		this.role = role;
-	}
-
-	public Voting getVoting() {
-		return voting;
-	}
-
-	public void setVoting(Voting voting) {
-		this.voting = voting;
 	}
 }
