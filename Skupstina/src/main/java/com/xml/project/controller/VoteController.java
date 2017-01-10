@@ -115,12 +115,28 @@ public class VoteController {
 
 			return new ResponseEntity<String>("Odobren akt", HttpStatus.OK);
 
-		} else if(odluka.equals("odbio")){
+		} else if (odluka.equals("odbio")) {
 
 			return this.actControler.deleteXML(principal, imeAkt, "act");
 		} else {
-			return new ResponseEntity<String>("Los zahtev", HttpStatus.OK);
+			return new ResponseEntity<String>("Los zahtev", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@RequestMapping(value = "/amandman/{odluka}/{imeAmand}", method = RequestMethod.GET)
+	public ResponseEntity<String> usvajanjeAmandmana(Principal principal, @PathVariable String odluka,
+			@PathVariable String imeAmand) {
+
+		// konekcija sa bazom
+		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
+				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
+		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
+		User user = userService.findByUsername(principal.getName());
+		if (!user.getRole().getRole().getName().equals("PRESIDENT"))
+			return new ResponseEntity<String>("Niste predsednik", HttpStatus.BAD_REQUEST);
+
+		
+		return new ResponseEntity<String>("Odobren akt", HttpStatus.OK);
 	}
 
 }

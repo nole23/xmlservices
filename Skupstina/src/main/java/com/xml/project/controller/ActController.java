@@ -157,7 +157,7 @@ public class ActController {
 
 		String docId = "projekat/amandman/" + ime + "/" + amandman.getClan().getPodaciClana().getNaslov_clana()
 				+ ".xml";
-
+		docId = docId.replaceAll(" ", "_").toLowerCase();//ispravka
 		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE));
 		xmlMenager.write(docId, handle);
 		databaseClient.release();
