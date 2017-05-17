@@ -9,8 +9,12 @@
                 <xs:element maxOccurs="unbounded" ref="skup:propisi"/>
                 <xs:element minOccurs="0" ref="skup:sadrzaj"/>
             </xs:sequence>
+            <xs:attribute ref="skup:id"/>
+            <xs:attribute ref="skup:Korisnik"/>
+            <xs:attribute ref="skup:odobreno"/>
         </xs:complexType>
     </xs:element>
+    <xs:attribute name="Korisnik" type="xs:string"/>
     <xs:element name="naslov_sl_lista">
         <xs:complexType>
             <xs:sequence>
@@ -31,12 +35,11 @@
     <xs:element name="propisi">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="odbornik" type="xs:string"/>
                 <xs:element name="preambula" type="xs:string"/>
-                <xs:element name="naziv_propisa"/>
-                <xs:element name="uvodni_deo" type="skup:delovi"/>
-                <xs:element name="glavni_deo" type="skup:delovi"/>
-                <xs:element name="zavrsni_deo">
+                <xs:element name="naziv_propisa" type="xs:string"/>
+                <xs:element name="uvodni_deo" type="skup:delovi" maxOccurs="unbounded"/>
+                <xs:element name="glavni_deo" type="skup:delovi" maxOccurs="unbounded" minOccurs="1"/>
+                <xs:element name="zavrsni_deo" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:complexContent>
                             <xs:extension base="skup:delovi">
@@ -48,9 +51,11 @@
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
+            <xs:attribute ref="skup:id"/>
+            <xs:attribute ref="skup:Korisnik"/>
         </xs:complexType>
     </xs:element>
-    <xs:complexType abstract="false" name="delovi">
+    <xs:complexType abstract="false" name="delovi" mixed="false">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="1" ref="skup:glava"/>
         </xs:sequence>
@@ -97,4 +102,6 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute default="false" name="odobreno" type="xs:boolean"/>
 </xs:schema>

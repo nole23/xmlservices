@@ -1,45 +1,36 @@
 package com.xml.project.jaxb;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = { 
+		"naslov_sl_lista", 
+		"propisi", 
+		"sadrzaj" 
+})
 @XmlRootElement(name = "dokument")
-public class Dokument implements Serializable {
+public class Dokument {
 
-	private String ime;
-	private String korisnik;
-	private Boolean odobreno = false;
+	@XmlElement(name = "naslov_sl_lista", required = true)
 	private SluzbeniList sluzbeniList;
-	private Propisi propisi;
+	@XmlElement(name = "propisi", required = true)
+	private List<Propisi> propisi;
+	@XmlElement(name = "sadrzaj", required = true)
 	private Sadrzaj sadzaj;
-
-	@XmlAttribute
-	public String getKorisnik() {
-		return korisnik;
-	}
-
-	public void setKorisnik(String korisnik) {
-		this.korisnik = korisnik;
-	}
-
-	
-	public Boolean getOdobreno() {
-		return odobreno;
-	}
-
-	public void setOdobreno(Boolean odobreno) {
-		this.odobreno = odobreno;
-	}
-
-	public String getIme() {
-		return ime;
-	}
-
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani", required = true)
+	private String id;
+	@XmlAttribute(name = "Korisnik", required = true)
+	private String korisnik;
+	@XmlAttribute(name = "odobreno", required = true)
+	private boolean odobreno;
 
 	public SluzbeniList getSluzbeniList() {
 		return sluzbeniList;
@@ -49,11 +40,14 @@ public class Dokument implements Serializable {
 		this.sluzbeniList = sluzbeniList;
 	}
 
-	public Propisi getPropisi() {
-		return propisi;
+	public List<Propisi> getPropisi() {
+		if(propisi == null){
+			propisi = new ArrayList<Propisi>();
+		}
+		return this.propisi;
 	}
 
-	public void setPropisi(Propisi propisi) {
+	public void setPropisi(List<Propisi> propisi) {
 		this.propisi = propisi;
 	}
 
@@ -64,4 +58,29 @@ public class Dokument implements Serializable {
 	public void setSadzaj(Sadrzaj sadzaj) {
 		this.sadzaj = sadzaj;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getKorisnik() {
+		return korisnik;
+	}
+
+	public void setKorisnik(String korisnik) {
+		this.korisnik = korisnik;
+	}
+
+	public boolean isOdobreno() {
+		return odobreno;
+	}
+
+	public void setOdobreno(boolean odobreno) {
+		this.odobreno = odobreno;
+	}
+
 }
