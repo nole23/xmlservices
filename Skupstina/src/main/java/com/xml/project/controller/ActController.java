@@ -1,5 +1,5 @@
 package com.xml.project.controller;
-
+/*
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,13 +44,7 @@ public class ActController {
 	private DatabaseClient databaseClient;
 	private DatabaseUtil dUtil = new DatabaseUtil();
 
-	/**
-	 * @param principal
-	 * @param jaxbDTO
-	 * @return Dodavanje novog akta sa svim njegovim elementima i atributima
-	 * @throws JAXBException
-	 * @throws IOException
-	 */
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> saveAct(Principal principal, @RequestBody Dokument doc)
 			throws JAXBException, IOException {
@@ -171,3 +165,4 @@ public class ActController {
 	}
 
 }
+*/

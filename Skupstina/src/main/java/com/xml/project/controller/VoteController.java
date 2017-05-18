@@ -38,8 +38,8 @@ public class VoteController {
 	@Autowired
 	VotingService votingService;
 
-	@Autowired
-	ActController actControler;
+	//@Autowired
+	//ActController actControler;
 
 	private DatabaseClient databaseClient;
 	private DatabaseUtil dUtil = new DatabaseUtil();
@@ -117,7 +117,7 @@ public class VoteController {
 
 		} else if (odluka.equals("odbio")) {
 
-			return this.actControler.deleteXML(principal, imeAkt, "act");
+			return null;
 		} else {
 			return new ResponseEntity<String>("Los zahtev", HttpStatus.BAD_REQUEST);
 		}
