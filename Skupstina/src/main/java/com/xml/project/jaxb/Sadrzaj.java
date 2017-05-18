@@ -1,32 +1,27 @@
 package com.xml.project.jaxb;
 
-import java.io.Serializable;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = { 
+		"brojc_clana", 
+		"naziv_propisa"
+})
 @XmlRootElement(name = "sadrzaj")
-public class Sadrzaj implements Serializable{
+public class Sadrzaj {
 
-	private String odbornik;
+	@XmlElement(name = "broj_clana", required = true)
 	private String broj_clana;
+	@XmlElement(name = "naziv_propisa", required = true)
 	private String naziv_propisa;
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani", required = true)
+	private String id;
+	@XmlAttribute(name = "Korisnik", required = true)
+	private String korisnik;
 	
-	public String getOdbornik() {
-		return odbornik;
-	}
-	public void setOdbornik(String odbornik) {
-		this.odbornik = odbornik;
-	}
-	public String getBroj_clana() {
-		return broj_clana;
-	}
-	public void setBroj_clana(String broj_clana) {
-		this.broj_clana = broj_clana;
-	}
-	public String getNaziv_propisa() {
-		return naziv_propisa;
-	}
-	public void setNaziv_propisa(String naziv_propisa) {
-		this.naziv_propisa = naziv_propisa;
-	}
 }

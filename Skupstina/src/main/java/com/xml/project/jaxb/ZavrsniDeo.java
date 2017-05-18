@@ -1,14 +1,24 @@
 package com.xml.project.jaxb;
 
-import java.io.Serializable;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = { 
+		"Glava",
+		"potpis_presednik"
+})
 @XmlRootElement(name = "zavrsni_deo")
-public class ZavrsniDeo implements Serializable{
+public class ZavrsniDeo {
 
+	@XmlElement(name = "Glava", required = true)
 	private List<Glava> glava;
+	@XmlElement(name = "potpis_presednika")
 	private String potpis_presednika;
 
 	public ZavrsniDeo() {

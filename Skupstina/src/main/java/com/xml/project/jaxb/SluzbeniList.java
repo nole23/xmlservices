@@ -7,7 +7,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "broj_lista", "cena", "mesto_datum" })
+@XmlType(name = "", propOrder = { 
+		"broj_lista", 
+		"cena", 
+		"mesto_datum" 
+})
 @XmlRootElement(name = "naslov_sl_slista")
 public class SluzbeniList {
 
