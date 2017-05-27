@@ -8,8 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "podaci_glave",
-    "podnaslov_glave",
+    "id",
+    "podaciGlave",
+    "podnaslovGlave",
     "clan"
 })
 @XmlRootElement(name = "Glava")
@@ -17,11 +18,11 @@ public class Glava {
 
 	@XmlElement(name = "id")
 	private String id = "1";
-	@XmlElement(name = "podaci_glave", required = true)
+	@XmlElement(name = "podaci_glave")
 	private Glava.PodaciGlave podaciGlave;
 	@XmlElement(name = "podnaslov_glave")
 	private String podnaslovGlave;
-	@XmlElement(name = "clan", required = true)
+	@XmlElement(name = "clan")
 	private Clan[] clan;
 	
 	
@@ -67,15 +68,15 @@ public class Glava {
 
 	@XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "naslov_glave",
+        "naslovGlave",
         "broj_glave"
     })
 	@XmlRootElement(name = "podaci_glave")
 	public static class PodaciGlave {
 		
-		@XmlElement(name = "naslov_glave", required = true)
+		@XmlElement(name = "naslov_glave")
         protected String naslovGlave;
-        @XmlElement(name = "broj_glave", required = true)
+        @XmlElement(name = "broj_glave")
         protected String broj_glave = "1";
         
 		public String getNaslovGlave() {

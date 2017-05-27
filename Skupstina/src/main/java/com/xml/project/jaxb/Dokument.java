@@ -12,24 +12,28 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { 
-		"naslov_sl_lista", 
+		"sluzbeniList", 
 		"propisi", 
-		"sadrzaj" 
+		"sadzaj",
+		"id",
+		"korisnik",
+		"odobreno"
+		
 })
 @XmlRootElement(name = "dokument")
 public class Dokument {
 
-	@XmlElement(name = "naslov_sl_lista", required = true)
+	@XmlElement(name = "naslov_sl_lista")
 	private SluzbeniList sluzbeniList;
-	@XmlElement(name = "propisi", required = true)
+	@XmlElement(name = "propisi")
 	private List<Propisi> propisi;
-	@XmlElement(name = "sadrzaj", required = true)
+	@XmlElement(name = "sadrzaj")
 	private Sadrzaj sadzaj;
-	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani", required = true)
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String id;
-	@XmlAttribute(name = "Korisnik", required = true)
+	@XmlAttribute(name = "Korisnik")
 	private String korisnik;
-	@XmlAttribute(name = "odobreno", required = true)
+	@XmlAttribute(name = "odobreno")
 	private boolean odobreno;
 
 	public SluzbeniList getSluzbeniList() {

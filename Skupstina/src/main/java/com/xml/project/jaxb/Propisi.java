@@ -13,26 +13,28 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = { 
 		"preambula", 
 		"naziv_propisa", 
-		"uvodni_deo",
-		"glavni_deo", 
-		"zavrsni_deo" 
+		"uvodniDeo",
+		"glavniDeo", 
+		"zavrsniDeo",
+		"id",
+		"korisnik"
 })
 @XmlRootElement(name = "propisi")
 public class Propisi {
 
-	@XmlElement(name = "preambula", required = true)
+	@XmlElement(name = "preambula")
 	private String preambula;
-	@XmlElement(name = "naziv_propisa", required = true)
+	@XmlElement(name = "naziv_propisa")
 	private String naziv_propisa;
-	@XmlElement(name = "uvodni_deo", required = true)
+	@XmlElement(name = "uvodni_deo")
 	private List<UvodniDeo> uvodniDeo;
-	@XmlElement(name = "glavni_deo", required = true)
+	@XmlElement(name = "glavni_deo")
 	private List<GlavniDeo> glavniDeo;
-	@XmlElement(name = "zavrsni_deo", required = true)
+	@XmlElement(name = "zavrsni_deo")
 	private List<ZavrsniDeo> zavrsniDeo;
-	@XmlAttribute(name = "id", required = true)
+	@XmlAttribute(name = "id")
 	private String id;
-	@XmlAttribute(name = "Korisnik", required = true)
+	@XmlAttribute(name = "Korisnik")
 	private String korisnik;
 
 	public String getPreambula() {

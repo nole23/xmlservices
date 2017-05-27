@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "podaci_clana",
+    "id",
+    "podaciClana",
     "opis"
 })
 @XmlRootElement(name = "clan")
@@ -17,7 +18,7 @@ public class Clan {
 	
 	@XmlElement(name = "id")
 	private String id = "1";
-	@XmlElement(name = "podaci_clana", required = true)
+	@XmlElement(name = "podaci_clana")
 	private Clan.PodaciClana podaciClana;
 	@XmlElement(name = "opis")
 	private String opis;
@@ -60,10 +61,10 @@ public class Clan {
 
 	@XmlAccessorType(XmlAccessType.FIELD)
 	@XmlType(name = "", propOrder = {
-	    "naslov_clana",
-	    "broj_clana"
+	    "naslovClana",
+	    "brojClana"
 	})
-	public class PodaciClana {
+	public static class PodaciClana {
 		
 		@XmlElement(name = "naslov_clana")
 		private String naslovClana;

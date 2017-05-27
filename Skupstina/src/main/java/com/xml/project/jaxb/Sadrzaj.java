@@ -9,19 +9,21 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { 
-		"brojc_clana", 
-		"naziv_propisa"
+		"broj_clana", 
+		"naziv_propisa",
+		"id",
+		"korisnik"
 })
 @XmlRootElement(name = "sadrzaj")
 public class Sadrzaj {
 
-	@XmlElement(name = "broj_clana", required = true)
+	@XmlElement(name = "broj_clana")
 	private String broj_clana;
-	@XmlElement(name = "naziv_propisa", required = true)
+	@XmlElement(name = "naziv_propisa")
 	private String naziv_propisa;
-	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani", required = true)
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String id;
-	@XmlAttribute(name = "Korisnik", required = true)
+	@XmlAttribute(name = "Korisnik")
 	private String korisnik;
 	
 }

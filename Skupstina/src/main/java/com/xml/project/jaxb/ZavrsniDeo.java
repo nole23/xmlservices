@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { 
-		"Glava",
-		"potpis_presednik"
+		"glava",
+		"potpis_presednika"
 })
 @XmlRootElement(name = "zavrsni_deo")
 public class ZavrsniDeo {
