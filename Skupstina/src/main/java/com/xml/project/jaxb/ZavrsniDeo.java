@@ -13,10 +13,10 @@ import javax.xml.bind.annotation.XmlType;
 		"glava",
 		"potpis_presednika"
 })
-@XmlRootElement(name = "zavrsni_deo")
+@XmlRootElement(name = "zavrsniDeo")
 public class ZavrsniDeo {
 
-	@XmlElement(name = "Glava", required = true)
+	@XmlElement(name = "glava", required = true)
 	private List<Glava> glava;
 	@XmlElement(name = "potpis_presednika")
 	private String potpis_presednika;

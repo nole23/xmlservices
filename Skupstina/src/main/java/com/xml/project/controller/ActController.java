@@ -2,6 +2,7 @@ package com.xml.project.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
@@ -17,6 +18,7 @@ import javax.xml.validation.SchemaFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +32,7 @@ import com.marklogic.client.document.DocumentUriTemplate;
 import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.InputStreamHandle;
+import com.marklogic.client.io.JAXBHandle;
 import com.xml.project.jaxb.Clan;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.User;
@@ -45,71 +48,62 @@ public class ActController {
 
 	private DatabaseClient databaseClient;
 	private DatabaseUtil dUtil = new DatabaseUtil();
+	private Marshaller m;
+	private JAXBContext context;
+	String XML_FILE = "data/";
 
-
+	/**
+	 * Add new act
+	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> saveAct(@RequestBody Dokument doc)
 			throws JAXBException, IOException, SAXException {
 		
+		//connecti to marklogic
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
 				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
 		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
+
+		context = JAXBContext.newInstance("com.xml.project.jaxb");
+
+		m = context.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		
-		String XML_FILE = "data/";
+		Unmarshaller unmarshaller = context.createUnmarshaller();
 		
-		/*
-		 * User user = userService.findByUsername(principal.getName());
-		 * String ime = user.getUsername();
-		*/
-		
-		JAXBContext context = JAXBContext.newInstance("com.xml.project.jaxb");
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
-		Marshaller m = context.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		m.setSchema(schema);
-
-		Unmarshaller unmarshaller = context.createUnmarshaller();
-
-		unmarshaller = context.createUnmarshaller();
-
-		unmarshaller.setSchema(schema);
 		
+		
+		m.setSchema(schema);
+		m.setEventHandler(new MyValidationEventHandler());
+		
+		unmarshaller.setSchema(schema);
+		unmarshaller.setEventHandler(new MyValidationEventHandler());
 		
 		File f = new File(XML_FILE+"/act.xml");
-		
 		FileOutputStream out = new FileOutputStream(f);
-		System.out.println("3");
-		
 		m.marshal(doc, out);
-		System.out.println("4");
 		
 		xmlMenager = databaseClient.newXMLDocumentManager();
-		System.out.println("5");
 		DocumentUriTemplate template = xmlMenager.newDocumentUriTemplate("xml");
-		System.out.println("6");
 		template.setDirectory("/acts/decisions/");
-		System.out.println("7");
 		
 		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE+"act.xml"));
-		System.out.println("8");
 		
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
-		System.out.println("9");
 		metadata.getCollections().add("/parliament/acts/proposed");
-		System.out.println("10");
 		
 		DocumentDescriptor desc = xmlMenager.create(template, metadata, handle);
-		System.out.println("11");
 		
 		databaseClient.release();
 		
 		return new ResponseEntity<String>("Dokument je snimljen u bazu.", HttpStatus.OK);
 	}
-/*
+	
+	/*
 	@RequestMapping(value = "/delete/{nazivDokumenta}/{tip}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteXML(Principal principal, @PathVariable String nazivDokumenta,
-			@PathVariable String tip) throws FileNotFoundException, JAXBException {
+	public ResponseEntity<String> deleteXML(@PathVariable String nazivDokumenta, @PathVariable String tip) throws FileNotFoundException, JAXBException {
 
 		// konekcija sa bazom
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
@@ -146,7 +140,7 @@ public class ActController {
 		}
 
 	}
-
+	
 	@RequestMapping(value = "/amandman/", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> dodaj(@RequestBody Amandman amandman, Principal principal)
 			throws IOException, JAXBException {

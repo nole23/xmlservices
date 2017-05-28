@@ -12,10 +12,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = { 
 		"glava"
 })
-@XmlRootElement(name = "uvodni_deo")
+@XmlRootElement(name = "uvodniDeo")
 public class UvodniDeo{
 	
-	@XmlElement(name = "Glava")
+	@XmlElement(name = "glava")
 	private List<Glava> glava;
 
 	public UvodniDeo() {

@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 		"mesto", 
 		"datum" 
 })
-@XmlRootElement(name = "mesto_datum")
+@XmlRootElement(name = "mestoDatum")
 public class MestoDatum {
 
 	@XmlElement(name = "mesto")

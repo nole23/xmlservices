@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = { 
 		"sluzbeniList", 
 		"propisi", 
-		"sadzaj",
+		"sadrzaj",
 		"id",
 		"korisnik",
 		"odobreno"
@@ -23,17 +23,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "dokument")
 public class Dokument {
 
-	@XmlElement(name = "naslov_sl_lista")
+	@XmlElement(name = "sluzbeniList")
 	private SluzbeniList sluzbeniList;
 	@XmlElement(name = "propisi")
 	private List<Propisi> propisi;
 	@XmlElement(name = "sadrzaj")
-	private Sadrzaj sadzaj;
+	private Sadrzaj sadrzaj;
 	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String id;
-	@XmlAttribute(name = "Korisnik")
+	@XmlAttribute(name = "Korisnik", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String korisnik;
-	@XmlAttribute(name = "odobreno")
+	@XmlAttribute(name = "odobreno", namespace = "http://www.parlament.gov.rs/amandmani")
 	private boolean odobreno;
 
 	public SluzbeniList getSluzbeniList() {
@@ -55,12 +55,12 @@ public class Dokument {
 		this.propisi = propisi;
 	}
 
-	public Sadrzaj getSadzaj() {
-		return sadzaj;
+	public Sadrzaj getSadrzaj() {
+		return sadrzaj;
 	}
 
-	public void setSadzaj(Sadrzaj sadzaj) {
-		this.sadzaj = sadzaj;
+	public void setSadrzaj(Sadrzaj sadrzaj) {
+		this.sadrzaj = sadrzaj;
 	}
 
 	public String getId() {

@@ -12,14 +12,14 @@ import javax.xml.bind.annotation.XmlType;
 		"cena", 
 		"mestoDatum" 
 })
-@XmlRootElement(name = "naslov_sl_slista")
+@XmlRootElement(name = "sluzbeniList")
 public class SluzbeniList {
 
 	@XmlElement(name = "broj_lista")
 	private String broj_lista;
 	@XmlElement(name = "cena")
 	private float cena;
-	@XmlElement(name = "mesto_datum")
+	@XmlElement(name = "mestoDatum")
 	private MestoDatum mestoDatum;
 
 	public String getBroj_lista() {

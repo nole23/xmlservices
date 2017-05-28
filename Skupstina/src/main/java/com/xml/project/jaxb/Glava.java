@@ -2,6 +2,7 @@ package com.xml.project.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -13,17 +14,17 @@ import javax.xml.bind.annotation.XmlType;
     "podnaslovGlave",
     "clan"
 })
-@XmlRootElement(name = "Glava")
+@XmlRootElement(name = "glava")
 public class Glava {
 
-	@XmlElement(name = "id")
-	private String id = "1";
-	@XmlElement(name = "podaci_glave")
-	private Glava.PodaciGlave podaciGlave;
-	@XmlElement(name = "podnaslov_glave")
+	@XmlElement(name = "podaciGlave")
+	private PodaciGlave podaciGlave;
+	@XmlElement(name = "podnaslovGlave")
 	private String podnaslovGlave;
 	@XmlElement(name = "clan")
 	private Clan[] clan;
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
+	private String id;
 	
 	
 	public String getId() {
@@ -35,13 +36,12 @@ public class Glava {
 		this.id = id;
 	}
 
-
-	public Glava.PodaciGlave getPodaciGlave() {
+	public PodaciGlave getPodaciGlave() {
 		return podaciGlave;
 	}
 
 
-	public void setPodaciGlave(Glava.PodaciGlave podaciGlave) {
+	public void setPodaciGlave(PodaciGlave podaciGlave) {
 		this.podaciGlave = podaciGlave;
 	}
 
@@ -66,32 +66,5 @@ public class Glava {
 	}
 
 
-	@XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "naslovGlave",
-        "broj_glave"
-    })
-	@XmlRootElement(name = "podaci_glave")
-	public static class PodaciGlave {
-		
-		@XmlElement(name = "naslov_glave")
-        protected String naslovGlave;
-        @XmlElement(name = "broj_glave")
-        protected String broj_glave = "1";
-        
-		public String getNaslovGlave() {
-			return naslovGlave;
-		}
-		public void setNaslovGlave(String naslovGlave) {
-			this.naslovGlave = naslovGlave;
-		}
-		public String getBroj_glave() {
-			return broj_glave;
-		}
-		public void setBroj_glave(String broj_glave) {
-			this.broj_glave = broj_glave;
-		}
-        
-        
-	}
+	
 }

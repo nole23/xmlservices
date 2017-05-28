@@ -5,5 +5,15 @@
 // Generated on: 2017.01.22 at 01:59:20 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.parlament.gov.rs/propisi", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@XmlSchema(
+    namespace = "http://www.parlament.gov.rs/amandmani",
+    elementFormDefault = XmlNsForm.QUALIFIED,
+    xmlns = {
+        @XmlNs(prefix="", namespaceURI="http://www.parlament.gov.rs/amandmani")
+    }
+)  
 package com.xml.project.jaxb;
+
+import javax.xml.bind.annotation.XmlSchema;
+import javax.xml.bind.annotation.XmlNs;
+import javax.xml.bind.annotation.XmlNsForm;

@@ -26,15 +26,15 @@ public class Propisi {
 	private String preambula;
 	@XmlElement(name = "naziv_propisa")
 	private String naziv_propisa;
-	@XmlElement(name = "uvodni_deo")
+	@XmlElement(name = "uvodniDeo")
 	private List<UvodniDeo> uvodniDeo;
-	@XmlElement(name = "glavni_deo")
+	@XmlElement(name = "glavniDeo")
 	private List<GlavniDeo> glavniDeo;
-	@XmlElement(name = "zavrsni_deo")
+	@XmlElement(name = "zavrsniDeo")
 	private List<ZavrsniDeo> zavrsniDeo;
-	@XmlAttribute(name = "id")
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String id;
-	@XmlAttribute(name = "Korisnik")
+	@XmlAttribute(name = "Korisnik", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String korisnik;
 
 	public String getPreambula() {

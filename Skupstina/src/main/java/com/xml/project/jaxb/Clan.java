@@ -2,6 +2,7 @@ package com.xml.project.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -16,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 public class Clan {
 
 	
-	@XmlElement(name = "id")
-	private String id = "1";
-	@XmlElement(name = "podaci_clana")
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
+	private String id;
+	@XmlElement(name = "podaciClana")
 	private Clan.PodaciClana podaciClana;
 	@XmlElement(name = "opis")
 	private String opis;
@@ -66,10 +67,10 @@ public class Clan {
 	})
 	public static class PodaciClana {
 		
-		@XmlElement(name = "naslov_clana")
-		private String naslovClana;
-		@XmlElement(name = "broj_clana")
-		private String brojClana;
+		@XmlElement(name = "naslovClana")
+		protected String naslovClana;
+		@XmlElement(name = "brojClana")
+		protected String brojClana;
 		
 		public String getNaslovClana() {
 			return naslovClana;

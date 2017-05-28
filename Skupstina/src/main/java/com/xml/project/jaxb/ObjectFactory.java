@@ -31,9 +31,9 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Ref_QNAME = new QName("http://www.parlament.gov.rs/propisi", "Ref");
-    private final static QName _Label_QNAME = new QName("http://www.parlament.gov.rs/propisi", "Label");
-    private final static QName _Title_QNAME = new QName("http://www.parlament.gov.rs/propisi", "Title");
+    private final static QName _Ref_QNAME = new QName("http://www.parlament.gov.rs/amandmani", "Ref");
+    private final static QName _Label_QNAME = new QName("http://www.parlament.gov.rs/amandmani", "Label");
+    private final static QName _Title_QNAME = new QName("http://www.parlament.gov.rs/amandmani", "Title");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: rs.gov.parlament.propisi.entities
@@ -116,15 +116,15 @@ public class ObjectFactory {
      * Create an instance of {@link Paragraph }
      * 
      */
-    public Glava.PodaciGlave createGlavaPodaciGlave() {
-        return new Glava.PodaciGlave();
+    public PodaciGlave createPodaciGlave() {
+        return new PodaciGlave();
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.parlament.gov.rs/propisi", name = "Ref")
+    @XmlElementDecl(namespace = "http://www.parlament.gov.rs/amandmani", name = "Ref")
     public JAXBElement<String> createRef(String value) {
         return new JAXBElement<String>(_Ref_QNAME, String.class, null, value);
     }
@@ -133,7 +133,7 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.parlament.gov.rs/propisi", name = "Label")
+    @XmlElementDecl(namespace = "http://www.parlament.gov.rs/amandmani", name = "Label")
     public JAXBElement<String> createLabel(String value) {
         return new JAXBElement<String>(_Label_QNAME, String.class, null, value);
     }
@@ -142,7 +142,7 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.parlament.gov.rs/propisi", name = "Title")
+    @XmlElementDecl(namespace = "http://www.parlament.gov.rs/amandmani", name = "Title")
     public JAXBElement<String> createTitle(String value) {
         return new JAXBElement<String>(_Title_QNAME, String.class, null, value);
     }
