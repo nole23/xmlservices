@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.marklogic.client.DatabaseClient;
@@ -28,6 +29,7 @@ import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.DocumentDescriptor;
 import com.marklogic.client.document.DocumentUriTemplate;
 import com.marklogic.client.document.XMLDocumentManager;
+import com.marklogic.client.io.DOMHandle;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.DocumentMetadataHandle.DocumentCollections;
 import com.marklogic.client.io.InputStreamHandle;
@@ -46,6 +48,8 @@ public class ActController {
 	private DatabaseUtil dUtil = new DatabaseUtil();
 	private Marshaller m;
 	private JAXBContext context;
+	XMLDocumentManager xmlMenager;
+	Unmarshaller unmarshaller;
 	String XML_FILE = "data/";
 
 	/**
@@ -58,14 +62,14 @@ public class ActController {
 		//connecti to marklogic
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
 				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
+		xmlMenager = databaseClient.newXMLDocumentManager();
 
 		context = JAXBContext.newInstance("com.xml.project.jaxb");
 
 		m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		
-		Unmarshaller unmarshaller = context.createUnmarshaller();
+		unmarshaller = context.createUnmarshaller();
 		
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
@@ -104,7 +108,7 @@ public class ActController {
 		//connecti to marklogic
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
 				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
+		xmlMenager = databaseClient.newXMLDocumentManager();
 
 		xmlMenager = databaseClient.newXMLDocumentManager();
 		
@@ -121,82 +125,31 @@ public class ActController {
 		return new ResponseEntity<String>("Dokument je prihvacen.", HttpStatus.OK);
 	}
 	
-	/*
-	@RequestMapping(value = "/delete/{nazivDokumenta}/{tip}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteXML(@PathVariable String nazivDokumenta, @PathVariable String tip) throws FileNotFoundException, JAXBException {
-
-		// konekcija sa bazom
+	@RequestMapping(value = "/find/{docId}", method = RequestMethod.GET)
+	public ResponseEntity<String> findByIdAct(@PathVariable String docId)
+			throws JAXBException, IOException, SAXException {
+		
+		//connecti to marklogic
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
 				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-
-		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
-		User user = userService.findByUsername(principal.getName());
-		System.out.println("korisnik " + user.getUsername());
-		// System.out.println("korisnik je "+user);
-		String art;
-		if (tip.equals("act")) {
-			art = "projekat/act/" + nazivDokumenta + ".xml";
-			JAXBContext context = JAXBContext.newInstance("com.xml.project.jaxb");
-			JAXBHandle<Dokument> hendle = new JAXBHandle<Dokument>(context);
-
-			DocumentMetadataHandle metadeate = new DocumentMetadataHandle();
-
-			xmlMenager.read(art, metadeate, hendle);
-
-			Dokument dokument = hendle.get();
-			System.out.println(dokument.getIme());
-			if (dokument.getKorisnik().equalsIgnoreCase(user.getUsername())
-					|| user.getRole().getRole().getName().equals("PRESIDENT")) {
-				xmlMenager.delete(art);
-				databaseClient.release();
-				return new ResponseEntity<String>("File deleted", HttpStatus.OK);
-			}
-			return new ResponseEntity<String>("File isn't yours", HttpStatus.BAD_REQUEST);
-		} else {
-			art = "projekat/amandman/" + user.getUsername() + "/" + nazivDokumenta + ".xml";
-			xmlMenager.delete(art);
-			databaseClient.release();
-			return new ResponseEntity<String>("File deleted", HttpStatus.OK);
-		}
-
+		xmlMenager = databaseClient.newXMLDocumentManager();
+		
+		
+		DOMHandle content = new DOMHandle();
+		
+		String doc = "/acts/decisions/"+docId+".xml";
+		
+		xmlMenager.read(doc, content);
+		
+		databaseClient.release();
+		
+		Document docc = content.get();
+		
+		//unmarshaller.setEventHandler(new MyValidationEventHandler());
+		
+		
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/amandman/", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> dodaj(@RequestBody Amandman amandman, Principal principal)
-			throws IOException, JAXBException {
-
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		XMLDocumentManager xmlMenager = databaseClient.newXMLDocumentManager();
-
-		User user = userService.findByUsername(principal.getName());
-
-		String ime = user.getUsername();
-		Path path = Paths.get("./data/" + ime);
-		if (Files.exists(path))
-			return new ResponseEntity<String>("Amandman je vec dodat", HttpStatus.BAD_REQUEST);
-		Files.createDirectories(path);
-
-		String XML_FILE = "data/" + ime + "/" + amandman.getClan().getPodaciClana().getNaslov_clana() + ".xml";
-
-		JAXBContext context = JAXBContext.newInstance(Amandman.class);
-		Marshaller m = context.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		m.marshal(amandman, new File(XML_FILE));
-
-		String docId = "projekat/amandman/" + ime + "/" + amandman.getClan().getPodaciClana().getNaslov_clana()
-				+ ".xml";
-		docId = docId.replaceAll(" ", "_").toLowerCase();//ispravka
-		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE));
-		xmlMenager.write(docId, handle);
-		databaseClient.release();
-
-		File file = new File(XML_FILE);
-		file.delete();
-		file = new File("./data/" + ime);
-		file.delete();
-
-		return new ResponseEntity<String>("dodat amandman", HttpStatus.OK);
-	}
-*/
 }
