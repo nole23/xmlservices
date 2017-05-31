@@ -126,15 +126,15 @@ public class ActController {
 	}
 	
 	@RequestMapping(value = "/find/{docId}", method = RequestMethod.GET)
-	public ResponseEntity<String> findByIdAct(@PathVariable String docId)
+	public ResponseEntity<Dokument> findByIdAct(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
 		
+		Dokument dokument = null;
 		//connecti to marklogic
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
 				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
+		
 		xmlMenager = databaseClient.newXMLDocumentManager();
-		
-		
 		DOMHandle content = new DOMHandle();
 		
 		String doc = "/acts/decisions/"+docId+".xml";
@@ -145,11 +145,10 @@ public class ActController {
 		
 		Document docc = content.get();
 		
-		//unmarshaller.setEventHandler(new MyValidationEventHandler());
+		dokument = (Dokument) unmarshaller.unmarshal(docc);
+		unmarshaller.setEventHandler(new MyValidationEventHandler());
 		
-		
-		
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<Dokument>(dokument, HttpStatus.OK);
 	}
 	
 }
