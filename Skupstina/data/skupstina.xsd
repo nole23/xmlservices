@@ -5,6 +5,7 @@
     <xs:element name="dokument">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="naslov" type="xs:string"/>
                 <xs:element ref="skup:sluzbeniList"/>
                 <xs:element maxOccurs="unbounded" ref="skup:propisi"/>
                 <xs:element minOccurs="0" ref="skup:sadrzaj" maxOccurs="1"/>

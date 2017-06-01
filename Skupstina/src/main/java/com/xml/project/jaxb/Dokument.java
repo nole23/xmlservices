@@ -11,7 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { 
+@XmlType(name = "", propOrder = {
+		"naslov",
 		"sluzbeniList", 
 		"propisi", 
 		"sadrzaj",
@@ -23,6 +24,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "dokument")
 public class Dokument {
 
+	@XmlElement(name = "naslov")
+	private String naslov;
 	@XmlElement(name = "sluzbeniList")
 	private SluzbeniList sluzbeniList;
 	@XmlElement(name = "propisi")
@@ -35,6 +38,14 @@ public class Dokument {
 	private String korisnik;
 	@XmlAttribute(name = "odobreno", namespace = "http://www.parlament.gov.rs/amandmani")
 	private boolean odobreno;
+
+	public String getNaslov() {
+		return naslov;
+	}
+
+	public void setNaslov(String naslov) {
+		this.naslov = naslov;
+	}
 
 	public SluzbeniList getSluzbeniList() {
 		return sluzbeniList;
