@@ -1,5 +1,7 @@
 package com.xml.project.dto;
 
+import com.xml.project.model.Voting;
+
 public class VoteDTO {
 
 	private Long id;
@@ -16,6 +18,13 @@ public class VoteDTO {
 		this.tip = tip;
 		this.name = name;
 		this.yn = yn;
+	}
+
+	public VoteDTO(Voting v) {
+		this.id = v.getId();
+		this.tip = v.getTip();
+		this.name = v.getName();
+		this.yn = v.isYn();
 	}
 
 	public Long getId() {

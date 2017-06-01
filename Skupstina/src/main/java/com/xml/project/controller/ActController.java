@@ -25,10 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.w3c.dom.Node;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
@@ -217,8 +214,6 @@ public class ActController {
 	public ResponseEntity<String> deleteCollection(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
 		
-		
-
 		String collId = "/acts/decisions/"+docId+".xml";
 		
 		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
