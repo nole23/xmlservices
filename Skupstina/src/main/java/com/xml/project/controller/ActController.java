@@ -175,12 +175,16 @@ public class ActController {
 		return new ResponseEntity<Dokument>(dokument, HttpStatus.OK);
 	}
 	
-	
+	/*
+	 * Potrebno je proslediti jedan od dva parametra
+	 * 1. proposed
+	 * 2. accepted
+	 */
 	@RequestMapping(value = "/collection/{coll}", method = RequestMethod.GET)
 	public ResponseEntity<List<SearchDTO>> findByCollection(@PathVariable String coll)
 			throws JAXBException, IOException, SAXException {
 		
-		List<SearchDTO> searchDTO = new ArrayList<SearchDTO>();;
+		List<SearchDTO> searchDTO = new ArrayList<SearchDTO>();
 
 		String collId = "/parliament/acts/"+coll;
 		
@@ -206,6 +210,26 @@ public class ActController {
 		
 		
 		return new ResponseEntity<List<SearchDTO>>(searchDTO, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/delete/{docId}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteCollection(@PathVariable String docId)
+			throws JAXBException, IOException, SAXException {
+		
+		
+
+		String collId = "/acts/decisions/"+docId+".xml";
+		
+		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
+				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
+		
+		xmlMenager = databaseClient.newXMLDocumentManager();
+		xmlMenager.delete(collId);
+		
+		databaseClient.release();
+		
+		return new ResponseEntity<String>("izbrisano", HttpStatus.OK);
 	}
 
 	public String getDocumentTitle(String docId) throws JAXBException {
