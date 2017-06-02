@@ -1,12 +1,10 @@
 package com.xml.project.controller;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +14,19 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.util.JAXBSource;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,9 +51,9 @@ import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.xml.project.dto.SearchDTO;
 import com.xml.project.jaxb.Dokument;
+import com.xml.project.jaxb.MestoDatum;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
-import com.xml.project.util.PDFUtil;
 
 
 
@@ -261,7 +265,7 @@ public class ActController {
 	
 	@RequestMapping(value="/convert/{docId}/{typeId}", method=RequestMethod.GET)
 	public void convert(HttpServletResponse response, @PathVariable String docId, @PathVariable String typeId)
-			throws JAXBException, IOException, SAXException, DocumentException{
+			throws JAXBException, IOException, SAXException, DocumentException, TransformerException{
 		
 		String doc = "/acts/decisions/"+docId+".xml";
 		
@@ -288,32 +292,34 @@ public class ActController {
 		unmarshaller = context.createUnmarshaller();
 		unmarshaller.setSchema(schema);
 		dokument = (Dokument) unmarshaller.unmarshal(docc);
-		
-		unmarshaller.setEventHandler(new MyValidationEventHandler());
-		
-		
-		File file = new File(XML_FILE+docId+".xml");
-		System.out.println(dokument);
-		FileOutputStream out = new FileOutputStream(file);
-		
-		m = context.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		m.setSchema(schema);
-		m.setEventHandler(new MyValidationEventHandler());
-		m.marshal(dokument, out);
-		
-		PDFUtil pdfUtil = new PDFUtil();
 
-		File outputFile = new File(XML_FILE+docId+".pdf");
-
-		//pdfUtil.generatePDF(outputFile, dokument);
-		//get file
 		
-		String xmlPath = XML_FILE+docId+".xml";
-		String xslPath = XML_FILE+"act.xsl";
-		String fileOutput = XML_FILE+docId+".html";
-		pdfUtil.generateHTML(xmlPath, xslPath, fileOutput);
+		
+		TransformerFactory tFactory = TransformerFactory.newInstance();
 
+        Source xslDoc = new StreamSource("data/proba.xsl");
+        Source xmlDoc = new StreamSource("data/proba.xml");
+
+        String outputFileName = "data/catalog.html";
+        OutputStream htmlFile = new FileOutputStream(outputFileName);
+
+        Transformer transformer = tFactory.newTransformer(xslDoc);
+        transformer.transform(xmlDoc, new StreamResult(htmlFile));
+		
+		
+		/*
+		TransformerFactory tf = TransformerFactory.newInstance();
+		StreamSource xslt = new StreamSource("data/act.xsl");
+		Transformer transformer = tf.newTransformer(xslt);
+		
+		JAXBContext jc = JAXBContext.newInstance(MestoDatum.class);
+		JAXBSource source = new JAXBSource(jc, dokument);
+		
+		StreamResult result = new StreamResult(System.out);
+		transformer.transform(source, result);
+		
+		/*
+        
 		File file1 = new File(XML_FILE+docId+".pdf");
 		String mimeType= URLConnection.guessContentTypeFromName(file1.getName());
 		
@@ -323,9 +329,9 @@ public class ActController {
 		InputStream inputStream = new BufferedInputStream(new FileInputStream(file1));
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 		
-		
-		
-		
+		*/
 	}
+	
+
 	
 }
