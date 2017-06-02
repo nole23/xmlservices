@@ -1,12 +1,16 @@
 package com.xml.project.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,15 +22,16 @@ import javax.xml.validation.SchemaFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.itextpdf.text.DocumentException;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.DocumentDescriptor;
@@ -44,6 +49,9 @@ import com.xml.project.dto.SearchDTO;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
+import com.xml.project.util.PDFUtil;
+
+
 
 @RestController
 @RequestMapping(value = "api/act")
@@ -250,4 +258,74 @@ public class ActController {
 		
 		return title;
 	}
+	
+	@RequestMapping(value="/convert/{docId}/{typeId}", method=RequestMethod.GET)
+	public void convert(HttpServletResponse response, @PathVariable String docId, @PathVariable String typeId)
+			throws JAXBException, IOException, SAXException, DocumentException{
+		
+		String doc = "/acts/decisions/"+docId+".xml";
+		
+		Dokument dokument = null;
+		
+		// Create a document manager to work with XML files.
+		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
+				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
+		
+		xmlMenager = databaseClient.newXMLDocumentManager();
+		
+		DOMHandle content = new DOMHandle();
+		
+		xmlMenager.read(doc, content);
+		
+		databaseClient.release();
+		
+		Document docc = content.get();
+		
+		
+		context = JAXBContext.newInstance("com.xml.project.jaxb");
+		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
+		unmarshaller = context.createUnmarshaller();
+		unmarshaller.setSchema(schema);
+		dokument = (Dokument) unmarshaller.unmarshal(docc);
+		
+		unmarshaller.setEventHandler(new MyValidationEventHandler());
+		
+		
+		File file = new File(XML_FILE+docId+".xml");
+		System.out.println(dokument);
+		FileOutputStream out = new FileOutputStream(file);
+		
+		m = context.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		m.setSchema(schema);
+		m.setEventHandler(new MyValidationEventHandler());
+		m.marshal(dokument, out);
+		
+		PDFUtil pdfUtil = new PDFUtil();
+
+		File outputFile = new File(XML_FILE+docId+".pdf");
+
+		//pdfUtil.generatePDF(outputFile, dokument);
+		//get file
+		
+		String xmlPath = XML_FILE+docId+".xml";
+		String xslPath = XML_FILE+"act.xsl";
+		String fileOutput = XML_FILE+docId+".html";
+		pdfUtil.generateHTML(xmlPath, xslPath, fileOutput);
+
+		File file1 = new File(XML_FILE+docId+".pdf");
+		String mimeType= URLConnection.guessContentTypeFromName(file1.getName());
+		
+		response.setContentType(mimeType);
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file1.getName() +"\""));
+		response.setContentLength((int)file1.length());
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(file1));
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+		
+		
+		
+		
+	}
+	
 }

@@ -1,0 +1,104 @@
+{
+	"sluzbeniList":{
+		"broj_lista":"1",
+		"cena":150.00,
+		"mestoDatum":{
+			"mesto":"Novi Sad",
+			"datum":"28.05.2017"
+		}
+	},
+	"sadrzaj":{
+		"broj_clana":1,
+		"naziv_propisa":"sex na radnom mestu",
+		"id":"1",
+		"korisnik":"Novica Nikolic"
+	},
+	"id":"1",
+	"korisnik":"Novica Nikolic",
+	"odobreno":false,
+	"propisi":[{
+		"id":"1",
+		"korisnik":"Novica Nikolic",
+		"preambula":"",
+		"naziv_propisa":"Jebavanje",
+		"uvodniDeo":[{
+			"glava":[{
+				"podaciGlave":{
+					"naslovGlave":"Jebavanje neko",
+					"broj_glave":"2"
+				},
+				"podnaslovGlave":"Sex na radnom mestu",
+				"clan":[{
+					"id":"1",
+					"podaciClana":{
+						"naslovClana":"prvi naslov",
+						"brojClana":"1"
+					},
+					"opis":"Treba da se uradi to i to tako i tako za to i to"
+				},
+				{
+					"id":"2",
+					"podaciClana":{
+						"naslovClana":"drugi naslov",
+						"brojClana":"2"
+					},
+					"opis":"Treba da se uradi to i to tako i tako za to i to"
+				}]
+			}],
+			"id":"1"
+		}],
+		"glavniDeo":[{
+			"glava":[{
+				"podaciGlave":{
+					"naslovGlave":"Prosirivanje jabanja nekog",
+					"broj_glave":"2"
+				},
+				"podnaslovGlave":"Sex na radnom mestu u skupstini",
+				"clan":[{
+					"id":"1",
+					"podaciClana":{
+						"naslovClana":"prvi naslov glavnog dela",
+						"brojClana":"1"
+					},
+					"opis":"Treba da se uradi to i to tako i tako za to i to"
+				},
+				{
+					"id":"2",
+					"podaciClana":{
+						"naslovClana":"drugi naslov glavnog dela",
+						"brojClana":"2"
+					},
+					"opis":"Treba da se uradi to i to tako i tako za to i to"
+				}],
+				"id":"1"
+			}]
+		}],
+		"zavrsniDeo":[{
+			"glava":[{
+				"podaciGlave":{
+					"naslovGlave":"Zavrsimo jabanja nekog",
+					"broj_glave":"2"
+				},
+				"podnaslovGlave":"Sex na radnom mestu u skupstini zakljucak",
+				"clan":[{
+					"id":"1",
+					"podaciClana":{
+						"naslovClana":"prvi naslov zavrsnog dela",
+						"brojClana":"1"
+					},
+					"opis":"Treba da se uradi to i to tako i tako za to i to"
+				},
+				{
+					"id":"2",
+					"podaciClana":{
+						"naslovClana":"drugi naslov zavrsnog dela",
+						"brojClana":"2"
+					},
+					"opis":"Treba da se uradi to i to tako i tako za to i to"
+				}]
+			}],
+			"id":"1",
+			"potpis_presednika":"Novica Nikolic"
+		}]
+	}]
+}
