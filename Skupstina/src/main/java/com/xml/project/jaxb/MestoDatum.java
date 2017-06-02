@@ -11,12 +11,12 @@ import javax.xml.bind.annotation.XmlType;
 		"mesto", 
 		"datum" 
 })
-@XmlRootElement(name = "mesto_datum")
+@XmlRootElement(name = "mestoDatum")
 public class MestoDatum {
 
-	@XmlElement(name = "mesto", required = true)
+	@XmlElement(name = "mesto")
 	private String mesto;
-	@XmlElement(name = "datum", required = true)
+	@XmlElement(name = "datum")
 	private String datum;
 	
 	public String getMesto() {

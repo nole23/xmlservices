@@ -11,26 +11,41 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { 
-		"naslov_sl_lista", 
+@XmlType(name = "", propOrder = {
+		"naslov",
+		"sluzbeniList", 
 		"propisi", 
-		"sadrzaj" 
+		"sadrzaj",
+		"id",
+		"korisnik",
+		"odobreno"
+		
 })
 @XmlRootElement(name = "dokument")
 public class Dokument {
 
-	@XmlElement(name = "naslov_sl_lista", required = true)
+	@XmlElement(name = "naslov")
+	private String naslov;
+	@XmlElement(name = "sluzbeniList")
 	private SluzbeniList sluzbeniList;
-	@XmlElement(name = "propisi", required = true)
+	@XmlElement(name = "propisi")
 	private List<Propisi> propisi;
-	@XmlElement(name = "sadrzaj", required = true)
-	private Sadrzaj sadzaj;
-	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani", required = true)
+	@XmlElement(name = "sadrzaj")
+	private Sadrzaj sadrzaj;
+	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String id;
-	@XmlAttribute(name = "Korisnik", required = true)
+	@XmlAttribute(name = "Korisnik", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String korisnik;
-	@XmlAttribute(name = "odobreno", required = true)
+	@XmlAttribute(name = "odobreno", namespace = "http://www.parlament.gov.rs/amandmani")
 	private boolean odobreno;
+
+	public String getNaslov() {
+		return naslov;
+	}
+
+	public void setNaslov(String naslov) {
+		this.naslov = naslov;
+	}
 
 	public SluzbeniList getSluzbeniList() {
 		return sluzbeniList;
@@ -51,12 +66,12 @@ public class Dokument {
 		this.propisi = propisi;
 	}
 
-	public Sadrzaj getSadzaj() {
-		return sadzaj;
+	public Sadrzaj getSadrzaj() {
+		return sadrzaj;
 	}
 
-	public void setSadzaj(Sadrzaj sadzaj) {
-		this.sadzaj = sadzaj;
+	public void setSadrzaj(Sadrzaj sadrzaj) {
+		this.sadrzaj = sadrzaj;
 	}
 
 	public String getId() {

@@ -6,11 +6,11 @@ public class DatabaseUtil {
 
 	private String host = "127.0.0.1";
 
-	private String username = "root";
+	private String username = "admin";
 
 	private int port = 8000;
 
-	private String password = "root";
+	private String password = "admin";
 
 	private String database = "tim16";
 
