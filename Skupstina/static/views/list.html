@@ -1,11 +1,11 @@
-<div id="page-content" >
+<div id="page-content">
 	<div class="c-content-box" style="width:950px;">
 		<div class="page-content-inner">
 			
 			<div id="page-header">
 
 				<!-- PAGE TITLE : begin -->
-				<div class="page-title"><h1>Pregled usvojenih amandmana</h1></div>
+				<div class="page-title"><h1>Pregled svih <span ng-if="name == 'accept'">usvojenih</span> <span ng-if="name == 'proposed'">predlozenih</span> AKATA</h1></div>
 				<!-- PAGE TITLE : end -->
 
 			</div>
@@ -18,20 +18,12 @@
 					<div class="page-content-inner">
 						<table>
 							<tbody>
-								<tr>
-									<td><span style="color: #0000ff;"><a style="color: #0000ff;" href="#">prvi amandman</a></span> <span style="float: right">PDF | HTML | RDF </span></td>
-								</tr>
-								<tr>
-									<td><span style="color: #0000ff;"><a style="color: #0000ff;" href="#">drugi amandman</a></span> <span style="float: right">PDF | HTML | RDF </span></td>
-								</tr>
-								<tr>
-									<td><span style="color: #0000ff;"><a style="color: #0000ff;" href="#">treci amandman</a></span> <span style="float: right">PDF | HTML | RDF </span></td>
-								</tr>
-								<tr>
-									<td><span style="color: #0000ff;"><a style="color: #0000ff;" href="#">cetvrti amandman</a></span> <span style="float: right">PDF | HTML | RDF </span></td>
-								</tr>
-								<tr>
-									<td><span style="color: #0000ff;"><a style="color: #0000ff;" href="#">peti amandma</a></span> <span style="float: right">PDF | HTML | RDF </span></td>
+								
+								<tr ng-repeat="l in list">
+									<td>
+										<span style="color: #0000ff;"><a style="color: #0000ff;" href="#">{{l.docTitle}}</a>
+										</span> <span style="float: right">PDF | HTML | RDF </span>
+									</td>
 								</tr>
 								
 							</tbody>

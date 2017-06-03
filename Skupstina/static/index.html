@@ -42,20 +42,11 @@
 			border-color: #cc0000;
 			.sidebar .widget {background-color: #e9e9e9;
 		</style>
-		<script type='text/javascript' src='wp-includes/js/jquery/jqueryb8ff.js?ver=1.12.4'></script>
-		<script type='text/javascript' src='wp-includes/js/jquery/jquery-migrate.min330a.js?ver=1.4.1'></script>
-		<script id='st_insights_js' type='text/javascript' src='../ws.sharethis.com/button/st_insightsc2fc.js?publisher=4d48b7c5-0ae3-43d4-bfbe-3ff8c17a8ae6&amp;product=simpleshare'></script>
-		<link rel='https://api.w.org/' href='wp-json/index.html' />
-		<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="wp-includes/wlwmanifest.xml" /> 
+		
+		
+		
 		<meta name="generator" content="WordPress 4.6.6" />
-		<script>(function(d, s, id){
-                 var js, fjs = d.getElementsByTagName(s)[0];
-                 if (d.getElementById(id)) {return;}
-                 js = d.createElement(s); js.id = id;
-                 js.src = "../connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
-                 fjs.parentNode.insertBefore(js, fjs);
-               }(document, 'script', 'facebook-jssdk'));
-		</script>
+
 		<style type="text/css">	
 			.ssba {}
 			.ssba img
@@ -88,7 +79,7 @@
 
 
 
-	<body  class="blog  m-has-header-bg wpb-js-composer js-comp-ver-4.12.1 vc_responsive" ng-app="nekretnineClientApp">
+	<body  class="blog  m-has-header-bg wpb-js-composer js-comp-ver-4.12.1 vc_responsive" ng-app="xmlClientApp">
 
 	
 		<!-- HEADER : begin -->
@@ -103,7 +94,7 @@
 							<!-- HEADER BRANDING : begin -->
 							<div class="header-branding m-small-logo">
 
-								<a href="index.html"><span><img src="wp-content/uploads/2016/10/NSlogo-cir-.png" alt="Скупштина Града Новог Сада"></span></a>
+								<a href="#/"><span><img src="wp-content/uploads/images/NSlogo-cir-.png" alt="Скупштина Града Новог Сада"></span></a>
 
 							</div>
 							<!-- HEADER BRANDING : end -->
@@ -130,7 +121,7 @@
 
 								<!-- HEADER LOGIN : begin -->
 								<div class="header-login">
-									<a href="#" class="login" title="Prijava"><i class="tp tp-key"></i> <span>Prijava</span></a>
+									<a href="#/login" class="login" title="Prijava"><i class="tp tp-key"></i> <span>Prijava</span></a>
 								</div>
 								<!-- HEADER LOGIN : end -->
 
@@ -156,8 +147,8 @@
 			<!-- HEADER IMAGE : begin -->
 			<div class="header-image" data-autoplay="4">
 				
-				<div class="image-layer" style="background-image: url( 'wp-content/uploads/2016/12/1.jpg' );"></div>
-
+				<div class="image-layer" style="background-image: url( 'wp-content/uploads/images/1.jpg' );"></div>
+				<div class="image-layer" style="background-image: url( 'wp-content/uploads/images/1.jpg' );"></div>
 				
 			</div>
 			<!-- HEADER IMAGE : begin -->
@@ -189,13 +180,13 @@
 
 								<ul id="menu-novi-gornji-1" class="menu-items clearfix">
 								
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2385"><a href="#/home">Pocetna</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#">Usvojenih akata</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2385"><a href="#">Usvojenih amandmana</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="k#">Predlozeni akti</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="k#">Predlozeni amandmani</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="k#">Dodati novi akt</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="k#">Dodati novi amandman</a></li>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/">Pocetna</a></li>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/act/accept">Usvojenih akata</a></li>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/amandman/accept">Usvojenih amandmana</a></li>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/act/proposed">Predlozeni akti</a></li>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/amandman/proposed">Predlozeni amandmani</a></li>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/act">Dodati novi akt</a></li>
+								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/amandman">Dodati novi amandman</a></li>
 								</ul>
 							</nav>
 							<!-- MAIN MENU : end -->
@@ -283,26 +274,33 @@
 
 
 
-<script type='text/javascript' src='wp-content/plugins/bbpress/templates/default/js/editor9e1d.js?ver=2.5.11-6121'></script>
-<script type='text/javascript' src='wp-content/plugins/contact-form-7/includes/js/jquery.form.mind03d.js?ver=3.51.0-2014.06.20'></script>
-<script type='text/javascript' src='wp-content/plugins/contact-form-7/includes/js/scripts167b.js?ver=4.6'></script>
-<script type='text/javascript' src='wp-content/plugins/simple-share-buttons-adder/js/ssba.min13f7.js?ver=4.6.6'></script>
-<script type='text/javascript' src='wp-includes/js/imagesloaded.min55a0.js?ver=3.2.0'></script>
-<script type='text/javascript' src='wp-includes/js/masonry.mind617.js?ver=3.3.2'></script>
-<script type='text/javascript' src='wp-includes/js/jquery/jquery.masonry.minef70.js?ver=3.1.2b'></script>
-<script type='text/javascript' src='wp-content/themes/townpress/library/js/third-party.js'></script>
-<script type='text/javascript' src='wp-content/themes/townpress/library/js/library.min.js'></script>
-<script type='text/javascript' src='wp-content/themes/townpress/library/js/scripts.min.js'></script>
-<script type='text/javascript' src='wp-includes/js/wp-embed.min13f7.js?ver=4.6.6'></script>
+		
 
+		<!-- Start angular labery -->
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+	    <script src="bower_components/angular/angular.js"></script>
+	    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+	    <script src="bower_components/angular-resource/angular-resource.js"></script>
+	    <script src="bower_components/angular-route/angular-route.js"></script>
+	    <script src="bower_components/lodash/lodash.js"></script>
+	    <script src="bower_components/restangular/dist/restangular.js"></script>
+	    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	    <script src="bower_components/angular-lodash-module/angular-lodash-module.js"></script>
+	    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+	    <script src="bower_components/ng-storage/ngStorage.js"></script>
+	    <!-- End angual librery -->
 
-
-<!--  Moje skripte pocetak -->
-
-<script src="./scripts/app.js"></script>
-
-<!--  Moje skripte kraj -->
-</body>
+		<!--  Moje skripte pocetak -->
+		<script src="scripts/app.js"></script>
+		<script src="scripts/act/act-ctrl.js"></script>
+		<script src="scripts/act/act-resource.js"></script>
+		<script src="scripts/act/act-resourceOne.js"></script>
+		<!--  Moje skripte kraj -->
+		
+	</body>
 
 <!-- Mirrored from skupstina.novisad.rs/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 01 Jun 2017 14:53:50 GMT -->
 </html>
+
+
+		

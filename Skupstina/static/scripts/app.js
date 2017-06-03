@@ -10,7 +10,7 @@
  */
 
 angular
-    .module('nekretnineClientApp', [
+    .module('xmlClientApp', [
         'ngResource',
         'ngRoute',
         'ngCookies',
@@ -21,8 +21,35 @@ angular
     ])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
-	        .when('/home', {
+	        .when('/', {
+	            templateUrl: 'views/home.html'
+	        })
+	        .when('/login', {
 	            templateUrl: 'views/login.html'
+	        })
+	        .when('/act/:accept', {
+	            templateUrl: 'views/list.html',
+	            controller: 'ActCrtl',
+	            controllerAs: 'acceptAct'
+	        })
+	        .when('/amandman/:accept', {
+	            templateUrl: 'views/list.html'
+	        })
+	        .when('/act/:proposed', {
+	            templateUrl: 'views/list.html',
+	            controller: 'ActCrtl',
+	            controllerAs: 'acceptAct'
+	        })
+	        .when('/amandman/:proposed', {
+	            templateUrl: 'views/list.html'
+	        })
+	        .when('/add/act', {
+	            templateUrl: 'views/add.html',
+	            controller: 'AddActCtrl',
+	            controllerAs: 'addAct'
+	        })
+	        .when('/add/amandman', {
+	            templateUrl: 'views/add.html'
 	        })
 	        .otherwise({
                 redirectTo: '/'
@@ -30,7 +57,7 @@ angular
         
     }])
     
-    .run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage', 'LoginResources', function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginResources) {
+    .run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage', function(Restangular, $log, $rootScope, $http, $location, $localStorage) {
         Restangular.setBaseUrl("api");
         Restangular.setErrorInterceptor(function(response) {
             if (response.status === 500) {

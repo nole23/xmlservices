@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:dokument xmlns="http://www.parlament.gov.rs/amandmani" xmlns:ns2="http://www.parlament.gov.rs/amandmani" ns2:id="1" ns2:Korisnik="Novica Nikolic" ns2:odobreno="false">
-    <ns2:naslov>moj</ns2:naslov>
+    <ns2:naslov>proba 100ta</ns2:naslov>
     <ns2:sluzbeniList>
         <ns2:broj_lista>1</ns2:broj_lista>
         <ns2:cena>150.0</ns2:cena>
