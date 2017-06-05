@@ -12,6 +12,7 @@ angular.module('xmlClientApp')
 			$scope.list = items;
 	    })
 	}])
+	
 	.controller('AddActCtrl', ['$scope', '$uibModal', '$log', '_', '$routeParams', 'Act', '$location',
 	   function($scope, $uibModal, $log, _, $routeParams, Act, $location) {
 		
@@ -197,6 +198,21 @@ angular.module('xmlClientApp')
 		}
 		
 		function callBack(success) {
-			console.log('sacuvano');
+			if(success == 200){
+				$location.path('/act/proposed');
+			} else if(success == 400) {
+				console.log('ne radi nesto dobro');
+			}
 		}
+	}])
+	.controller('ReadCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', 'ActResource', 
+	   function($scope, $uibModal, $log, _, $routeParams, ActResource) {
+		
+		$scope.list = [];
+		var id = $routeParams.accept;
+			
+		ActResource.getUsvojeni(id).then(function(items) {
+			$scope.name = id;
+			$scope.list = items;
+	    })
 	}])

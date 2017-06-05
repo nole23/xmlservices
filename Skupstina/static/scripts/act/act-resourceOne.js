@@ -13,11 +13,10 @@
 		
 		function saveAct(akt, callBack) {
 			
-			$http.post('http://localhost:8080/api/act/add', akt)
-				.success(function(response) {
-					callBack(response);
-				});
-			
+			$http.post('http://localhost:8080/api/act/add', JSON.stringify(akt))
+			.then(function (response) {
+	            callBack(response.status);
+	        });
 		}
 	};
 })();

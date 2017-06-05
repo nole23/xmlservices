@@ -5,7 +5,7 @@
 			<div id="page-header">
 
 				<!-- PAGE TITLE : begin -->
-				<div class="page-title"><h1>Pregled svih <span ng-if="name == 'accept'">usvojenih</span> <span ng-if="name == 'proposed'">predlozenih</span> AKATA</h1></div>
+				<div class="page-title"><h1></h1></div>
 				<!-- PAGE TITLE : end -->
 
 			</div>
@@ -21,7 +21,7 @@
 								
 								<tr ng-repeat="l in list">
 									<td>
-										<span style="color: #0000ff;"><a style="color: #0000ff;" href="#/read/{l.docUrl}">{{l.docTitle}}|{{l.docUrl}}</a>
+										<span style="color: #0000ff;"><a style="color: #0000ff;" href="#/read">{{l.docTitle}}</a>
 										</span> <span style="float: right">PDF | HTML | RDF </span>
 									</td>
 								</tr>

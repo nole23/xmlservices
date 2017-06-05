@@ -117,7 +117,7 @@ public class ActController {
 		
 		databaseClient.release();
 		
-		return new ResponseEntity<String>("Dokument je snimljen u bazu.", HttpStatus.OK);
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/accept/{docId}", method = RequestMethod.GET)
