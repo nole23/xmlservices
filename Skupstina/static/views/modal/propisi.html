@@ -1,25 +1,90 @@
-<div class="bbp-username" style="float:left">
-	<label for="user_login">Propisi: </label>
-	<div style="border: 1px solid #333; width: 890px; padding: 1% 0 1% 3.9%">
-		<input type="text" name="log" style="width: 810px" placeholder="Preambula" size="20" />
-		<input type="text" name="log" style="width: 810px; margin-top: 1%;" placeholder="Naziv propisa" size="20" />
-		
-		<label for="user_login" style="margin-top: 1%">UvodniDeo: </label>
-		<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 3.9%">
-			<label for="user_login" style="margin-top: 1%">Glava: </label>
-			<div style="border: 1px solid #333; width: 740px; padding: 1% 0 1% 3.9%">
-				<input type="text" name="log" style="width: 330px" placeholder="Naslov glave" size="20" />
-				<input type="text" name="log" style="width: 330px;" placeholder="Broj glave" size="20" />
-				<input type="text" name="log" style="width: 665px; margin-top: 1%;" placeholder="Podnaslov glave" size="20" />
-				<label for="user_login" style="margin-top: 1%">Clan: </label>
-				
-				<div style="border: 1px solid #333; width: 665px; padding: 1% 0 1% 3.9%">
-					<input type="text" name="log" style="width: 300px" placeholder="Naslov Clana" size="20" />
-					<input type="text" name="log" style="width: 300px;" placeholder="Broj Clana" size="20" />
-					<input type="text" name="log" style="width: 605px; height: 300px; margin-top: 1%" placeholder="Opis" size="20" />
-				</div>
-			</div>
-		</div>
-		
-	</div>
-</div>
+<fieldset data-ng-repeat="propis in dokument.propisi">
+												
+												<div class="bbp-username" style="float:left">
+													<label for="user_login">Propis: </label>
+													<div style="border-top: 1px solid #333; border-bottom: 1px solid #333; width: 890px; padding: 1% 0 1% 3.9%">
+														<input type="text" name="log" ng-model="propis.preambula" style="width: 810px" placeholder="Preambula" size="20" />
+														<input type="text" name="log" ng-model="propis.naziv_propisa" style="width: 810px; margin-top: 1%;" placeholder="Naziv propisa" size="20" />
+														<input type="hidden" name="log" ng-model="propis.korisnik"  value="Novica Nikolic" />
+														
+														<div style="margin: 5% 0 0 0" data-ng-repeat="deo in dokument.propisi.uvodniDeo">
+															<label for="user_login" style="text-align: center;">Uvodni deo: </label>
+															
+															
+															
+																<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 2%">
+																	<fieldset data-ng-repeat="gl in dokument.propisi.uvodniDeo.glava">
+																		<label for="user_login" style="margin-top: 2%; text-align: center;" >Glava: </label>
+																		<div style="border-bottom: 1px solid #333; border-top: 1px solid #333; width: 770px; margin: 1% 1% 0 0">
+																		
+																			
+																			<input type="text" ng-model="gl.podaciGlave.naslovGlave" style="width: 435px; margin-top: 1%" placeholder="Naslov glave" size="20" />
+																			<input type="text" name="log" ng-model="gl.podnaslovGlave" style="width: 330px;" placeholder="Podnaslov glave" size="20" />
+																			
+																			
+																			<div style="width: 720px; margin: 1% 0 1% 3%">
+																				<fieldset data-ng-repeat="cl in dokument.propisi.uvodniDeo.glava.clan">
+																					<label for="user_login" style="margin-top: 1%; ">Clan: </label>
+																					<div style="border: 1px solid #333; padding: 1% 0 0 1%">
+																						<input type="text" name="log" ng-model="cl.naslovClana" style="width: 705px" placeholder="Naslov Clana" size="20" />
+																						<textarea  style="width: 705px; margin: 1% 0 0 0" ng-model="cl.opis" name="opis" placeholder="Opis"></textarea>
+																					</div>
+																				</fieldset>
+																				<button ng-click="addNewClan()"  style=" margin: 2% 0 2% 0">Novi clan</button>
+																			</div>
+																			
+																		
+																		</div>
+																	</fieldset>
+																	<button ng-click="addNewGlava()">Nova glava</button>
+																	
+																</div>
+															
+															
+															
+															
+														</div>
+														
+														<!-- 
+														<div style="margin: 5% 0 0 0">
+															<label for="user_login" style="text-align: center;">Glavni deo: </label>
+															<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 1%">
+																<input type="text" name="log" ng-model="act.glavni.naslov" style="width: 450px" placeholder="Naslov glave" size="20" />
+																<input type="text" name="log" ng-model="act.glavni.podnaslov" style="width: 340px;" placeholder="Podnaslov glave" size="20" />
+																
+																<fieldset data-ng-repeat="clan in choices.clanoviG">
+																	<label for="user_login" style="margin-top: 1%">Clan: </label>
+																	<div style="border-top: 1px solid #333; border-bottom: 1px solid #333; width: 790px; padding: 1% 0 1% 0">
+																		<input type="text" name="log" ng-model="clan.naziv" style="width: 790px" placeholder="Naslov Clana" size="20" />
+																		<textarea  style="width: 790px; margin: 1% 0 0 0" ng-model="clan.opis" name="opis" placeholder="Opis"></textarea>
+																	</div>
+																</fieldset>
+																<button class="button submit user-submit" ng-click="addNewClanG()">Novi clan</button>
+															</div>
+														</div>
+														
+														<div style="margin: 5% 0 0 0">
+															<label for="user_login" style="text-align: center;">Zavrsni deo: </label>
+															<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 1%">
+																<input type="text" name="log" ng-model="act.zavrsni.naslov" style="width: 450px" placeholder="Naslov glave" size="20" />
+																<input type="text" name="log" ng-model="act.zavrsni.podnaslov" style="width: 340px;" placeholder="Podnaslov glave" size="20" />
+																
+																<fieldset data-ng-repeat="clan in choices.clanoviZ">
+																	<label for="user_login" style="margin-top: 1%">Clan: </label>
+																	<div style="border-top: 1px solid #333; border-bottom: 1px solid #333; width: 790px; padding: 1% 0 1% 0">
+																		<input type="text" name="log" ng-model="clan.naziv" style="width: 790px" placeholder="Naslov Clana" size="20" />
+																		<textarea  style="width: 790px; margin: 1% 0 0 0" ng-model="clan.opis" name="opis" placeholder="Opis"></textarea>
+																	</div>
+																</fieldset>
+																
+																<input type="text" name="log" ng-model="zavrsni.potpis" style="width: 790px;" placeholder="Potpis presenika" size="20" />
+																<button class="button submit user-submit" ng-click="addNewClanZ()">Novi clan</button>
+															</div>
+														</div>
+														-->
+														
+													</div>
+												</div>
+												
+											</fieldset>
+											<button class="button submit user-submit" ng-click="addNewPropis()">Novi propis</button>

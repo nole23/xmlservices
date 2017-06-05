@@ -1,90 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:dokument xmlns="http://www.parlament.gov.rs/amandmani" xmlns:ns2="http://www.parlament.gov.rs/amandmani" ns2:id="1" ns2:Korisnik="Novica Nikolic" ns2:odobreno="false">
-    <ns2:naslov>proba 100ta</ns2:naslov>
+    <ns2:naslov>Proba</ns2:naslov>
     <ns2:sluzbeniList>
-        <ns2:broj_lista>1</ns2:broj_lista>
-        <ns2:cena>150.0</ns2:cena>
+        <ns2:broj_lista>21</ns2:broj_lista>
+        <ns2:cena>300.0</ns2:cena>
         <ns2:mestoDatum>
             <ns2:mesto>Novi Sad</ns2:mesto>
-            <ns2:datum>28.05.2017</ns2:datum>
+            <ns2:datum>5.6.2017</ns2:datum>
         </ns2:mestoDatum>
     </ns2:sluzbeniList>
     <ns2:propisi ns2:id="1" ns2:Korisnik="Novica Nikolic">
-        <ns2:preambula></ns2:preambula>
-        <ns2:naziv_propisa>Jebavanje</ns2:naziv_propisa>
+        <ns2:preambula>Preambula</ns2:preambula>
+        <ns2:naziv_propisa>Propis</ns2:naziv_propisa>
         <ns2:uvodniDeo>
-            <ns2:glava>
+            <ns2:glava ns2:id="1">
                 <ns2:podaciGlave>
-                    <ns2:naslovGlave>Jebavanje neko</ns2:naslovGlave>
-                    <ns2:broj_glave>2</ns2:broj_glave>
+                    <ns2:naslovGlave>Naslov glave uvodnog dela</ns2:naslovGlave>
+                    <ns2:broj_glave>1</ns2:broj_glave>
                 </ns2:podaciGlave>
-                <ns2:podnaslovGlave>Sex na radnom mestu</ns2:podnaslovGlave>
+                <ns2:podnaslovGlave>Uvodni deo</ns2:podnaslovGlave>
                 <ns2:clan ns2:id="1">
                     <ns2:podaciClana>
-                        <ns2:naslovClana>prvi naslov</ns2:naslovClana>
+                        <ns2:naslovClana>Clan uvodnog dela</ns2:naslovClana>
                         <ns2:brojClana>1</ns2:brojClana>
                     </ns2:podaciClana>
-                    <ns2:opis>Treba da se uradi to i to tako i tako za to i to</ns2:opis>
-                </ns2:clan>
-                <ns2:clan ns2:id="2">
-                    <ns2:podaciClana>
-                        <ns2:naslovClana>drugi naslov</ns2:naslovClana>
-                        <ns2:brojClana>2</ns2:brojClana>
-                    </ns2:podaciClana>
-                    <ns2:opis>Treba da se uradi to i to tako i tako za to i to</ns2:opis>
+                    <ns2:opis>Opis uvodnog dela</ns2:opis>
                 </ns2:clan>
             </ns2:glava>
         </ns2:uvodniDeo>
         <ns2:glavniDeo>
             <ns2:glava ns2:id="1">
                 <ns2:podaciGlave>
-                    <ns2:naslovGlave>Prosirivanje jabanja nekog</ns2:naslovGlave>
-                    <ns2:broj_glave>2</ns2:broj_glave>
+                    <ns2:naslovGlave>Naslov glave glavnog dela</ns2:naslovGlave>
+                    <ns2:broj_glave>1</ns2:broj_glave>
                 </ns2:podaciGlave>
-                <ns2:podnaslovGlave>Sex na radnom mestu u skupstini</ns2:podnaslovGlave>
+                <ns2:podnaslovGlave>glavni deo</ns2:podnaslovGlave>
                 <ns2:clan ns2:id="1">
                     <ns2:podaciClana>
-                        <ns2:naslovClana>prvi naslov glavnog dela</ns2:naslovClana>
+                        <ns2:naslovClana>Naslov clana glavnog dela</ns2:naslovClana>
                         <ns2:brojClana>1</ns2:brojClana>
                     </ns2:podaciClana>
-                    <ns2:opis>Treba da se uradi to i to tako i tako za to i to</ns2:opis>
-                </ns2:clan>
-                <ns2:clan ns2:id="2">
-                    <ns2:podaciClana>
-                        <ns2:naslovClana>drugi naslov glavnog dela</ns2:naslovClana>
-                        <ns2:brojClana>2</ns2:brojClana>
-                    </ns2:podaciClana>
-                    <ns2:opis>Treba da se uradi to i to tako i tako za to i to</ns2:opis>
+                    <ns2:opis>opis clana glavnog dela</ns2:opis>
                 </ns2:clan>
             </ns2:glava>
         </ns2:glavniDeo>
         <ns2:zavrsniDeo>
-            <ns2:glava>
+            <ns2:glava ns2:id="1">
                 <ns2:podaciGlave>
-                    <ns2:naslovGlave>Zavrsimo jabanja nekog</ns2:naslovGlave>
-                    <ns2:broj_glave>2</ns2:broj_glave>
+                    <ns2:naslovGlave>Naslov glave zavrsnog dela</ns2:naslovGlave>
+                    <ns2:broj_glave>1</ns2:broj_glave>
                 </ns2:podaciGlave>
-                <ns2:podnaslovGlave>Sex na radnom mestu u skupstini zakljucak</ns2:podnaslovGlave>
+                <ns2:podnaslovGlave>zavrsni deo</ns2:podnaslovGlave>
                 <ns2:clan ns2:id="1">
                     <ns2:podaciClana>
-                        <ns2:naslovClana>prvi naslov zavrsnog dela</ns2:naslovClana>
+                        <ns2:naslovClana>Naslov clana zavrsnog dela</ns2:naslovClana>
                         <ns2:brojClana>1</ns2:brojClana>
                     </ns2:podaciClana>
-                    <ns2:opis>Treba da se uradi to i to tako i tako za to i to</ns2:opis>
-                </ns2:clan>
-                <ns2:clan ns2:id="2">
-                    <ns2:podaciClana>
-                        <ns2:naslovClana>drugi naslov zavrsnog dela</ns2:naslovClana>
-                        <ns2:brojClana>2</ns2:brojClana>
-                    </ns2:podaciClana>
-                    <ns2:opis>Treba da se uradi to i to tako i tako za to i to</ns2:opis>
+                    <ns2:opis>Opis clana zavrsnog dela</ns2:opis>
                 </ns2:clan>
             </ns2:glava>
             <ns2:potpis_presednika>Novica Nikolic</ns2:potpis_presednika>
         </ns2:zavrsniDeo>
     </ns2:propisi>
-    <ns2:sadrzaj ns2:id="1" ns2:Korisnik="Novica Nikolic">
-        <ns2:broj_clana>1</ns2:broj_clana>
-        <ns2:naziv_propisa>sex na radnom mestu</ns2:naziv_propisa>
-    </ns2:sadrzaj>
 </ns2:dokument>

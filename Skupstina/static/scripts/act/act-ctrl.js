@@ -15,34 +15,188 @@ angular.module('xmlClientApp')
 	.controller('AddActCtrl', ['$scope', '$uibModal', '$log', '_', '$routeParams', 'Act', '$location',
 	   function($scope, $uibModal, $log, _, $routeParams, Act, $location) {
 		
-		$scope.sluzbeniList = [{broj_lista: '1'}];
-		$scope.choices.clanoviU = [{id: 'clanU1'}];
-		$scope.choices.clanoviG = [{id: 'clanG1'}];
-		$scope.choices.clanoviZ = [{id: 'clanZ1'}];
-		  
-		$scope.addNewChoice = function() {
-			var newItemNo = $scope.sluzbeniList.length+1;
-			$scope.sluzbeniList.push({'broj_lista':'newItemNo});
+		
+		
+		
+		
+		$scope.dokument = {
+				id:'1',
+				korisnik:'Novica Nikolic',
+				odobreno:false,
+				naslov:'',
+				sluzbeniList:{
+					broj_lista:'',
+					cena:'',
+					mestoDatum:{
+						mesto:'',
+						datum:''
+					}
+				},
+				propisi:[{
+					id:'1',
+					korisnik:'Novica Nikolic',
+					naziv_propisa:'',
+					preambula:'',
+					uvodniDeo:[{
+						glava:[{
+							id:1,
+							podnaslovGlave:'',
+							podaciGlave:{
+								broj_glave:'1',
+								naslovGlave:''
+							},
+							clan:[{
+								id:1,
+								podaciClana:{
+									brojClana:'1',
+									naslovClana:''
+								},
+								opis:''
+							}]
+						}]
+					}],
+					glavniDeo:[{
+						glava:[{
+							id:1,
+							podnaslovGlave:'',
+							podaciGlave:{
+								broj_glave:'1',
+								naslovGlave:''
+							},
+							clan:[{
+								id:1,
+								podaciClana:{
+									brojClana:'1',
+									naslovClana:''
+								},
+								opis:''
+							}]
+						}]
+					}],
+					zavrsniDeo:[{
+						glava:[{
+							id:1,
+							podnaslovGlave:'',
+							podaciGlave:{
+								broj_glave:'1',
+								naslovGlave:''
+							},
+							clan:[{
+								id:1,
+								podaciClana:{
+									brojClana:'1',
+									naslovClana:''
+								},
+								opis:''
+							}]
+						}],
+						potpis_presednika:'Novica Nikolic'
+					}]
+			}]
 		};
 		
-		$scope.addNewClan = function() {
-			var newItemNo = $scope.choices.clanoviU.length+1;
-			$scope.choices.clanoviU.push({'id':'clanU'+newItemNo});
+
+		
+		/**
+		 * Funkcija pomocu koje dodajemo nove propise u nas dokument
+		 */
+		$scope.addNewPropis = function(id) {
+			
+			var newItemNo = $scope.dokument.propisi.length+1;
+			$scope.dokument.propisi.push({'id':newItemNo, korisnik:'', naziv_propisa:'', preambula:'',
+				uvodniDeo:[{glava:[{id:1, podnaslovGlave:'', podaciGlave:{broj_glave:'', naslovGlave:''},
+					clan:[{id:1, podaciClana:{brojClana:'1', naslovClana:''}, opis:''}]}]}]});
+			console.log($scope.dokument.propisi);
 		};
 		
-		$scope.addNewClanG = function() {
-			var newItemNo = $scope.choices.clanoviG.length+1;
-			$scope.choices.clanoviG.push({'id':'clanG'+newItemNo});
+		/**
+		 * Funkcija pomocu koje dodajemo zaglavnje za uvodni deo dokumenta
+		 */
+		$scope.addNewGlava = function(proId, glId) {
+
+			//var newItemNo = $scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].length+1;
+			$scope.dokument.propisi[proId-1].uvodniDeo[0].glava.push({'id':glId+1, podnaslovGlave:'', 
+				podaciGlave:{broj_glave:'1', naslovClana:''} ,clan:[{id:1,
+					podaciClana:{brojClana:'1', naslovClana:''}, opis:''}]});
+			
+			console.log($scope.dokument.propisi[proId-1].uvodniDeo[0].glava);
 		};
 		
-		$scope.addNewClanZ = function() {
-			var newItemNo = $scope.choices.clanoviZ.length+1;
-			$scope.choices.clanoviZ.push({'id':'clanZ'+newItemNo});
+		/**
+		 * Funkcija pomocu koje dodajemo novo zaglavlje za glavni deo
+		 * dokumenta
+		 */
+		$scope.addNewGlavaGlavniDeo = function(proId, glId) {
+
+			//var newItemNo = $scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].length+1;
+			$scope.dokument.propisi[proId-1].glavniDeo[0].glava.push({'id':glId+1, podnaslovGlave:'', 
+				podaciGlave:{broj_glave:'1', naslovClana:''} ,clan:[{id:1,
+					podaciClana:{brojClana:'1', naslovClana:''}, opis:''}]});
+			
+			console.log($scope.dokument.propisi[proId-1].glavniDeo[0].glava);
 		};
 		
+		
+		/**
+		 * Funkcija pomocu koje dodajemo zaglavnje za zavrsni deo naseg
+		 * dokumenta
+		 */
+		$scope.addNewGlavaZavrsniDeo = function(proId, glId) {
+
+			//var newItemNo = $scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].length+1;
+			$scope.dokument.propisi[proId-1].zavrsniDeo[0].glava.push({'id':glId+1, podnaslovGlave:'', 
+				podaciGlave:{broj_glave:'1', naslovClana:''} ,clan:[{id:1,
+					podaciClana:{brojClana:'1', naslovClana:''}, opis:''}], potpis_presednika:'Novica Nikolic'});
+			
+			console.log($scope.dokument.propisi[proId-1].zavrsniDeo[0].glava);
+		};
+		
+		
+		/**
+		 * Funkcija pomocu koje dodajemo novi clan date glave u uvodnom delu
+		 * dokumenta
+		 */
+		$scope.addNewClan = function(proId, glId, clId) {
+
+			//var newItemNo = $scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].clan[clId-1].length+1;
+			$scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].clan.push({'id':clId+1, podaciClana:{brojClana:'1', naslovClana:''}, opis:''});
+			console.log($scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].clan[clId-1]);
+		};
+		
+		/**
+		 * Funkcija pomocu koje dodajemo novi clan date glave za glavni deo
+		 * dokumenta
+		 */
+		$scope.addNewClanGlavniDeo = function(proId, glId, clId) {
+
+			//var newItemNo = $scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].clan[clId-1].length+1;
+			$scope.dokument.propisi[proId-1].glavniDeo[0].glava[glId-1].clan.push({'id':clId+1, podaciClana:{brojClana:'1', naslovClana:''}, opis:''});
+			console.log($scope.dokument.propisi[proId-1].glavniDeo[0].glava[glId-1].clan[clId-1]);
+		};
+		
+		/**
+		 * Funkcija pomocu koje dodajemo novi clan date glave za zavrsni deo 
+		 * dokumenta
+		 */
+		$scope.addNewClanZavrsniDeo = function(proId, glId, clId) {
+
+			//var newItemNo = $scope.dokument.propisi[proId-1].uvodniDeo[0].glava[glId-1].clan[clId-1].length+1;
+			$scope.dokument.propisi[proId-1].zavrsniDeo[0].glava[glId-1].clan.push({'id':clId+1, podaciClana:{brojClana:'1', naslovClana:''}, opis:''});
+			console.log($scope.dokument.propisi[proId-1].zavrsniDeo[0].glava[glId-1].clan[clId-1]);
+		};
+		
+		/**
+		 * Funkcija kada se pozove treba da preko rest posalje na server kreirani
+		 * JSON fajl sa svim podacima
+		 */
 		$scope.addAct = function() {
+			//$scope.dokument.propisi = $scope.propisa;
 			
-			console.log($scope.choices);
-			
+			console.log(JSON.stringify($scope.dokument));
+			Act.saveAct($scope.dokument, callBack);
+		}
+		
+		function callBack(success) {
+			console.log('sacuvano');
 		}
 	}])
