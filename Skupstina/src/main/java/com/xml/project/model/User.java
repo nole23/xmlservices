@@ -37,6 +37,9 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Voting> voting = new HashSet<Voting>();
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<Published> published = new HashSet<Published>();
+
 	public Long getId() {
 		return id;
 	}
@@ -99,6 +102,14 @@ public class User {
 
 	public void setVoting(Set<Voting> voting) {
 		this.voting = voting;
+	}
+
+	public Set<Published> getPublished() {
+		return published;
+	}
+
+	public void setPublished(Set<Published> published) {
+		this.published = published;
 	}
 
 }

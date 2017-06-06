@@ -51,7 +51,7 @@ angular
 	        .when('/add/amandman', {
 	            templateUrl: 'views/add.html'
 	        })
-	        .when('/read/:name', {
+	        .when('/read/:id', {
 	            templateUrl: 'views/readAct.html',
 	            controller: 'ReadCrtl',
 	            controllerAs: 'readCtrl'

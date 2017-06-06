@@ -209,10 +209,12 @@ angular.module('xmlClientApp')
 	   function($scope, $uibModal, $log, _, $routeParams, ActResource) {
 		
 		$scope.list = [];
-		var id = $routeParams.accept;
-			
-		ActResource.getUsvojeni(id).then(function(items) {
-			$scope.name = id;
+		var id = $routeParams.id;
+		var res = id.split(".");
+		console.log(res[0]);
+		
+		ActResource.getAct(res[0]).then(function(items) {
 			$scope.list = items;
+			$scope.docUrl = res[0];
 	    })
 	}])

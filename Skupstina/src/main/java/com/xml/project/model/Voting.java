@@ -1,5 +1,6 @@
 package com.xml.project.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,16 +14,16 @@ public class Voting {
 	@Id
 	@GeneratedValue
 	private Long id;
-
 	private String tip;
+	private String name;
+	private boolean yn;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user")
 	private User user;
 
-	private String name;
-
-	private boolean yn;
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	private Published published;
 
 	public Long getId() {
 		return id;
@@ -63,4 +64,13 @@ public class Voting {
 	public void setYn(boolean yn) {
 		this.yn = yn;
 	}
+
+	public Published getPublished() {
+		return published;
+	}
+
+	public void setPublished(Published published) {
+		this.published = published;
+	}
+
 }

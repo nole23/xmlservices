@@ -8,16 +8,21 @@ public class VoteDTO {
 	private String tip;
 	private String name;
 	private boolean yn;
+	private UserDTO userDTO;
+	private PublishedDTO publishedDTO;
 
 	public VoteDTO() {
 	}
 
-	public VoteDTO(Long id, String tip, String name, boolean yn) {
+	public VoteDTO(Long id, String tip, String name, boolean yn,
+			UserDTO userDTO, PublishedDTO publishedDTO) {
 		super();
 		this.id = id;
 		this.tip = tip;
 		this.name = name;
 		this.yn = yn;
+		this.userDTO = userDTO;
+		this.publishedDTO = publishedDTO;
 	}
 
 	public VoteDTO(Voting v) {
@@ -25,6 +30,10 @@ public class VoteDTO {
 		this.tip = v.getTip();
 		this.name = v.getName();
 		this.yn = v.isYn();
+		if (v.getUser() != null)
+			this.userDTO = new UserDTO(v.getUser());
+		if (v.getPublished() != null)
+			this.publishedDTO = new PublishedDTO(v.getPublished());
 	}
 
 	public Long getId() {
@@ -57,6 +66,22 @@ public class VoteDTO {
 
 	public void setYn(boolean yn) {
 		this.yn = yn;
+	}
+
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+	public PublishedDTO getPublishedDTO() {
+		return publishedDTO;
+	}
+
+	public void setPublishedDTO(PublishedDTO publishedDTO) {
+		this.publishedDTO = publishedDTO;
 	}
 
 }

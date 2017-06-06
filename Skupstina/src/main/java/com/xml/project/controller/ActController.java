@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.util.JAXBSource;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -51,7 +51,9 @@ import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.xml.project.dto.SearchDTO;
 import com.xml.project.jaxb.Dokument;
-import com.xml.project.jaxb.MestoDatum;
+import com.xml.project.model.Published;
+import com.xml.project.model.User;
+import com.xml.project.repository.PublishedRepository;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
 
@@ -63,6 +65,9 @@ public class ActController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	PublishedRepository publishedRepository;
 
 	private static DatabaseClient databaseClient;
 	private static DatabaseUtil dUtil = new DatabaseUtil();
@@ -94,12 +99,12 @@ public class ActController {
 	 * Add new act
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> saveAct(@RequestBody Dokument doc)
+	public ResponseEntity<String> saveAct(@RequestBody Dokument doc, Principal principal)
 			throws JAXBException, IOException, SAXException {
-		//connecti to marklogic
 
-		
-
+		User user = userService.findByUsername(principal.getName());
+		if(user == null)
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
@@ -126,7 +131,14 @@ public class ActController {
 		
 		DocumentDescriptor desc = xmlMenager.create(template, metadata, handle);
 		
+		Published published = new Published();
 		
+		published.setXmlLink(desc.getUri());
+		published.setType("act");
+		published.setAccepted(false);
+		published.setUser(user);
+		
+		publishedRepository.save(published);
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
@@ -209,8 +221,11 @@ public class ActController {
 		
 		for(int i=0; i<matches.length; i++) {
 			result = matches[i];
+			String link = result.getUri();
+			String name[] = link.split("/");
+			String broj = name[3];
 			String title = getDocumentTitle(result.getUri());
-			searchDTO.add(new SearchDTO(result.getUri(), title));
+			searchDTO.add(new SearchDTO(broj, title));
 		}
 		
 
