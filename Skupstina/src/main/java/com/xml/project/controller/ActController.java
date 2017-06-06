@@ -64,13 +64,31 @@ public class ActController {
 	@Autowired
 	UserService userService;
 
-	private DatabaseClient databaseClient;
-	private DatabaseUtil dUtil = new DatabaseUtil();
-	private Marshaller m;
-	private JAXBContext context;
-	XMLDocumentManager xmlMenager;
-	Unmarshaller unmarshaller;
+	private static DatabaseClient databaseClient;
+	private static DatabaseUtil dUtil = new DatabaseUtil();
+	private static Marshaller m;
+	public static JAXBContext context;
+	static XMLDocumentManager xmlMenager;
+	static Unmarshaller unmarshaller;
 	String XML_FILE = "data/";
+	
+	
+	static {
+		try {
+			databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
+					dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
+			
+			xmlMenager = databaseClient.newXMLDocumentManager();
+			
+			context = JAXBContext.newInstance("com.xml.project.jaxb");
+			
+			m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			unmarshaller = context.createUnmarshaller();
+		} catch (JAXBException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
 	/**
 	 * Add new act
@@ -79,16 +97,9 @@ public class ActController {
 	public ResponseEntity<String> saveAct(@RequestBody Dokument doc)
 			throws JAXBException, IOException, SAXException {
 		//connecti to marklogic
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		xmlMenager = databaseClient.newXMLDocumentManager();
 
-		context = JAXBContext.newInstance("com.xml.project.jaxb");
-
-		m = context.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		
-		unmarshaller = context.createUnmarshaller();
+
 		
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
@@ -115,7 +126,7 @@ public class ActController {
 		
 		DocumentDescriptor desc = xmlMenager.create(template, metadata, handle);
 		
-		databaseClient.release();
+		
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
@@ -125,11 +136,7 @@ public class ActController {
 			throws JAXBException, IOException, SAXException {
 		
 		//connecti to marklogic
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		xmlMenager = databaseClient.newXMLDocumentManager();
 
-		xmlMenager = databaseClient.newXMLDocumentManager();
 		
 		String doc = "/acts/decisions/"+docId+".xml";
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
@@ -140,7 +147,7 @@ public class ActController {
 		collections.add("/parliament/acts/accepted");
 		xmlMenager.writeMetadata(doc, metadata);
 		
-		databaseClient.release();
+		
 		return new ResponseEntity<String>("Dokument je prihvacen.", HttpStatus.OK);
 	}
 	
@@ -157,17 +164,11 @@ public class ActController {
 			throws JAXBException, IOException, SAXException {
 		
 		Dokument dokument = null;
-		//connecti to marklogic
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		
-		xmlMenager = databaseClient.newXMLDocumentManager();
-		
-		
-		context = JAXBContext.newInstance("com.xml.project.jaxb");
+
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
-		unmarshaller = context.createUnmarshaller();
+		
+
 		unmarshaller.setSchema(schema);
 		
 		DOMHandle content = new DOMHandle();
@@ -175,7 +176,7 @@ public class ActController {
 		String doc = "/acts/decisions/"+docId+".xml";
 
 		xmlMenager.read(doc, content);
-		databaseClient.release();
+		
 
 		Document docc = content.get();
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
@@ -197,9 +198,6 @@ public class ActController {
 
 		String collId = "/parliament/acts/"+coll;
 		
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		
 		QueryManager queryManager = databaseClient.newQueryManager();
 		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
 		
@@ -215,7 +213,7 @@ public class ActController {
 			searchDTO.add(new SearchDTO(result.getUri(), title));
 		}
 		
-		databaseClient.release();
+
 		
 		
 		return new ResponseEntity<List<SearchDTO>>(searchDTO, HttpStatus.OK);
@@ -228,13 +226,10 @@ public class ActController {
 		
 		String collId = "/acts/decisions/"+docId+".xml";
 		
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		
-		xmlMenager = databaseClient.newXMLDocumentManager();
+
 		xmlMenager.delete(collId);
 		
-		databaseClient.release();
+
 		
 		return new ResponseEntity<String>("izbrisano", HttpStatus.OK);
 	}
@@ -242,16 +237,12 @@ public class ActController {
 	public String getDocumentTitle(String docId) throws JAXBException {
 		String title = "";
 		Dokument dokument = null;
-		// Create a document manager to work with XML files.
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		
-		xmlMenager = databaseClient.newXMLDocumentManager();
+
 		DOMHandle content = new DOMHandle();
 		
 		xmlMenager.read(docId, content);
 		
-		databaseClient.release();
+
 		
 		Document docc = content.get();
 		
@@ -272,24 +263,21 @@ public class ActController {
 		Dokument dokument = null;
 		
 		// Create a document manager to work with XML files.
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-		
-		xmlMenager = databaseClient.newXMLDocumentManager();
+
 		
 		DOMHandle content = new DOMHandle();
 		
 		xmlMenager.read(doc, content);
 		
-		databaseClient.release();
+
 		
 		Document docc = content.get();
 		
 		
-		context = JAXBContext.newInstance("com.xml.project.jaxb");
+
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
-		unmarshaller = context.createUnmarshaller();
+
 		unmarshaller.setSchema(schema);
 		dokument = (Dokument) unmarshaller.unmarshal(docc);
 

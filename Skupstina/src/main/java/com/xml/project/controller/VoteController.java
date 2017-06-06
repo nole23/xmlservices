@@ -63,7 +63,8 @@ public class VoteController {
 
 	@RequestMapping(value = "/{docId}", method = RequestMethod.GET)
 	public ResponseEntity<List<VoteDTO>> listVoit(Principal principal, @PathVariable String docId) {
-
+		
+		System.out.println("*");
 		List<Voting> voting = votingService.findAll();
 		
 		List<VoteDTO> voteDTO = new ArrayList<>();
