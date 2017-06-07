@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xml.project.dto.LoginDTO;
+import com.xml.project.dto.MesagesDTO;
 import com.xml.project.dto.UserDTO;
 import com.xml.project.model.Role;
 import com.xml.project.model.User;
@@ -59,7 +60,8 @@ public class UserController {
 	 * @author stefan
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<MesagesDTO> login(@RequestBody LoginDTO loginDTO) {
+		MesagesDTO messagesDTO = new MesagesDTO();
 		try {
 			// Perform the authentication
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
@@ -69,9 +71,12 @@ public class UserController {
 
 			// Reload user details so we can generate token
 			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
-			return new ResponseEntity<String>(tokenUtils.generateToken(details), HttpStatus.OK);
+			
+			messagesDTO.setJwt(tokenUtils.generateToken(details));
+			return new ResponseEntity<MesagesDTO>(messagesDTO, HttpStatus.OK);
 		} catch (Exception ex) {
-			return new ResponseEntity<String>("Invalid login", HttpStatus.NOT_FOUND);
+			messagesDTO.setError("invalid");
+			return new ResponseEntity<MesagesDTO>(messagesDTO, HttpStatus.NOT_FOUND);
 		}
 	}
 

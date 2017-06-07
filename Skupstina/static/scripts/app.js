@@ -25,7 +25,9 @@ angular
 	            templateUrl: 'views/home.html'
 	        })
 	        .when('/login', {
-	            templateUrl: 'views/login.html'
+	            templateUrl: 'views/login.html',
+	            controller: 'LoginCtrl',
+	            controllerAs: 'registrovan'
 	        })
 	        .when('/act/:accept', {
 	            templateUrl: 'views/list.html',
