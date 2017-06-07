@@ -124,7 +124,7 @@
 																	
 																		<fieldset data-ng-repeat="cl in gl.clan">
 																			<label for="user_login" style="margin-top: 1%; ">Clan {{$index+1}}: </label>
-																			<div style="border: 1px solid #333; padding: 1% 0 0 1%">
+																			<div style=" padding: 1% 0 0 1%">
 																				
 																				<div style="float: left; width: 705px; height: 67px; margin: 0 1% 0 0;">
 																					Naslov clana:
@@ -183,7 +183,7 @@
 																	
 																		<fieldset data-ng-repeat="cl in gl.clan">
 																			<label for="user_login" style="margin-top: 1%; ">Clan {{$index+1}}: </label>
-																			<div style="border: 1px solid #333; padding: 1% 0 0 1%">
+																			<div style=" padding: 1% 0 0 1%">
 																				
 																				<div style="float: left; width: 705px; height: 67px; margin: 0 1% 0 0;">
 																					Naslov clana:
@@ -241,7 +241,7 @@
 																	
 																		<fieldset data-ng-repeat="cl in gl.clan">
 																			<label for="user_login" style="margin-top: 1%; ">Clan {{$index+1}}: </label>
-																			<div style="border: 1px solid #333; padding: 1% 0 0 1%">
+																			<div style="padding: 1% 0 0 1%">
 																				
 																				<div style="float: left; width: 705px; height: 67px; margin: 0 1% 0 0;">
 																					Naslov clana:
@@ -273,9 +273,15 @@
 											</div>
 										</fieldset>
 										
+										<div ng-if="message" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #99ff99; font-size: 50px; height: 30px">
+											Uspesno ste glasali za dati akt!
+										</div>
 										
+										<div ng-if="error" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #ffbf00; font-size: 50px; height: 30px">
+											Vec ste glasali za dati akt!
+										</div>
 										
-										<div class="bbp-submit-wrapper">
+										<div class="bbp-submit-wrapper" ng-if="isLoggedIn()">
 
 											<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="acceptAct()">Za</button> | <button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="againstAct()">Protiv</button>
 

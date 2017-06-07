@@ -30,7 +30,7 @@ angular.module('xmlClientApp')
 		};
 		
 		retVal.getVote = function(id, vote, act) {
-			var link = 'api/voting/';
+			var link = 'voting/';
 			var glasanje = {};
 			if(vote == 'accept') {
 				glasanje = {
@@ -46,8 +46,8 @@ angular.module('xmlClientApp')
 						yn: false
 				};
 			}
-			
-			return Resangular.all(link).post(glasanje).then(function(success) {
+			console.log(glasanje);
+			return Restangular.all(link).post(glasanje).then(function(success) {
 				message = success;
 				return message;
 			})

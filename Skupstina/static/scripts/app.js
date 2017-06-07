@@ -73,7 +73,12 @@ angular
             }
             return true; // greska nije obradjena
         });
-        
+        if ($localStorage.currentUser) {
+            $http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
+        }
+        $rootScope.logout = function () {
+        	LoginResources.logout();
+        }
        
         $rootScope.isLoggedIn = function () {
             if (LoginResources.getCurrentUser()){
@@ -83,5 +88,6 @@ angular
               return false;
             }
         }
+
         
     }]);

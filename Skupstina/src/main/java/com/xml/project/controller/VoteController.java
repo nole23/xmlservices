@@ -35,7 +35,7 @@ public class VoteController {
 	@Autowired
 	PublishedRepository publishedRepository;
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<MesagesDTO> vote(@RequestBody VoteDTO dto, Principal principal) {
 
 		MesagesDTO messageDTO = new MesagesDTO();
@@ -43,12 +43,13 @@ public class VoteController {
 		User user = userService.findByUsername(principal.getName());
 		Published published = publishedRepository.findByXmlLink(dto.getName());
 		// proveri da li je korisnik vec glasao za dato ime
-
+		;
 		List<Voting> votes = votingService.findByName(dto.getName());
+		
 		for (Voting vot : votes) {
 			if (vot.getUser() == user)
 				messageDTO.setError("glasali");
-				return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.CONFLICT);
+				return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
 		}
 		Voting voting = new Voting();
 		

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sr-RS">
+<html lang="sr-RS" ng-app="xmlClientApp">
 
 	<head data-template-uri="wp-content/themes/townpress/index.html">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -79,7 +79,7 @@
 
 
 
-	<body  class="blog  m-has-header-bg wpb-js-composer js-comp-ver-4.12.1 vc_responsive" ng-app="xmlClientApp">
+	<body  class="blog  m-has-header-bg wpb-js-composer js-comp-ver-4.12.1 vc_responsive">
 
 	
 		<!-- HEADER : begin -->
@@ -193,7 +193,8 @@
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/act/proposed">Predlozeni akti</a></li>
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/amandman/proposed">Predlozeni amandmani</a></li>
 								<li ng-if="isLoggedIn()" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/act">Dodati novi akt</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/amandman">Dodati novi amandman</a></li>
+								<li ng-if="isLoggedIn()" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/amandman">Dodati novi amandman</a></li>
+								<li ng-if="isLoggedIn()" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/amandman">Dodati poslanika</a></li>
 								</ul>
 							</nav>
 							<!-- MAIN MENU : end -->
