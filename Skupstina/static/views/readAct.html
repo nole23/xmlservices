@@ -273,17 +273,21 @@
 											</div>
 										</fieldset>
 										
-										<div ng-if="message" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #99ff99; font-size: 50px; height: 30px">
+										<div ng-if="message" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #99ff99; font-size: 50px; padding: 1% ; height: 50px">
 											Uspesno ste glasali za dati akt!
 										</div>
 										
-										<div ng-if="error" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #ffbf00; font-size: 50px; height: 30px">
+										<div ng-if="vote" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #66c2ff; padding: 1% ; font-size: 30px; height: 70px">
+											Opravo je za dati akt glasalo vise od 50% poslanik! Akt je <span style="color: #FFF">USVOJEN</span>!
+										</div>
+										
+										<div ng-if="error" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #ffbf00; padding: 1% ; font-size: 30px; height: 50px">
 											Vec ste glasali za dati akt!
 										</div>
 										
 										<div class="bbp-submit-wrapper" ng-if="isLoggedIn()">
 
-											<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="acceptAct()">Za</button> | <button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="againstAct()">Protiv</button>
+											<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="acceptAct()">Glasati za</button> |<!-- <button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="againstAct()">Protiv</button> --> 
 
 										</div>
 									</fieldset>

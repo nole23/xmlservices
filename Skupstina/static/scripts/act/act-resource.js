@@ -46,7 +46,7 @@ angular.module('xmlClientApp')
 						yn: false
 				};
 			}
-			console.log(glasanje);
+			
 			return Restangular.all(link).post(glasanje).then(function(success) {
 				message = success;
 				return message;

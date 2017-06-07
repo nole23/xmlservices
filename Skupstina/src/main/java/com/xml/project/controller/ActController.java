@@ -49,6 +49,7 @@ import com.marklogic.client.io.SearchHandle;
 import com.marklogic.client.query.MatchDocumentSummary;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
+import com.xml.project.dto.MesagesDTO;
 import com.xml.project.dto.SearchDTO;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.Published;
@@ -68,6 +69,8 @@ public class ActController {
 	
 	@Autowired
 	PublishedRepository publishedRepository;
+	
+	
 
 	private static DatabaseClient databaseClient;
 	private static DatabaseUtil dUtil = new DatabaseUtil();
@@ -103,52 +106,52 @@ public class ActController {
 			throws JAXBException, IOException, SAXException {
 
 		User user = userService.findByUsername(principal.getName());
+		
 		if(user == null)
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-		
+
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
-		
+
 		
 		m.setSchema(schema);
 		m.setEventHandler(new MyValidationEventHandler());
-		
+
 		unmarshaller.setSchema(schema);
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
-		
+
 		File f = new File(XML_FILE+"/act.xml");
 		FileOutputStream out = new FileOutputStream(f);
 		m.marshal(doc, out);
-		
+
 		xmlMenager = databaseClient.newXMLDocumentManager();
 		DocumentUriTemplate template = xmlMenager.newDocumentUriTemplate("xml");
 		template.setDirectory("/acts/decisions/");
-		
+
 		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE+"act.xml"));
-		
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 		metadata.getCollections().add("/parliament/acts/proposed");
-		
+
 		DocumentDescriptor desc = xmlMenager.create(template, metadata, handle);
-		
+
 		Published published = new Published();
-		
+
 		published.setXmlLink(desc.getUri());
-		published.setType("act");
 		published.setAccepted(false);
 		published.setUser(user);
-		
+
 		publishedRepository.save(published);
-		
+
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/accept/{docId}", method = RequestMethod.GET)
-	public ResponseEntity<String> acceptAct(@PathVariable String docId)
+	public ResponseEntity<MesagesDTO> acceptAct(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
 		
 		//connecti to marklogic
 
+		System.out.println("DOSAO");
 		
 		String doc = "/acts/decisions/"+docId+".xml";
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
@@ -160,7 +163,7 @@ public class ActController {
 		xmlMenager.writeMetadata(doc, metadata);
 		
 		
-		return new ResponseEntity<String>("Dokument je prihvacen.", HttpStatus.OK);
+		return new ResponseEntity<MesagesDTO>(HttpStatus.OK);
 	}
 	
 	/**

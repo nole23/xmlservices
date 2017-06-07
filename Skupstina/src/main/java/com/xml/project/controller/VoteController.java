@@ -1,8 +1,11 @@
 package com.xml.project.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.xml.sax.SAXException;
 
 import com.xml.project.dto.MesagesDTO;
 import com.xml.project.dto.VoteDTO;
@@ -34,25 +38,29 @@ public class VoteController {
 	
 	@Autowired
 	PublishedRepository publishedRepository;
+	
+	@Autowired
+	ActController actControler;
 
 	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<MesagesDTO> vote(@RequestBody VoteDTO dto, Principal principal) {
+	public ResponseEntity<MesagesDTO> vote(@RequestBody VoteDTO dto, Principal principal) throws JAXBException, IOException, SAXException {
 
 		MesagesDTO messageDTO = new MesagesDTO();
 		
 		User user = userService.findByUsername(principal.getName());
-		Published published = publishedRepository.findByXmlLink(dto.getName());
-		// proveri da li je korisnik vec glasao za dato ime
-		;
-		List<Voting> votes = votingService.findByName(dto.getName());
+		String xmlLink = "/acts/decisions/"+dto.getName()+".xml";
+		Published published = publishedRepository.findByXmlLink(xmlLink);
 		
+		List<Voting> votes = votingService.findByName(dto.getName());
 		for (Voting vot : votes) {
-			if (vot.getUser() == user)
+			if (vot.getUser() == user){
 				messageDTO.setError("glasali");
 				return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
+			}
 		}
+
 		Voting voting = new Voting();
-		
+
 		voting.setName(dto.getName());
 		voting.setTip(dto.getTip());
 		voting.setUser(user);
@@ -60,8 +68,40 @@ public class VoteController {
 		voting.setPublished(published);
 
 		votingService.save(voting);
-		
+
 		messageDTO.setMessage("glassali");
+
+		//Ispis svih korisnika
+		List<User> users = userService.findAll();
+		List<Voting> vote = votingService.findByName(dto.getName());
+		
+		/*
+		List<VoteDTO> voteDTO = new ArrayList<VoteDTO>();
+		for(Voting v : vote) {
+			System.out.println("3");
+			System.out.println(v.isYn());
+			if(v.isYn() == true) {
+				System.out.println("4");
+				voteDTO.add(new VoteDTO(v));
+			}
+				
+			
+		}
+		System.out.println(voteDTO);
+		*/
+		
+		double countUser = users.size();
+		int countVote = vote.size();
+		System.out.println(countVote);
+		
+		if((countUser/2) >= countVote){
+			messageDTO.setVote(false);
+			return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
+		}
+		
+		this.actControler.acceptAct(dto.getName());
+		
+		messageDTO.setVote(true);
 		return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
 	}
 

@@ -7,19 +7,21 @@ public class MesagesDTO {
 	private String error;
 	private String message;
 	private String rola;
+	private boolean vote;
 
 	public MesagesDTO() {
 		super();
 	}
 
 	public MesagesDTO(Long id, String jwt, String error, String message,
-			String rola) {
+			String rola, boolean vote) {
 		super();
 		this.id = id;
 		this.jwt = jwt;
 		this.error = error;
 		this.message = message;
 		this.rola = rola;
+		this.vote = vote;
 	}
 
 	public Long getId() {
@@ -60,6 +62,14 @@ public class MesagesDTO {
 
 	public void setRola(String rola) {
 		this.rola = rola;
+	}
+
+	public boolean isVote() {
+		return vote;
+	}
+
+	public void setVote(boolean vote) {
+		this.vote = vote;
 	}
 
 }

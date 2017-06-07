@@ -220,8 +220,11 @@ angular.module('xmlClientApp')
 	    $scope.acceptAct = function() {
 			ActResource.getVote(res[0], 'accept', 'act').then(function(items) {
 				if(items.error != null) {
+					
 					$scope.error = items.error;
 				} else if(items.message != null) {
+					console.log(items.vote);
+					$scope.vote = items.vote;
 					$scope.message = items.message;
 				}
 		    });
