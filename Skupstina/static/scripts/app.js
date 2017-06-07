@@ -35,7 +35,9 @@ angular
 	            controllerAs: 'acceptAct'
 	        })
 	        .when('/amandman/:accept', {
-	            templateUrl: 'views/list.html'
+	            templateUrl: 'views/list.html',
+	            controller: 'ActCrtl',
+	            controllerAs: 'acceptAct'
 	        })
 	        .when('/act/:proposed', {
 	            templateUrl: 'views/list.html',
@@ -53,8 +55,13 @@ angular
 	        .when('/add/amandman', {
 	            templateUrl: 'views/add.html'
 	        })
-	        .when('/read/:id', {
+	        .when('/read/proposed/:id', {
 	            templateUrl: 'views/readAct.html',
+	            controller: 'ReadCrtl',
+	            controllerAs: 'readCtrl'
+	        })
+	        .when('/read/accepted/:id', {
+	            templateUrl: 'views/readAcceptAct.html',
 	            controller: 'ReadCrtl',
 	            controllerAs: 'readCtrl'
 	        })

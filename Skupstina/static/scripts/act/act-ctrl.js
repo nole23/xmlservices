@@ -215,6 +215,7 @@ angular.module('xmlClientApp')
 		
 		ActResource.getAct(res[0]).then(function(items) {
 			$scope.list = items;
+			$scope.xml = res[0];
 	    })
 	    
 	    $scope.acceptAct = function() {
@@ -234,5 +235,9 @@ angular.module('xmlClientApp')
 			ActResource.getVote(res[0], 'deccident', 'act').then(function(items) {
 				console.log(items);
 		    });
+		}
+		
+		$scope.dopuna = function(id) {
+			console.log(id);
 		}
 	}])

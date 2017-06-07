@@ -15,6 +15,7 @@ angular.module('xmlClientApp')
 		
 		retVal.getUsvojeni = function(id) {
 			var link = 'act/collection/'+id;
+			console.log(link);
 			return Restangular.all(link).getList().then(function(entries) {
 				lista = entries;
 				return lista;

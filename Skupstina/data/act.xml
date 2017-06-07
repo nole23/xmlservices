@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:dokument xmlns="http://www.parlament.gov.rs/amandmani" xmlns:ns2="http://www.parlament.gov.rs/amandmani" ns2:id="1" ns2:Korisnik="Novica Nikolic" ns2:odobreno="false">
-    <ns2:naslov>Novica</ns2:naslov>
+    <ns2:naslov>Dodajem</ns2:naslov>
     <ns2:sluzbeniList>
-        <ns2:broj_lista>23</ns2:broj_lista>
-        <ns2:cena>200.0</ns2:cena>
+        <ns2:broj_lista>123</ns2:broj_lista>
+        <ns2:cena>123.0</ns2:cena>
         <ns2:mestoDatum>
-            <ns2:mesto>Novi Sad</ns2:mesto>
-            <ns2:datum>23.02.1994</ns2:datum>
+            <ns2:mesto>123</ns2:mesto>
+            <ns2:datum>123</ns2:datum>
         </ns2:mestoDatum>
     </ns2:sluzbeniList>
     <ns2:propisi ns2:id="1" ns2:Korisnik="Novica Nikolic">
-        <ns2:preambula>preambula</ns2:preambula>
-        <ns2:naziv_propisa>Propis</ns2:naziv_propisa>
+        <ns2:preambula>123</ns2:preambula>
+        <ns2:naziv_propisa>123</ns2:naziv_propisa>
         <ns2:uvodniDeo>
             <ns2:glava ns2:id="1">
                 <ns2:podaciGlave>
-                    <ns2:naslovGlave>Glava uvoda</ns2:naslovGlave>
+                    <ns2:naslovGlave></ns2:naslovGlave>
                     <ns2:broj_glave>1</ns2:broj_glave>
                 </ns2:podaciGlave>
-                <ns2:podnaslovGlave>podnaslov glave uvoda</ns2:podnaslovGlave>
+                <ns2:podnaslovGlave></ns2:podnaslovGlave>
                 <ns2:clan ns2:id="1">
                     <ns2:podaciClana>
-                        <ns2:naslovClana>Naslov clana</ns2:naslovClana>
+                        <ns2:naslovClana></ns2:naslovClana>
                         <ns2:brojClana>1</ns2:brojClana>
                     </ns2:podaciClana>
-                    <ns2:opis>opis clana</ns2:opis>
+                    <ns2:opis></ns2:opis>
                 </ns2:clan>
             </ns2:glava>
         </ns2:uvodniDeo>
         <ns2:glavniDeo>
             <ns2:glava ns2:id="1">
                 <ns2:podaciGlave>
-                    <ns2:naslovGlave>Glava glavnog dela</ns2:naslovGlave>
+                    <ns2:naslovGlave></ns2:naslovGlave>
                     <ns2:broj_glave>1</ns2:broj_glave>
                 </ns2:podaciGlave>
-                <ns2:podnaslovGlave>podnaslob glave glavnog dela</ns2:podnaslovGlave>
+                <ns2:podnaslovGlave></ns2:podnaslovGlave>
                 <ns2:clan ns2:id="1">
                     <ns2:podaciClana>
-                        <ns2:naslovClana>Naslov clana glavnog dela</ns2:naslovClana>
+                        <ns2:naslovClana></ns2:naslovClana>
                         <ns2:brojClana>1</ns2:brojClana>
                     </ns2:podaciClana>
-                    <ns2:opis>opis clana glavnog dela</ns2:opis>
+                    <ns2:opis></ns2:opis>
                 </ns2:clan>
             </ns2:glava>
         </ns2:glavniDeo>
         <ns2:zavrsniDeo>
             <ns2:glava ns2:id="1">
                 <ns2:podaciGlave>
-                    <ns2:naslovGlave>Naslob glave zavrsnog dela</ns2:naslovGlave>
+                    <ns2:naslovGlave></ns2:naslovGlave>
                     <ns2:broj_glave>1</ns2:broj_glave>
                 </ns2:podaciGlave>
-                <ns2:podnaslovGlave>podnaslob glave zavrsnog dela</ns2:podnaslovGlave>
+                <ns2:podnaslovGlave></ns2:podnaslovGlave>
                 <ns2:clan ns2:id="1">
                     <ns2:podaciClana>
-                        <ns2:naslovClana>Naslov clana zavrsnog dela</ns2:naslovClana>
+                        <ns2:naslovClana></ns2:naslovClana>
                         <ns2:brojClana>1</ns2:brojClana>
                     </ns2:podaciClana>
-                    <ns2:opis>opis clana zavrsnog dela</ns2:opis>
+                    <ns2:opis></ns2:opis>
                 </ns2:clan>
             </ns2:glava>
             <ns2:potpis_presednika>Novica Nikolic</ns2:potpis_presednika>
