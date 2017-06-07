@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marklogic.client.DatabaseClient;
-import com.marklogic.client.DatabaseClientFactory;
+import com.xml.project.dto.MesagesDTO;
 import com.xml.project.dto.VoteDTO;
+import com.xml.project.model.Published;
 import com.xml.project.model.User;
 import com.xml.project.model.Voting;
+import com.xml.project.repository.PublishedRepository;
 import com.xml.project.service.UserService;
 import com.xml.project.service.VotingService;
-import com.xml.project.util.DatabaseUtil;
 
 @RestController
 @RequestMapping(value = "api/voting")
@@ -31,34 +31,37 @@ public class VoteController {
 
 	@Autowired
 	VotingService votingService;
-
-	private DatabaseClient databaseClient;
-	private DatabaseUtil dUtil = new DatabaseUtil();
+	
+	@Autowired
+	PublishedRepository publishedRepository;
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ResponseEntity<String> vote(Principal principal, @RequestBody VoteDTO dto) {
+	public ResponseEntity<MesagesDTO> vote(@RequestBody VoteDTO dto, Principal principal) {
 
-		// konekcija sa bazom
-		databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
-				dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
+		MesagesDTO messageDTO = new MesagesDTO();
+		
 		User user = userService.findByUsername(principal.getName());
-
+		Published published = publishedRepository.findByXmlLink(dto.getName());
 		// proveri da li je korisnik vec glasao za dato ime
+
 		List<Voting> votes = votingService.findByName(dto.getName());
 		for (Voting vot : votes) {
 			if (vot.getUser() == user)
-				return new ResponseEntity<String>("Vec ste glasali za dati dokument", HttpStatus.CONFLICT);
+				messageDTO.setError("glasali");
+				return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.CONFLICT);
 		}
-
 		Voting voting = new Voting();
+		
 		voting.setName(dto.getName());
 		voting.setTip(dto.getTip());
 		voting.setUser(user);
 		voting.setYn(dto.isYn());
+		voting.setPublished(published);
 
 		votingService.save(voting);
-
-		return new ResponseEntity<String>("Glasali ste", HttpStatus.OK);
+		
+		messageDTO.setMessage("glassali");
+		return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{docId}", method = RequestMethod.GET)

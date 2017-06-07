@@ -5,16 +5,21 @@ public class MesagesDTO {
 	private Long id;
 	private String jwt;
 	private String error;
+	private String message;
+	private String rola;
 
 	public MesagesDTO() {
 		super();
 	}
-	
-	public MesagesDTO(Long id, String jwt, String error) {
+
+	public MesagesDTO(Long id, String jwt, String error, String message,
+			String rola) {
 		super();
 		this.id = id;
 		this.jwt = jwt;
 		this.error = error;
+		this.message = message;
+		this.rola = rola;
 	}
 
 	public Long getId() {
@@ -39,6 +44,22 @@ public class MesagesDTO {
 
 	public void setError(String error) {
 		this.error = error;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getRola() {
+		return rola;
+	}
+
+	public void setRola(String rola) {
+		this.rola = rola;
 	}
 
 }

@@ -2,21 +2,26 @@
 'use strict';
 
 angular.module('xmlClientApp')
-	.controller('LoginCtrl', ['$scope', '$localStorage', '$http', '$window', '$log', '_', '$rootScope', 'LoginResources', 
+	.controller('LoginCtrl', ['$scope', '$localStorage', '$http', '$window', '$log', '_', '$rootScope', 'LoginResources',
 	    function($scope, $localStorage, $http, $window, $log, _, $rootScope, LoginResources) {
 			
-		$scope.isLogin = false;
 		$scope.user = {};
 		
 		$scope.login = function() {
-			LoginResources.login($scope.user, loginCbck);
+			LoginResources.login($scope.user, callback);
 		};
 		
-		function loginCbck(success) {
-			if(success.error != null) {
-				$scope.messafeLogin = success.error;
-			} else if(success.error == null) {
+		function callback(success) {
+			if(success == 'invalid'){
+				$scope.message = "invalid";
+			} else {
 				window.location = '#/';
 			}
+			
 		}
-		}])
+		
+		$scope.logout = function () {
+			LoginResources.logout();
+		}
+		
+		}]);

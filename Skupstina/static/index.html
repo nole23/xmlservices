@@ -120,9 +120,16 @@
 							<div class="header-tools">
 
 								<!-- HEADER LOGIN : begin -->
-								<div class="header-login">
+								
+								<div ng-if="isLoggedIn()" style="width: 100px; height: 100px">
+									<a href="#/profil"><span><img src="image/nole.jpg" > </span></a>
+									<a ng-controller="LoginCtrl" href="" ng-click="logout()"><span ><p style="background: white; color: blue; text-align: center;">Odjavite se</p> </span></a>
+								</div>
+
+								<div ng-if="!isLoggedIn()" class="header-login">
 									<a href="#/login" class="login" title="Prijava"><i class="tp tp-key"></i> <span>Prijava</span></a>
 								</div>
+								
 								<!-- HEADER LOGIN : end -->
 
 
@@ -185,7 +192,7 @@
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/amandman/accept">Usvojenih amandmana</a></li>
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/act/proposed">Predlozeni akti</a></li>
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/amandman/proposed">Predlozeni amandmani</a></li>
-								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/act">Dodati novi akt</a></li>
+								<li ng-if="isLoggedIn()" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/act">Dodati novi akt</a></li>
 								<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-808"><a href="#/add/amandman">Dodati novi amandman</a></li>
 								</ul>
 							</nav>
@@ -296,7 +303,8 @@
 		<script src="scripts/act/act-resource.js"></script>
 		<script src="scripts/act/act-resourceOne.js"></script>
 		<script src="scripts/users/user-ctrl.js"></script>
-		<script src="scripts/users/user-resources.js"></script>
+		<script src="scripts/users/authentication.js"></script>
+		<script src="scripts/users/auth-service.js"></script>
 		<!--  Moje skripte kraj -->
 		
 	</body>

@@ -76,7 +76,7 @@ public class UserController {
 			return new ResponseEntity<MesagesDTO>(messagesDTO, HttpStatus.OK);
 		} catch (Exception ex) {
 			messagesDTO.setError("invalid");
-			return new ResponseEntity<MesagesDTO>(messagesDTO, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<MesagesDTO>(messagesDTO, HttpStatus.OK);
 		}
 	}
 
@@ -104,10 +104,10 @@ public class UserController {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			User user = new User();
 			user.setEmail("pres@gmail.com");
-			user.setfName("Stefan");
-			user.setlName("Plazic");
-			user.setUsername("president");
-			user.setPass(encoder.encode("stefan"));
+			user.setfName("Novica");
+			user.setlName("Nikolic");
+			user.setUsername("nole");
+			user.setPass(encoder.encode("123"));
 
 			userService.save(user);
 

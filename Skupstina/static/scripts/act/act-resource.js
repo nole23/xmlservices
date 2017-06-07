@@ -9,6 +9,7 @@ angular.module('xmlClientApp')
 		
 		var retVal = {};
 		
+		var message = [];
 		var lista = [];
 		var akt = [];
 		
@@ -26,6 +27,30 @@ angular.module('xmlClientApp')
 				akt = entries;
 				return akt;
 			});
+		};
+		
+		retVal.getVote = function(id, vote, act) {
+			var link = 'api/voting/';
+			var glasanje = {};
+			if(vote == 'accept') {
+				glasanje = {
+						tip: act,
+						name: id,
+						yn: true
+				};
+			}
+			if(vote == 'deccident') {
+				glasanje = {
+						tip: act,
+						name: id,
+						yn: false
+				};
+			}
+			
+			return Resangular.all(link).post(glasanje).then(function(success) {
+				message = success;
+				return message;
+			})
 		};
 		
 		

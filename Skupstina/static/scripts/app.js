@@ -64,7 +64,7 @@ angular
         
     }])
     
-    .run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage', function(Restangular, $log, $rootScope, $http, $location, $localStorage) {
+    .run(['Restangular', '$log', '$rootScope', '$http', '$location', '$localStorage', 'LoginResources', function(Restangular, $log, $rootScope, $http, $location, $localStorage, LoginResources) {
         Restangular.setBaseUrl("api");
         Restangular.setErrorInterceptor(function(response) {
             if (response.status === 500) {
@@ -74,5 +74,14 @@ angular
             return true; // greska nije obradjena
         });
         
+       
+        $rootScope.isLoggedIn = function () {
+            if (LoginResources.getCurrentUser()){
+              return true;
+            }
+            else{
+              return false;
+            }
+        }
         
     }]);

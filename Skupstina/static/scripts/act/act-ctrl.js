@@ -211,10 +211,21 @@ angular.module('xmlClientApp')
 		$scope.list = [];
 		var id = $routeParams.id;
 		var res = id.split(".");
-		console.log(res[0]);
+		
 		
 		ActResource.getAct(res[0]).then(function(items) {
 			$scope.list = items;
-			$scope.docUrl = res[0];
 	    })
+	    
+	    $scope.acceptAct = function() {
+			ActResource.getVote(res[0], 'accept', 'act').then(function(items) {
+				console.log(items);
+		    });
+		}
+		
+		$scope.againstAct = function() {
+			ActResource.getVote(res[0], 'deccident', 'act').then(function(items) {
+				console.log(items);
+		    });
+		}
 	}])
