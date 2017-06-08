@@ -49,6 +49,7 @@
 
    <body>
       <table>
+      	<xsl:value-of select="catalog/user"/>
          <xsl:for-each select="catalog/cd">
              <!-- if artist is assigned enya, set bg to green. -->
             <tr>

@@ -1,16 +1,43 @@
 'use strict';
 
 angular.module('xmlClientApp')
-	.controller('ActCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', 'ActResource', 
-	   function($scope, $uibModal, $log, _, $routeParams, ActResource) {
+	.controller('ActCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 
+	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource) {
 		
 		$scope.list = [];
 		var id = $routeParams.accept;
+		var tip = $routeParams.tip;
+		console.log(id + ' | ' + tip);
 			
-		ActResource.getUsvojeni(id).then(function(items) {
+		ActResource.getUsvojeni(id, tip).then(function(items) {
 			$scope.name = id;
+			$scope.tip = tip;
 			$scope.list = items;
 	    })
+	    
+	    $scope.converte = function(id, tip) {
+			var res = id.split(".");
+			if(tip == 'HTML') {
+				var fileName = id+".html";
+	            var a = document.createElement("a");
+	            document.body.appendChild(a);
+	            a.style = "display: none";
+	            ActResource.converte(res[0], tip).then(function (result) {
+	                var file = new Blob([result], {type: 'application/html'});
+	                var fileURL = window.URL.createObjectURL(file);
+	                a.href = fileURL;
+	                a.download = fileName;
+	                a.click();
+	            });
+			} else if(tip == 'PDF') {
+				console.log('jos nije realizovano');
+			} else if(tip == 'RDF') {
+				console.log('jos nije realizovano');
+			}
+			
+			
+			
+		}
 	}])
 	
 	.controller('AddActCtrl', ['$scope', '$uibModal', '$log', '_', '$routeParams', 'Act', '$location',
@@ -240,4 +267,9 @@ angular.module('xmlClientApp')
 		$scope.dopuna = function(id) {
 			console.log(id);
 		}
+		
+		
 	}])
+	
+	
+	

@@ -5,7 +5,7 @@
 			<div id="page-header">
 
 				<!-- PAGE TITLE : begin -->
-				<div class="page-title"><h1>Pregled svih <span ng-if="name == 'accepted'">usvojenih</span> <span ng-if="name == 'proposed'">predlozenih</span> AKATA</h1></div>
+				<div class="page-title"><h1>Pregled svih <span ng-if="name == 'accepted'">usvojenih</span> <span ng-if="name == 'proposed'">predlozenih</span ><span ng-if="tip == 'amandman'"> AMANDMANA</span> <span ng-if="tip == 'acts'"> AKATA</span></h1></div>
 				<!-- PAGE TITLE : end -->
 
 			</div>
@@ -18,14 +18,23 @@
 					<div class="page-content-inner">
 						<table>
 							<tbody>
-								
+								<style>
+								td:first-child {
+								    background-color: #ffff;
+								}
+								</style>
 								<tr ng-repeat="l in list">
-									<td>
+									<td >
 										
 										<span style="color: #0000ff;">
 											<a ng-if="name == 'accepted'" style="color: #0000ff;" href="#/read/accepted/{{l.docUrl}}">{{l.docTitle}}</a>
 											<a ng-if="name == 'proposed'" style="color: #0000ff;" href="#/read/proposed/{{l.docUrl}}">{{l.docTitle}}</a>
-										</span> <span style="float: right">PDF | HTML | RDF </span>
+										</span> 
+										<span style="float: right; color: #DDDDD;">
+											<a href style="color: #0000ff;" ng-click="converte(l.docUrl, 'PDF')">PDF</a> | 
+											<a href style="color: #0000ff;" ng-click="converte(l.docUrl, 'HTML')">HTML</a> | 
+											<a href style="color: #0000ff;" "ng-click="converte(l.docUrl, 'RDF')">RDF</a> 
+										</span>
 									</td>
 								</tr>
 								

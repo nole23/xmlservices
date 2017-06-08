@@ -1,10 +1,13 @@
 package com.xml.project.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLConnection;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Source;
+import javax.xml.bind.util.JAXBSource;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -27,6 +30,7 @@ import javax.xml.validation.SchemaFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -205,14 +209,14 @@ public class ActController {
 	 * 1. proposed
 	 * 2. accepted
 	 */
-	@RequestMapping(value = "/collection/{coll}", method = RequestMethod.GET)
-	public ResponseEntity<List<SearchDTO>> findByCollection(@PathVariable String coll)
+	@RequestMapping(value = "/collection/{coll}/{type}", method = RequestMethod.GET)
+	public ResponseEntity<List<SearchDTO>> findByCollection(@PathVariable String coll, @PathVariable String type)
 			throws JAXBException, IOException, SAXException {
 		
 		List<SearchDTO> searchDTO = new ArrayList<SearchDTO>();
-
-		String collId = "/parliament/acts/"+coll;
 		
+		String collId = "/parliament/"+type+"/"+coll;
+		System.out.println(collId);
 		QueryManager queryManager = databaseClient.newQueryManager();
 		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
 		
@@ -277,56 +281,35 @@ public class ActController {
 			throws JAXBException, IOException, SAXException, DocumentException, TransformerException{
 		
 		String doc = "/acts/decisions/"+docId+".xml";
-		
 		Dokument dokument = null;
 		
-		// Create a document manager to work with XML files.
-
-		
 		DOMHandle content = new DOMHandle();
-		
 		xmlMenager.read(doc, content);
-		
 
-		
 		Document docc = content.get();
 		
-		
-
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
 
 		unmarshaller.setSchema(schema);
 		dokument = (Dokument) unmarshaller.unmarshal(docc);
-
 		
-		
-		TransformerFactory tFactory = TransformerFactory.newInstance();
 
-        Source xslDoc = new StreamSource("data/proba.xsl");
-        Source xmlDoc = new StreamSource("data/proba.xml");
-
-        String outputFileName = "data/catalog.html";
+        String outputFileName = "data/"+docId+".html";
         OutputStream htmlFile = new FileOutputStream(outputFileName);
 
-        Transformer transformer = tFactory.newTransformer(xslDoc);
-        transformer.transform(xmlDoc, new StreamResult(htmlFile));
-		
-		
-		/*
 		TransformerFactory tf = TransformerFactory.newInstance();
 		StreamSource xslt = new StreamSource("data/act.xsl");
 		Transformer transformer = tf.newTransformer(xslt);
 		
-		JAXBContext jc = JAXBContext.newInstance(MestoDatum.class);
+		JAXBContext jc = JAXBContext.newInstance(Dokument.class);
 		JAXBSource source = new JAXBSource(jc, dokument);
+
+		transformer.transform(source, new StreamResult(htmlFile));
 		
-		StreamResult result = new StreamResult(System.out);
-		transformer.transform(source, result);
 		
-		/*
-        
-		File file1 = new File(XML_FILE+docId+".pdf");
+		
+		File file1 = new File(XML_FILE+docId+".html");
 		String mimeType= URLConnection.guessContentTypeFromName(file1.getName());
 		
 		response.setContentType(mimeType);
@@ -335,7 +318,7 @@ public class ActController {
 		InputStream inputStream = new BufferedInputStream(new FileInputStream(file1));
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 		
-		*/
+		file1.delete();
 	}
 	
 

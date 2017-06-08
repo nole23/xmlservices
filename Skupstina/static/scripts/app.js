@@ -29,12 +29,12 @@ angular
 	            controller: 'LoginCtrl',
 	            controllerAs: 'registrovan'
 	        })
-	        .when('/act/:accept', {
+	        .when('/:tip/:accept', {
 	            templateUrl: 'views/list.html',
 	            controller: 'ActCrtl',
 	            controllerAs: 'acceptAct'
 	        })
-	        .when('/amandman/:accept', {
+	        .when('/:tip/:accept', {
 	            templateUrl: 'views/list.html',
 	            controller: 'ActCrtl',
 	            controllerAs: 'acceptAct'
@@ -45,7 +45,9 @@ angular
 	            controllerAs: 'acceptAct'
 	        })
 	        .when('/amandman/:proposed', {
-	            templateUrl: 'views/list.html'
+	            templateUrl: 'views/list.html',
+	            controller: 'ActCrtl',
+	            controllerAs: 'acceptAct'
 	        })
 	        .when('/add/act', {
 	            templateUrl: 'views/add.html',
@@ -57,6 +59,11 @@ angular
 	        })
 	        .when('/read/proposed/:id', {
 	            templateUrl: 'views/readAct.html',
+	            controller: 'ReadCrtl',
+	            controllerAs: 'readCtrl'
+	        })
+	        .when('/read/accepted/:id', {
+	            templateUrl: 'views/readAcceptAct.html',
 	            controller: 'ReadCrtl',
 	            controllerAs: 'readCtrl'
 	        })

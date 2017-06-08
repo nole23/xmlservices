@@ -11,10 +11,12 @@ angular.module('xmlClientApp')
 		
 		var message = [];
 		var lista = [];
+		var blob = [];
+		
 		var akt = [];
 		
-		retVal.getUsvojeni = function(id) {
-			var link = 'act/collection/'+id;
+		retVal.getUsvojeni = function(id, tip) {
+			var link = 'act/collection/'+id+'/'+tip;
 			console.log(link);
 			return Restangular.all(link).getList().then(function(entries) {
 				lista = entries;
@@ -53,6 +55,14 @@ angular.module('xmlClientApp')
 				return message;
 			})
 		};
+		
+		retVal.converte = function(id, tip) {
+			var link = 'act/convert/'+id+'/'+tip;
+			return Restangular.one(link).get().then(function(success) {
+				blob = success;
+				return blob;
+			})
+		}
 		
 		
 		return retVal;
