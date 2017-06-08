@@ -70,6 +70,13 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="dopunaZakona">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="skup:glava"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
             </xs:sequence>
             <xs:attribute ref="skup:id"/>
             <xs:attribute ref="skup:Korisnik"/>

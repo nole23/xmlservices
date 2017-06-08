@@ -119,7 +119,25 @@ angular.module('xmlClientApp')
 							}]
 						}],
 						potpis_presednika:'Novica Nikolic'
-					}]
+					}],
+					dopunaZakona:{
+						glava:[{
+							id:1,
+							podnaslovGlave:'',
+							podaciGlave:{
+								broj_glave:'1',
+								naslovGlave:''
+							},
+							clan:[{
+								id:1,
+								podaciClana:{
+									brojClana:'1',
+									naslovClana:''
+								},
+								opis:''
+							}]
+						}]
+					}
 			}]
 		};
 		

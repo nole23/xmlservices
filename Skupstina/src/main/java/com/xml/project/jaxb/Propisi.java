@@ -15,25 +15,35 @@ import javax.xml.bind.annotation.XmlType;
 		"naziv_propisa", 
 		"uvodniDeo",
 		"glavniDeo", 
-		"zavrsniDeo",
-		"id",
-		"korisnik"
+		"zavrsniDeo", 
+		"dopunaZakona", 
+		"id", 
+		"korisnik" 
 })
 @XmlRootElement(name = "propisi")
 public class Propisi {
 
 	@XmlElement(name = "preambula")
 	private String preambula;
+
 	@XmlElement(name = "naziv_propisa")
 	private String naziv_propisa;
+
 	@XmlElement(name = "uvodniDeo")
 	private List<UvodniDeo> uvodniDeo;
+
 	@XmlElement(name = "glavniDeo")
 	private List<GlavniDeo> glavniDeo;
+
 	@XmlElement(name = "zavrsniDeo")
 	private List<ZavrsniDeo> zavrsniDeo;
+
+	@XmlElement(name = "dopunaZakona")
+	private DopunaZakona dopunaZakona;
+
 	@XmlAttribute(name = "id", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String id;
+
 	@XmlAttribute(name = "Korisnik", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String korisnik;
 
@@ -91,6 +101,14 @@ public class Propisi {
 
 	public void setKorisnik(String korisnik) {
 		this.korisnik = korisnik;
+	}
+
+	public DopunaZakona getDopunaZakona() {
+		return dopunaZakona;
+	}
+
+	public void setDopunaZakona(DopunaZakona dopunaZakona) {
+		this.dopunaZakona = dopunaZakona;
 	}
 
 }

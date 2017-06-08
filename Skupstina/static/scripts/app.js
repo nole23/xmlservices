@@ -34,27 +34,12 @@ angular
 	            controller: 'ActCrtl',
 	            controllerAs: 'acceptAct'
 	        })
-	        .when('/:tip/:accept', {
-	            templateUrl: 'views/list.html',
-	            controller: 'ActCrtl',
-	            controllerAs: 'acceptAct'
-	        })
-	        .when('/act/:proposed', {
-	            templateUrl: 'views/list.html',
-	            controller: 'ActCrtl',
-	            controllerAs: 'acceptAct'
-	        })
-	        .when('/amandman/:proposed', {
-	            templateUrl: 'views/list.html',
-	            controller: 'ActCrtl',
-	            controllerAs: 'acceptAct'
-	        })
-	        .when('/add/act', {
+	        .when('/add/new/act', {
 	            templateUrl: 'views/add.html',
 	            controller: 'AddActCtrl',
 	            controllerAs: 'addAct'
 	        })
-	        .when('/add/amandman', {
+	        .when('/add/new/amandman', {
 	            templateUrl: 'views/add.html'
 	        })
 	        .when('/read/proposed/:id', {

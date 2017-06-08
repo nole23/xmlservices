@@ -95,7 +95,7 @@
 													
 													<!-- pocetak uvodnog dela -->
 													<div style="margin: 20% 0 0 0" data-ng-repeat="uvodni in propis.uvodniDeo">
-														
+														<div data-ng-if="uvodni.glava[0].podaciGlave.naslovGlave">
 														<label for="user_login" style="text-align: center;">Uvodni deo: </label>
 														
 														<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 2%">
@@ -148,13 +148,13 @@
 																
 															</fieldset>
 														</div>
-														
+														</div>
 													</div>	
 													<!-- Kraj uvodnog dela -->
 													
 													<!-- Pocetak glavnog dela -->
 													<div style="margin: 5% 0 0 0" data-ng-repeat="glavni in propis.glavniDeo">
-														
+														<div data-ng-if="glavni.glava[0].podaciGlave.naslovGlave">
 														<label for="user_login" style="text-align: center;">Glavni deo: </label>
 														
 														<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 2%">
@@ -205,14 +205,14 @@
 																
 															</fieldset>
 														</div>
-														
+														</div>
 													</div>
 													<!-- Kraj glavnog dela -->
 													
 													
 													<!-- Pocetak zavrsnog dela -->
 													<div style="margin: 5% 0 0 0" data-ng-repeat="glavni in propis.zavrsniDeo">
-														
+														<div data-ng-if="glavni.glava[0].podaciGlave.naslovGlave">
 														<label for="user_login" style="text-align: center;">Zavrsni deo: </label>
 														
 														<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 2%">
@@ -264,11 +264,70 @@
 	
 															</fieldset>
 														</div>
-														
+														</div>
 													</div>
 													
 													<!-- Kraj zavrsnog dela -->
 													
+													
+													<!-- Pocetak dopune zakona -->
+													<div style="margin: 5% 0 0 0" data-ng-repeat="glavni in propis.dopunaZakona">
+														<div data-ng-if="glavni.glava[0].podaciGlave.naslovGlave">
+														<label for="user_login" style="text-align: center;">Dopuna zakona: </label>
+														
+														<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 2%">
+															
+															<fieldset data-ng-repeat="gl in glavni.glava">
+															
+																<label for="user_login" style="margin-top: 2%; text-align: center;" >Glava {{$index+1}}: </label>
+																<div style="border-bottom: 1px solid #333; border-top: 1px solid #333; width: 770px; margin: 1% 1% 0 0">
+																	
+																	<div style="float: left; width: 770px; height: 67px; margin: 0 1% 0 0;">
+																		Naslov glave:
+																		<div style="float: left; text-align: center; font-size: 16px; color: #565656; background-color: #f0f0f0; width: 770px; height: 43px;  padding: 1% 0 0 0">
+																			<p id="user_login">{{gl.podaciGlave.naslovGlave}}</p>
+																		</div>
+																	</div>
+																	
+																	<div style="float: left; width: 770px; height: 67px; margin: 0 1% 0 0;">
+																		Podnaslov glave:
+																		<div style="float: left; text-align: center; font-size: 16px; color: #565656; background-color: #f0f0f0; width: 770px; height: 43px;  padding: 1% 0 0 0">
+																			<p id="user_login">{{gl.podnaslovGlave}}</p>
+																		</div>
+																	</div>
+																	
+																
+																	<div style="width: 720px; margin: 1% 0 1% 3%">
+																	
+																		<fieldset data-ng-repeat="cl in gl.clan">
+																			<label for="user_login" style="margin-top: 1%; ">Clan {{$index+1}}: </label>
+																			<div style="padding: 1% 0 0 1%">
+																				
+																				<div style="float: left; width: 705px; height: 67px; margin: 0 1% 0 0;">
+																					Naslov clana:
+																					<div style="float: left; text-align: center; font-size: 16px; color: #565656; background-color: #f0f0f0; width: 705px; height: 43px;  padding: 1% 0 0 0">
+																						<p id="user_login">{{cl.podaciClana.naslovClana}}</p>
+																					</div>
+																				</div>
+																				Opis clana:
+																				<textarea style="width: 705px; margin: 1% 0 0 0" ng-model="cl.opis" disabled></textarea>
+																			</div>
+																			
+																			
+																		</fieldset>
+																		
+																		
+																	</div>
+																
+																</div>
+
+	
+															</fieldset>
+														</div>
+														</div>
+													</div>
+													
+													<!-- Kraj dopune zakona -->
 												</div>
 											</div>
 										</fieldset>

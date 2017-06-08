@@ -152,6 +152,7 @@
             						
             						<div style="float:left; margin: 3% 0 0 1; text-align: center; width: 850px; ">
             							<xsl:for-each select="ns2:uvodniDeo">
+            								
             								<label style="text-align: center;">Uvodni deo: </label>
             								
             								<div style="float: left; border: 1px solid #333; text-align: left; width: 850px;margin: 0 0 1% 1%; padding: 2% 0 0 0;">
@@ -197,8 +198,10 @@
             							</xsl:for-each>
             						</div>
             						
+            						<xsl:if test="ns2:glavniDeo/ns2:glava/ns2:podaciGlave/ns2:naslovGlave!=''">
             						<div style="float:left; margin: 3% 0 0 1; text-align: center; width: 850px; ">
             							<xsl:for-each select="ns2:glavniDeo">
+            								
             								<label style="text-align: center;">Glavni deo: </label>
             								
             								<div style="float: left; border: 1px solid #333; text-align: left; width: 850px;margin: 0 0 1% 1%; padding: 2% 0 0 0;">
@@ -241,9 +244,12 @@
 	            									</div>
             									</xsl:for-each>
             								</div>
+            								
             							</xsl:for-each>
             						</div>
+            						</xsl:if>
             						
+            						<xsl:if test="ns2:zavrsniDeo/ns2:glava/ns2:podaciGlave/ns2:naslovGlave!=''">
             						<div style="float:left; margin: 3% 0 0 1; text-align: center; width: 850px; ">
             							<xsl:for-each select="ns2:zavrsniDeo">
             								<label style="text-align: center;">Zavrsni deo: </label>
@@ -294,7 +300,58 @@
             								</div>
             							</xsl:for-each>
             						</div>
-
+									</xsl:if>
+									
+									<xsl:if test="ns2:dopunaZakona/ns2:glava/ns2:podaciGlave/ns2:naslovGlave!=''">
+            						<div style="float:left; margin: 3% 0 0 1; text-align: center; width: 850px; ">
+            							<xsl:for-each select="ns2:zavrsniDeo">
+            								<label style="text-align: center;">Dopuna zakona: </label>
+            								
+            								<div style="float: left; border: 1px solid #333; text-align: left; width: 850px;margin: 0 0 1% 1%; padding: 2% 0 0 0;">
+            									
+            									<xsl:for-each select="ns2:glava">
+	            									<div style="text-align: center;">
+	            										Glava
+	            										<div style="border-top: 1px solid #333; border-bottom: 1px solid #333; margin: 0 0 1% 3%; width: 790px; text-align: left;">
+	            											Naslov glave:
+	            											<div style="text-align: center; font-size: 16px; color: #565656; background-color: #f0f0f0; width: 790px; height: 43px;  padding: 1% 0 0 0">
+	            												<xsl:value-of select="ns2:podaciGlave/ns2:naslovGlave"/>
+	            											</div>
+	            											Podnaslov glave:
+	            											<div style="text-align: center; font-size: 16px; color: #565656; background-color: #f0f0f0; width: 790px; height: 43px;  padding: 1% 0 0 0">
+	            												<xsl:value-of select="ns2:podnaslovGlave"/>
+	            											</div>
+	            											
+	            											<div style="width: 720px border-top: 1px solid #333; margin: 2% 0 0 0; text-size: 16px">
+	            												
+	            												<xsl:for-each select="ns2:clan">
+	            													
+	            													<div style="margin: 1% 0 1% 5%">
+		            													CLAN:
+		            													<div style="border-top: 1px solid #333; width: 705px;">
+		            														Naslov clana:
+			            													<div style="text-align: center; font-size: 16px; color: #565656; background-color: #f0f0f0; width: 705px; height: 43px;  padding: 1% 0 0 0">
+																				<xsl:value-of select="ns2:podaciClana/ns2:naslovClana"/>
+																			</div>
+																			Opis:
+			            													<div style="text-align: left; font-size: 16px; color: #565656; background-color: #f0f0f0; width: 705px; min-height: 43px; height: auto;  padding: 1% 0 0 0">
+																				<xsl:value-of select="ns2:opis"/>
+																			</div>
+																		</div>
+																	</div>
+	            													
+	            												</xsl:for-each>
+	            												
+	            											</div>
+	            										</div>
+	            									</div>
+            									</xsl:for-each>
+            								</div>
+            							</xsl:for-each>
+            						</div>
+									</xsl:if>
+									
+									
             					</div>
             				</div>
             			</xsl:for-each>

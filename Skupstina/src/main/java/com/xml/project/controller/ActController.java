@@ -111,6 +111,8 @@ public class ActController {
 
 		User user = userService.findByUsername(principal.getName());
 		
+		System.out.println(doc.getPropisi());
+		
 		if(user == null)
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 

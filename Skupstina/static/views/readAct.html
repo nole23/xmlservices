@@ -95,7 +95,7 @@
 													
 													<!-- pocetak uvodnog dela -->
 													<div style="margin: 20% 0 0 0" data-ng-repeat="uvodni in propis.uvodniDeo">
-														
+														<div data-ng-if="uvodni.glava[0].podaciGlave.naslovGlave">
 														<label for="user_login" style="text-align: center;">Uvodni deo: </label>
 														
 														<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 2%">
@@ -148,12 +148,13 @@
 																
 															</fieldset>
 														</div>
-														
+														</div>
 													</div>	
 													<!-- Kraj uvodnog dela -->
 													
 													<!-- Pocetak glavnog dela -->
 													<div style="margin: 5% 0 0 0" data-ng-repeat="glavni in propis.glavniDeo">
+														<div data-ng-if="glavni.glava[0].podaciGlave.naslovGlave">
 														
 														<label for="user_login" style="text-align: center;">Glavni deo: </label>
 														
@@ -205,14 +206,14 @@
 																
 															</fieldset>
 														</div>
-														
+														</div>
 													</div>
 													<!-- Kraj glavnog dela -->
 													
 													
 													<!-- Pocetak zavrsnog dela -->
 													<div style="margin: 5% 0 0 0" data-ng-repeat="glavni in propis.zavrsniDeo">
-														
+														<div data-ng-if="glavni.glava[0].podaciGlave.naslovGlave">
 														<label for="user_login" style="text-align: center;">Zavrsni deo: </label>
 														
 														<div style="border: 1px solid #333; width: 810px; padding: 1% 0 1% 2%">
@@ -264,7 +265,7 @@
 	
 															</fieldset>
 														</div>
-														
+														</div>
 													</div>
 													
 													<!-- Kraj zavrsnog dela -->
