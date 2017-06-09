@@ -119,6 +119,31 @@ public class ObjectFactory {
     public PodaciGlave createPodaciGlave() {
         return new PodaciGlave();
     }
+    
+    /**
+     * Create an instance of {@link Paragraph }
+     * 
+     */
+    public Amandman createAmandman() {
+        return new Amandman();
+    }
+    
+    /**
+     * Create an instance of {@link Paragraph }
+     * 
+     */
+    public DopunaZakonaAmandamana createDopunaZakonaAmandamana() {
+        return new DopunaZakonaAmandamana();
+    }
+   
+    
+    /**
+     * Create an instance of {@link Paragraph }
+     * 
+     */
+    public SluzbeniListAmandmana createSluzbeniListAmandmana() {
+        return new SluzbeniListAmandmana();
+    }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}

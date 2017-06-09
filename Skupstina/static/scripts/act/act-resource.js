@@ -56,6 +56,15 @@ angular.module('xmlClientApp')
 			})
 		};
 		
+		retVal.saveAmandman = function(amandman, callback) {
+			var link = 'amandman/add/add';
+			
+			return Restangular.all(link).post(amandman).then(function(success) {
+				message = success;
+				return message;
+			})
+		};
+		
 		retVal.converte = function(id, tip) {
 			var link = 'act/convert/'+id+'/'+tip;
 			return Restangular.one(link).get().then(function(success) {

@@ -39,8 +39,10 @@ angular
 	            controller: 'AddActCtrl',
 	            controllerAs: 'addAct'
 	        })
-	        .when('/add/new/amandman', {
-	            templateUrl: 'views/add.html'
+	        .when('/complement/amandman/:id', {
+	            templateUrl: 'views/addAmandman.html',
+	            controller: 'AddAmandmanCtrl',
+	            controllerAs: 'addAct'
 	        })
 	        .when('/read/proposed/:id', {
 	            templateUrl: 'views/readAct.html',

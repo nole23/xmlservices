@@ -296,6 +296,7 @@ angular.module('xmlClientApp')
 		
 		$scope.dopuna = function(id) {
 			console.log(id);
+			window.location = '#/complement/amandman/'+id;
 		}
 		
 		
