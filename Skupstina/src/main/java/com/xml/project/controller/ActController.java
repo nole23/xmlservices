@@ -40,6 +40,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.DocumentDescriptor;
@@ -62,19 +64,15 @@ import com.xml.project.repository.PublishedRepository;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
 
-
-
 @RestController
 @RequestMapping(value = "api/act")
 public class ActController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	PublishedRepository publishedRepository;
-	
-	
 
 	private static DatabaseClient databaseClient;
 	private static DatabaseUtil dUtil = new DatabaseUtil();
@@ -83,17 +81,16 @@ public class ActController {
 	static XMLDocumentManager xmlMenager;
 	static Unmarshaller unmarshaller;
 	String XML_FILE = "data/";
-	
-	
+
 	static {
 		try {
 			databaseClient = DatabaseClientFactory.newClient(dUtil.getHost(), dUtil.getPort(), dUtil.getDatabase(),
 					dUtil.getUsername(), dUtil.getPassword(), dUtil.getAuthType());
-			
+
 			xmlMenager = databaseClient.newXMLDocumentManager();
-			
+
 			context = JAXBContext.newInstance("com.xml.project.jaxb");
-			
+
 			m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			unmarshaller = context.createUnmarshaller();
@@ -110,23 +107,22 @@ public class ActController {
 			throws JAXBException, IOException, SAXException {
 
 		User user = userService.findByUsername(principal.getName());
-		
+
 		System.out.println(doc.getPropisi());
-		
-		if(user == null)
+
+		if (user == null)
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
+		Schema schema = schemaFactory.newSchema(new File(XML_FILE + "skupstina.xsd"));
 
-		
 		m.setSchema(schema);
 		m.setEventHandler(new MyValidationEventHandler());
 
 		unmarshaller.setSchema(schema);
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
 
-		File f = new File(XML_FILE+"/act.xml");
+		File f = new File(XML_FILE + "/act.xml");
 		FileOutputStream out = new FileOutputStream(f);
 		m.marshal(doc, out);
 
@@ -134,7 +130,7 @@ public class ActController {
 		DocumentUriTemplate template = xmlMenager.newDocumentUriTemplate("xml");
 		template.setDirectory("/acts/decisions/");
 
-		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE+"act.xml"));
+		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE + "act.xml"));
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 		metadata.getCollections().add("/parliament/acts/proposed");
 
@@ -150,30 +146,30 @@ public class ActController {
 
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/accept/{docId}", method = RequestMethod.GET)
 	public ResponseEntity<MesagesDTO> acceptAct(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
-		
-		//connecti to marklogic
+
+		// connecti to marklogic
 
 		System.out.println("DOSAO");
-		
-		String doc = "/acts/decisions/"+docId+".xml";
+
+		String doc = "/acts/decisions/" + docId + ".xml";
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 		xmlMenager.readMetadata(doc, metadata);
-		
+
 		DocumentCollections collections = metadata.getCollections();
 		collections.remove("/parliament/acts/proposed");
 		collections.add("/parliament/acts/accepted");
 		xmlMenager.writeMetadata(doc, metadata);
-		
-		
+
 		return new ResponseEntity<MesagesDTO>(HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Search for name file (xxx.xml)
+	 * 
 	 * @param docId
 	 * @return
 	 * @throws JAXBException
@@ -183,21 +179,19 @@ public class ActController {
 	@RequestMapping(value = "/find/{docId}", method = RequestMethod.GET)
 	public ResponseEntity<Dokument> findByIdAct(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
-		
+
 		Dokument dokument = null;
 
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
-		
+		Schema schema = schemaFactory.newSchema(new File(XML_FILE + "skupstina.xsd"));
 
 		unmarshaller.setSchema(schema);
-		
+
 		DOMHandle content = new DOMHandle();
-		
-		String doc = "/acts/decisions/"+docId+".xml";
+
+		String doc = "/acts/decisions/" + docId + ".xml";
 
 		xmlMenager.read(doc, content);
-		
 
 		Document docc = content.get();
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
@@ -205,30 +199,28 @@ public class ActController {
 
 		return new ResponseEntity<Dokument>(dokument, HttpStatus.OK);
 	}
-	
+
 	/*
-	 * Potrebno je proslediti jedan od dva parametra
-	 * 1. proposed
-	 * 2. accepted
+	 * Potrebno je proslediti jedan od dva parametra 1. proposed 2. accepted
 	 */
 	@RequestMapping(value = "/collection/{coll}/{type}", method = RequestMethod.GET)
 	public ResponseEntity<List<SearchDTO>> findByCollection(@PathVariable String coll, @PathVariable String type)
 			throws JAXBException, IOException, SAXException {
-		
+
 		List<SearchDTO> searchDTO = new ArrayList<SearchDTO>();
-		
-		String collId = "/parliament/"+type+"/"+coll;
+
+		String collId = "/parliament/" + type + "/" + coll;
 		System.out.println(collId);
 		QueryManager queryManager = databaseClient.newQueryManager();
 		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
-		
+
 		queryDefinition.setCollections(collId);
-		
+
 		SearchHandle results = queryManager.search(queryDefinition, new SearchHandle());
 		MatchDocumentSummary matches[] = results.getMatchResults();
 		MatchDocumentSummary result;
-		
-		for(int i=0; i<matches.length; i++) {
+
+		for (int i = 0; i < matches.length; i++) {
 			result = matches[i];
 			String link = result.getUri();
 			String name[] = link.split("/");
@@ -236,25 +228,18 @@ public class ActController {
 			String title = getDocumentTitle(result.getUri());
 			searchDTO.add(new SearchDTO(broj, title));
 		}
-		
 
-		
-		
 		return new ResponseEntity<List<SearchDTO>>(searchDTO, HttpStatus.OK);
 	}
-	
-	
+
 	@RequestMapping(value = "/delete/{docId}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> deleteCollection(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
-		
-		String collId = "/acts/decisions/"+docId+".xml";
-		
+
+		String collId = "/acts/decisions/" + docId + ".xml";
 
 		xmlMenager.delete(collId);
-		
 
-		
 		return new ResponseEntity<String>("izbrisano", HttpStatus.OK);
 	}
 
@@ -263,66 +248,115 @@ public class ActController {
 		Dokument dokument = null;
 
 		DOMHandle content = new DOMHandle();
-		
-		xmlMenager.read(docId, content);
-		
 
-		
+		xmlMenager.read(docId, content);
+
 		Document docc = content.get();
-		
+
 		dokument = (Dokument) unmarshaller.unmarshal(docc);
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
-		
+
 		title = dokument.getNaslov();
-		
+
 		return title;
 	}
-	
-	@RequestMapping(value="/convert/{docId}/{typeId}", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/convert/{docId}/{typeId}", method = RequestMethod.GET)
 	public void convert(HttpServletResponse response, @PathVariable String docId, @PathVariable String typeId)
-			throws JAXBException, IOException, SAXException, DocumentException, TransformerException{
-		
-		String doc = "/acts/decisions/"+docId+".xml";
+			throws JAXBException, IOException, SAXException, DocumentException, TransformerException {
+
+		String doc = "/acts/decisions/" + docId + ".xml";
 		Dokument dokument = null;
-		
+
 		DOMHandle content = new DOMHandle();
 		xmlMenager.read(doc, content);
 
 		Document docc = content.get();
-		
+
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema = schemaFactory.newSchema(new File(XML_FILE+"skupstina.xsd"));
+		Schema schema = schemaFactory.newSchema(new File(XML_FILE + "skupstina.xsd"));
 
 		unmarshaller.setSchema(schema);
 		dokument = (Dokument) unmarshaller.unmarshal(docc);
-		
 
-        String outputFileName = "data/"+docId+".html";
-        OutputStream htmlFile = new FileOutputStream(outputFileName);
+		String outputFileName = "data/" + docId + ".html";
+		OutputStream htmlFile = new FileOutputStream(outputFileName);
 
 		TransformerFactory tf = TransformerFactory.newInstance();
 		StreamSource xslt = new StreamSource("data/act.xsl");
 		Transformer transformer = tf.newTransformer(xslt);
-		
+
 		JAXBContext jc = JAXBContext.newInstance(Dokument.class);
 		JAXBSource source = new JAXBSource(jc, dokument);
 
 		transformer.transform(source, new StreamResult(htmlFile));
-		
-		
-		
-		File file1 = new File(XML_FILE+docId+".html");
-		String mimeType= URLConnection.guessContentTypeFromName(file1.getName());
-		
+
+		File file1 = new File(XML_FILE + docId + ".html");
+		String mimeType = URLConnection.guessContentTypeFromName(file1.getName());
+
 		response.setContentType(mimeType);
-		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file1.getName() +"\""));
-		response.setContentLength((int)file1.length());
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file1.getName() + "\""));
+		response.setContentLength((int) file1.length());
 		InputStream inputStream = new BufferedInputStream(new FileInputStream(file1));
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
-		
+
 		file1.delete();
 	}
-	
 
-	
+	@RequestMapping(value = "/download/pdf/{docId}", method = RequestMethod.GET)
+	public void downloadPDF(HttpServletResponse response, @PathVariable String docId)
+			throws JAXBException, IOException, SAXException, DocumentException, TransformerException {
+
+		String doc = "/acts/decisions/" + docId + ".xml";
+		Dokument dokument = null;
+
+		DOMHandle content = new DOMHandle();
+		xmlMenager.read(doc, content);
+
+		Document docc = content.get();
+
+		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = schemaFactory.newSchema(new File(XML_FILE + "skupstina.xsd"));
+
+		unmarshaller.setSchema(schema);
+		dokument = (Dokument) unmarshaller.unmarshal(docc);
+
+		String outputFileName = "data/" + docId + ".html";
+		OutputStream htmlFile = new FileOutputStream(outputFileName);
+
+		TransformerFactory tf = TransformerFactory.newInstance();
+		StreamSource xslt = new StreamSource("data/pdfAct.xsl");
+		Transformer transformer = tf.newTransformer(xslt);
+
+		JAXBContext jc = JAXBContext.newInstance(Dokument.class);
+		JAXBSource source = new JAXBSource(jc, dokument);
+
+		transformer.transform(source, new StreamResult(htmlFile));
+
+		// PDF FILE
+		com.itextpdf.text.Document myDoc = new com.itextpdf.text.Document();
+		PdfWriter writer = PdfWriter.getInstance(myDoc, new FileOutputStream(XML_FILE + docId + ".pdf"));
+
+		myDoc.open();
+
+		XMLWorkerHelper.getInstance().parseXHtml(writer, myDoc, new FileInputStream(XML_FILE + docId + ".html"));
+		myDoc.close();
+
+		File file1 = new File(XML_FILE + docId + ".pdf");
+		String mimeType = URLConnection.guessContentTypeFromName(file1.getName());
+		// END OF PDF FILE
+
+		response.setContentType(mimeType);
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file1.getName() + "\""));
+		response.setContentLength((int) file1.length());
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(file1));
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+
+		// delete pdf and html file
+		file1.delete();
+		file1 = new File(XML_FILE + docId + ".html");
+		System.out.println(file1.getName());
+		file1.delete();
+
+	}
 }

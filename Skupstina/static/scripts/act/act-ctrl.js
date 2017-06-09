@@ -30,9 +30,21 @@ angular.module('xmlClientApp')
 	                a.click();
 	            });
 			} else if(tip == 'PDF') {
-				console.log('jos nije realizovano');
+		
+				var fileName = res[0]+".pdf";
+	            var a = document.createElement("a");
+	            document.body.appendChild(a);
+	            a.style = "display: none";
+	            ActResource.downPDF(res[0]).then(function (result) {
+	                var file = new Blob([result], {type: 'application/pdf'});
+	                var fileURL = window.URL.createObjectURL(file);
+	                a.href = fileURL;
+	                a.download = fileName;
+	                a.click();
+	            });
 			} else if(tip == 'RDF') {
 				console.log('jos nije realizovano');
+				
 			}
 			
 			

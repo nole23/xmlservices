@@ -23,5 +23,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/5. XMLTransformations/lib/xmlworker-5.5.10.jar"/>
+	<classpathentry kind="lib" path="/5. XMLTransformations/lib/itextpdf-5.5.10.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
