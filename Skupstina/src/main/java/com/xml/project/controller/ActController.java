@@ -355,7 +355,6 @@ public class ActController {
 		// delete pdf and html file
 		file1.delete();
 		file1 = new File(XML_FILE + docId + ".html");
-		System.out.println(file1.getName());
 		file1.delete();
 
 	}

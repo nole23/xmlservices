@@ -31,17 +31,10 @@ angular.module('xmlClientApp')
 	            });
 			} else if(tip == 'PDF') {
 		
-				var fileName = res[0]+".pdf";
-	            var a = document.createElement("a");
-	            document.body.appendChild(a);
-	            a.style = "display: none";
-	            ActResource.downPDF(res[0]).then(function (result) {
-	                var file = new Blob([result], {type: 'application/pdf'});
-	                var fileURL = window.URL.createObjectURL(file);
-	                a.href = fileURL;
-	                a.download = fileName;
-	                a.click();
-	            });
+				
+				//window.location.assign('http://localhost:8080/api/act/download/pdf/'+res[0]);
+				window.open('http://localhost:8080/api/act/download/pdf/'+res[0]);
+				
 			} else if(tip == 'RDF') {
 				console.log('jos nije realizovano');
 				

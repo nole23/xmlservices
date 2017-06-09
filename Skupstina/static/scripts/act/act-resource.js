@@ -73,14 +73,6 @@ angular.module('xmlClientApp')
 			})
 		}
 		
-		retVal.downPDF = function(id){
-			var link = 'act/download/pdf/'+id;
-			return Restangular.one(link).get().then(function(success) {
-				blob = success;
-				return blob;
-			})
-		}
-		
 		
 		return retVal;
 		
