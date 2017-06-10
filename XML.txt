@@ -1,0 +1,36 @@
+1.	Predlaganje akata						| X
+2.	predlaganje amandmana						| X
+3.	povlacenje akat							| X
+4.	povlacenje amandmana						| X
+5.	Gradjanin/odbornik/predsednik skupstine				| X
+
+6.	Gradjanin
+	6.1	Pronalazi usvojene akte po meta podacima 		| X
+	6.2	Pronalazi predlozene akte po meta podacima 		| X
+	6.3	Pregled usvojenih akta					| X
+	6.4	Pregled predlozenih akata				| X
+	6.5	Pronalazi usvoje akte po tekstu				| 
+	6.6	Pronalazi usvoje amandmane po tekstu 			| 
+
+7.	Odbornik
+	7.1	Predlaze akte						| X
+	7.2	Predlaze amandmane na predlog akta			| X
+	7.3	Povlaci predlog akta 					| X
+	7.4	Povlaci predlog amandmana        			| X
+
+8.	Predsednik skupstine
+	8.1	Usvaja akte    						| X
+	8.2	Usvaja amandmane  					| 
+
+
+--------Pregled------------
+1. XHTML								
+	1.1 Download act						| X
+	2.2 Download amandman						| X
+2. PDF									
+	2.1 Download amandma						| 
+	2.2 Dowbload act						| X
+
+--------Izvovz------------
+1. JSON									| X
+2. RDF 									| 
