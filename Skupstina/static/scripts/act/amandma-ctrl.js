@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('xmlClientApp')
-	.controller('AddAmandmanCtrl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 
-	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource) {
+	.controller('AddAmandmanCtrl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', '$location', 'ActResource', 
+	   function($scope, $uibModal, $log, _, $routeParams, $window, $location, ActResource) {
 		
 		var id = $routeParams.id;
 		console.log("amadnami"+id);
@@ -14,7 +14,7 @@ angular.module('xmlClientApp')
 			console.log(items);
 			
 			$scope.amandman = {
-					
+					naslovAkta: items.naslov,
 					idAkta: items.id,
 					linkAkta: id,
 					Korisnik: items.korisnik,
@@ -71,20 +71,82 @@ angular.module('xmlClientApp')
 				$scope.addAmandman = function () {
 					
 					console.log($scope.amandman);
-					ActResource.saveAmandman($scope.amandman, callBack);
+					ActResource.saveAmandman($scope.amandman) .then(function (result) {
+						if(result.message){
+							$location.path('/amandman/proposed');
+						} else if(success == 400) {
+							console.log('ne radi nesto dobro');
+						}
+					})
 				}
 				
-				function callBack(success) {
-					if(success == 200){
-						$location.path('/amandman/proposed');
-					} else if(success == 400) {
-						console.log('ne radi nesto dobro');
-					}
-				}
+	    })
+	}])
+	
+	.controller('AmandmanCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 
+	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource) {
+		
+		$scope.list = [];
+		var id = $routeParams.accept;
+		var tip = 'amandman';
+		console.log(id + ' | ' + tip);
+			
+		ActResource.getUsvojeni(id, tip).then(function(items) {
+			$scope.name = id;
+			$scope.tip = tip;
+			$scope.list = items;
 	    })
 	    
 	    
-		
-
+	    $scope.converte = function(id, tip) {
+			
+			
+			var res = id.split(".");
+			if(tip == 'HTML') {
+				var fileName = id+".html";
+	            var a = document.createElement("a");
+	            document.body.appendChild(a);
+	            a.style = "display: none";
+	            ActResource.converteAmandman(res[0], tip).then(function (result) {
+	                var file = new Blob([result], {type: 'application/html'});
+	                var fileURL = window.URL.createObjectURL(file);
+	                a.href = fileURL;
+	                a.download = fileName;
+	                a.click();
+	            })
+			} else if(tip == 'PDF') {
+				console.log("doradi");
+			} else {
+				console.log("doradi");
+			}
+		}
 	    
 	}])
+	.controller('ReadAmandanCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 
+	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource) {
+		
+		$scope.list = [];
+		var id = $routeParams.id;
+		var res = id.split(".");
+		
+		
+		ActResource.getAmandman(res[0]).then(function(items) {
+			$scope.list = items;
+			$scope.xml = res[0];
+	    })
+	    
+	    $scope.acceptAmandman = function () {
+			ActResource.getVote(res[0], 'accept', 'amandman').then(function(items) {
+				if(items.error != null) {
+					
+					$scope.error = items.error;
+				} else if(items.message != null) {
+					console.log(items.vote);
+					$scope.vote = items.vote;
+					$scope.message = items.message;
+				}
+			})
+		}
+	    
+	}])
+	

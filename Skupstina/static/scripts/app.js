@@ -29,9 +29,14 @@ angular
 	            controller: 'LoginCtrl',
 	            controllerAs: 'registrovan'
 	        })
-	        .when('/:tip/:accept', {
+	        .when('/acts/:accept', {
 	            templateUrl: 'views/list.html',
 	            controller: 'ActCrtl',
+	            controllerAs: 'acceptAct'
+	        })
+	        .when('/amandman/:accept', {
+	            templateUrl: 'views/listAmandman.html',
+	            controller: 'AmandmanCrtl',
 	            controllerAs: 'acceptAct'
 	        })
 	        .when('/add/new/act', {
@@ -44,19 +49,24 @@ angular
 	            controller: 'AddAmandmanCtrl',
 	            controllerAs: 'addAct'
 	        })
-	        .when('/read/proposed/:id', {
+	        .when('/acts/read/proposed/:id', {
 	            templateUrl: 'views/readAct.html',
 	            controller: 'ReadCrtl',
 	            controllerAs: 'readCtrl'
 	        })
-	        .when('/read/accepted/:id', {
+	        .when('/acts/read/accepted/:id', {
 	            templateUrl: 'views/readAcceptAct.html',
 	            controller: 'ReadCrtl',
 	            controllerAs: 'readCtrl'
 	        })
-	        .when('/read/accepted/:id', {
-	            templateUrl: 'views/readAcceptAct.html',
-	            controller: 'ReadCrtl',
+	        .when('/amandman/read/proposed/:id', {
+	            templateUrl: 'views/readAmandman.html',
+	            controller: 'ReadAmandanCrtl',
+	            controllerAs: 'readCtrl'
+	        })
+	        .when('/amandman/read/accepted/:id', {
+	            templateUrl: 'views/readAcceptAmandman.html',
+	            controller: 'ReadAmandanCrtl',
 	            controllerAs: 'readCtrl'
 	        })
 	        .otherwise({

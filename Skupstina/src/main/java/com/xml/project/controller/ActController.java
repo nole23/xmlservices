@@ -57,6 +57,7 @@ import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.xml.project.dto.MesagesDTO;
 import com.xml.project.dto.SearchDTO;
+import com.xml.project.jaxb.Amandman;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.Published;
 import com.xml.project.model.User;
@@ -203,13 +204,13 @@ public class ActController {
 	/*
 	 * Potrebno je proslediti jedan od dva parametra 1. proposed 2. accepted
 	 */
-	@RequestMapping(value = "/collection/{coll}/{type}", method = RequestMethod.GET)
-	public ResponseEntity<List<SearchDTO>> findByCollection(@PathVariable String coll, @PathVariable String type)
+	@RequestMapping(value = "/collection/{coll}", method = RequestMethod.GET)
+	public ResponseEntity<List<SearchDTO>> findByCollection(@PathVariable String coll)
 			throws JAXBException, IOException, SAXException {
 
 		List<SearchDTO> searchDTO = new ArrayList<SearchDTO>();
 
-		String collId = "/parliament/" + type + "/" + coll;
+		String collId = "/parliament/acts/" + coll;
 		System.out.println(collId);
 		QueryManager queryManager = databaseClient.newQueryManager();
 		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
@@ -244,19 +245,19 @@ public class ActController {
 	}
 
 	public String getDocumentTitle(String docId) throws JAXBException {
+		
 		String title = "";
+
 		Dokument dokument = null;
-
 		DOMHandle content = new DOMHandle();
-
 		xmlMenager.read(docId, content);
-
 		Document docc = content.get();
-
 		dokument = (Dokument) unmarshaller.unmarshal(docc);
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
 
 		title = dokument.getNaslov();
+		
+		
 
 		return title;
 	}

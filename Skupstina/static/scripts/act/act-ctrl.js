@@ -6,7 +6,7 @@ angular.module('xmlClientApp')
 		
 		$scope.list = [];
 		var id = $routeParams.accept;
-		var tip = $routeParams.tip;
+		var tip = 'acts';
 		console.log(id + ' | ' + tip);
 			
 		ActResource.getUsvojeni(id, tip).then(function(items) {

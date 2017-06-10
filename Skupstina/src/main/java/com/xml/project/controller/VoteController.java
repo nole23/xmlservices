@@ -42,6 +42,8 @@ public class VoteController {
 	@Autowired
 	ActController actControler;
 
+	AcceptAmandman acceptAmandman;
+	
 	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<MesagesDTO> vote(@RequestBody VoteDTO dto, Principal principal) throws JAXBException, IOException, SAXException {
 
@@ -75,20 +77,6 @@ public class VoteController {
 		List<User> users = userService.findAll();
 		List<Voting> vote = votingService.findByName(dto.getName());
 		
-		/*
-		List<VoteDTO> voteDTO = new ArrayList<VoteDTO>();
-		for(Voting v : vote) {
-			System.out.println("3");
-			System.out.println(v.isYn());
-			if(v.isYn() == true) {
-				System.out.println("4");
-				voteDTO.add(new VoteDTO(v));
-			}
-				
-			
-		}
-		System.out.println(voteDTO);
-		*/
 		
 		double countUser = users.size();
 		int countVote = vote.size();
@@ -97,12 +85,20 @@ public class VoteController {
 		if((countUser/2) >= countVote){
 			messageDTO.setVote(false);
 			return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
+		} else {
+			
+			if(dto.getTip().equals("act"))
+				this.actControler.acceptAct(dto.getName());
+			
+			if(dto.getTip().equals("amandman"))
+				this.acceptAmandman.Accept(dto.getName());
+			
+			messageDTO.setVote(true);
+			return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
 		}
 		
-		this.actControler.acceptAct(dto.getName());
 		
-		messageDTO.setVote(true);
-		return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
+		
 	}
 
 	@RequestMapping(value = "/{docId}", method = RequestMethod.GET)

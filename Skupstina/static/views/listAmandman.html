@@ -5,7 +5,7 @@
 			<div id="page-header">
 
 				<!-- PAGE TITLE : begin -->
-				<div class="page-title"><h1>Pregled svih <span ng-if="name == 'accepted'">usvojenih</span> <span ng-if="name == 'proposed'">predlozenih</span ><span ng-if="tip == 'amandman'"> AMANDMANA</span> <span ng-if="tip == 'acts'"> AKATA</span></h1></div>
+				<div class="page-title"><h1>Pregled svih <span ng-if="name == 'accepted'">usvojenih</span> <span ng-if="name == 'proposed'">predlozenih</span >AMANDMANA</h1></div>
 				<!-- PAGE TITLE : end -->
 
 			</div>
@@ -27,8 +27,8 @@
 									<td >
 										
 										<span style="color: #0000ff;">
-											<a ng-if="name == 'accepted'" style="color: #0000ff;" href="#/acts/read/accepted/{{l.docUrl}}">{{l.docTitle}}</a>
-											<a ng-if="name == 'proposed'" style="color: #0000ff;" href="#/acts/read/proposed/{{l.docUrl}}">{{l.docTitle}}</a>
+											<a ng-if="name == 'accepted'" style="color: #0000ff;" href="#/amandman/read/accepted/{{l.docUrl}}">{{l.docTitle}}</a>
+											<a ng-if="name == 'proposed'" style="color: #0000ff;" href="#/amandman/read/proposed/{{l.docUrl}}">{{l.docTitle}}</a>
 										</span> 
 										<span style="float: right; color: #DDDDD;">
 											<a href style="color: #0000ff;" ng-click="converte(l.docUrl, 'PDF')">PDF</a> | 

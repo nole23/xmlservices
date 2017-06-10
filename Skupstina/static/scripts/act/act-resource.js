@@ -16,16 +16,35 @@ angular.module('xmlClientApp')
 		var akt = [];
 		
 		retVal.getUsvojeni = function(id, tip) {
-			var link = 'act/collection/'+id+'/'+tip;
-			console.log(link);
-			return Restangular.all(link).getList().then(function(entries) {
-				lista = entries;
-				return lista;
-			});
+			
+			if(tip == 'acts') {
+				var link = 'act/collection/'+id;
+				console.log(link);
+				return Restangular.all(link).getList().then(function(entries) {
+					lista = entries;
+					return lista;
+				});
+			} else {
+				var link = 'amandman/collection/'+id;
+				console.log(link);
+				return Restangular.all(link).getList().then(function(entries) {
+					lista = entries;
+					return lista;
+				});
+			}
+			
 		};
 		
 		retVal.getAct = function(id) {
 			var link = 'act/find/'+id;
+			return Restangular.one(link).get().then(function(entries) {
+				akt = entries;
+				return akt;
+			});
+		};
+		
+		retVal.getAmandman = function(id) {
+			var link = 'amandman/find/'+id;
 			return Restangular.one(link).get().then(function(entries) {
 				akt = entries;
 				return akt;
@@ -56,12 +75,14 @@ angular.module('xmlClientApp')
 			})
 		};
 		
-		retVal.saveAmandman = function(amandman, callback) {
-			var link = 'amandman/add/add';
+		
+		retVal.saveAmandman = function(amandman) {
+			var link = 'amandman/add';
 			
 			return Restangular.all(link).post(amandman).then(function(success) {
 				message = success;
 				return message;
+				
 			})
 		};
 		
@@ -71,8 +92,15 @@ angular.module('xmlClientApp')
 				blob = success;
 				return blob;
 			})
-		}
+		};
 		
+		retVal.converteAmandman = function(id, tip) {
+			var link = 'amandman/convert/'+id+'/'+tip;
+			return Restangular.one(link).get().then(function(success) {
+				blob = success;
+				return blob;
+			})
+		};
 		
 		return retVal;
 		
