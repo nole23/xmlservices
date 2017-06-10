@@ -6,7 +6,8 @@
     <xs:element name="amandman">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="naslovAkta"/>
+                <xs:element name="naslovAkta" type="xs:string"/>
+                <xs:element name="korisnik" type="xs:string"/>
                 <xs:element ref="amand:sluzbeniListAmandmana"/>
                 <xs:element name="dopunaZakonaAmandmana" maxOccurs="unbounded">
                     <xs:complexType>
@@ -19,7 +20,6 @@
             </xs:sequence>
             <xs:attribute ref="amand:idAkta"/>
             <xs:attribute ref="amand:linkAkta"/>
-            <xs:attribute ref="amand:Korisnik"/>
             <xs:attribute ref="amand:odobreno"/>
             <xs:attribute ref="amand:dopunaIzmena"/>
         </xs:complexType>
@@ -78,7 +78,6 @@
         </xs:complexType>
     </xs:element>
     <xs:attribute name="idAkta" type="xs:string"/>
-    <xs:attribute name="Korisnik" type="xs:string"/>
     <xs:attribute name="linkAkta" type="xs:string"/>
     <xs:attribute name="odobreno" type="xs:boolean"/>
     <xs:attribute name="dopunaIzmena" type="xs:boolean"/>

@@ -6,7 +6,7 @@
 	ns2:idAkta="1"
 	ns2:linkAkta="11609307831103418758"
 	ns2:odobreno="false"
-	ns2:dopunaIzmena="false"
+	ns2:dopunaIzmena="false">
 	<xsl:template match="/">
 	
 		<html>
@@ -124,7 +124,7 @@
 		                	</div>
 		                	
 		                	<div class="sluzbeniList">
-		                		Mesto:
+		                		Datum:
 		                		<div class="element">
 		                			<xsl:value-of select="ns2:amandman/ns2:sluzbeniListAmandmana/ns2:mestoDatum/ns2:datum"/>
 		                		</div>
@@ -138,7 +138,7 @@
 	                					
 	                					<div style="float: left; border: 1px solid #333; text-align: left; width: 850px;margin: 0 0 1% 1%; padding: 2% 0 0 0;">
 	                						
-	                						<xsl:for-each select="ns2:dopunaZakonaAmandmana/ns2:glava">
+	                						<xsl:for-each select="ns2:amandman/ns2:dopunaZakonaAmandmana/ns2:glava">
 	                							<div style="text-align: center;">
 	                								Glava
 	                								<div style="border-top: 1px solid #333; border-bottom: 1px solid #333; margin: 0 0 1% 3%; width: 790px; text-align: left;">

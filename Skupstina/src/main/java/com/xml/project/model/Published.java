@@ -24,7 +24,7 @@ public class Published {
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	private User user;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REFRESH)
 	private Set<Voting> voting = new HashSet<Voting>();
 
 	public Long getId() {
@@ -74,5 +74,6 @@ public class Published {
 	public void setVoting(Set<Voting> voting) {
 		this.voting = voting;
 	}
+
 
 }

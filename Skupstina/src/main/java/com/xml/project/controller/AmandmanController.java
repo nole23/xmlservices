@@ -113,6 +113,7 @@ public class AmandmanController {
 		if (user == null) 
 			return new ResponseEntity<MesagesDTO>(HttpStatus.BAD_REQUEST);
 
+		amandman.setKorisnik(user.getUsername());
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE + "amandma.xsd"));
 
@@ -178,6 +179,20 @@ public class AmandmanController {
 		return new ResponseEntity<List<SearchDTO>>(searchDTO, HttpStatus.OK);
 	}
 	
+	
+	@RequestMapping(value = "/delete/{docId}", method = RequestMethod.DELETE)
+	public ResponseEntity<MesagesDTO> deleteCollection(@PathVariable String docId)
+			throws JAXBException, IOException, SAXException {
+
+		String collId = "/amandman/decisions/" + docId + ".xml";
+
+		xmlMenager.delete(collId);
+		
+		MesagesDTO mesagesDTO = new MesagesDTO();
+		mesagesDTO.setMessage("delete");
+		return new ResponseEntity<>(mesagesDTO, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/find/{docId}", method = RequestMethod.GET)
 	public ResponseEntity<Amandman> findByIdAct(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
@@ -206,10 +221,10 @@ public class AmandmanController {
 	public void convert(HttpServletResponse response, @PathVariable String docId, @PathVariable String typeId)
 			throws JAXBException, IOException, SAXException, DocumentException, TransformerException {
 
-		System.out.println("ovde usao");
+		
 		String doc = "/amandman/decisions/" + docId + ".xml";
 		Amandman amandman = null;
-		
+
 		DOMHandle content = new DOMHandle();
 		xmlMenager.read(doc, content);
 
@@ -220,7 +235,7 @@ public class AmandmanController {
 
 		unmarshaller.setSchema(schema);
 		amandman = (Amandman) unmarshaller.unmarshal(docc);
-		System.out.println("ovde je "+amandman);
+
 		String outputFileName = "data/html/" + docId + ".html";
 		OutputStream htmlFile = new FileOutputStream(outputFileName);
 
@@ -228,12 +243,13 @@ public class AmandmanController {
 		StreamSource xslt = new StreamSource("data/amandma.xsl");
 		Transformer transformer = tf.newTransformer(xslt);
 
-		JAXBContext jc = JAXBContext.newInstance(Dokument.class);
+		JAXBContext jc = JAXBContext.newInstance(Amandman.class);
 		JAXBSource source = new JAXBSource(jc, amandman);
 
 		transformer.transform(source, new StreamResult(htmlFile));
 
-		File file1 = new File(outputFileName);
+		
+		File file1 = new File(XML_FILE + "html/" +docId + ".html");
 		String mimeType = URLConnection.guessContentTypeFromName(file1.getName());
 
 		response.setContentType(mimeType);
@@ -243,6 +259,7 @@ public class AmandmanController {
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 
 		file1.delete();
+		
 	}
 	
 	

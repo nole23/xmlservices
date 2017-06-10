@@ -13,7 +13,7 @@ public class PublishedDTO {
 	private String type;
 	private boolean accepted;
 	private UserDTO userDTO;
-	private Set<VoteDTO> voteDTO = new HashSet<VoteDTO>();
+	private Set<VoteDTO> voteDTO;
 
 	public PublishedDTO() {
 		super();
@@ -38,11 +38,11 @@ public class PublishedDTO {
 		this.accepted = pub.isAccepted();
 		if (pub.getUser() != null)
 			this.userDTO = new UserDTO(pub.getUser());
-		if (pub.getVoting() != null) {
-			this.voteDTO = new HashSet<VoteDTO>();
-			for (Voting v : pub.getVoting()) {
-				this.voteDTO.add(new VoteDTO(v));
-			}
+		
+		this.voteDTO = new HashSet<VoteDTO>();
+		for(Voting v: pub.getVoting()) {
+			
+			this.voteDTO.add(new VoteDTO(v));
 		}
 
 	}

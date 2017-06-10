@@ -102,6 +102,27 @@ angular.module('xmlClientApp')
 			})
 		};
 		
+		retVal.getDelte = function(id) {
+			var link = 'act/delete/'+id;
+			
+			return Restangular.all(link).remove().then(function(success) {
+				message = success;
+				return message;
+				
+			})
+		};
+		
+		retVal.getDelteAmandman = function(id) {
+			var link = 'amandman/delete/'+id;
+			
+			return Restangular.all(link).remove().then(function(success) {
+				message = success;
+				return message;
+				
+			})
+		};
+		
+		
 		return retVal;
 		
 	}]);

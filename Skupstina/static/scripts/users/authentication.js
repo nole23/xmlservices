@@ -22,8 +22,9 @@
 					} else {
 						
 						var currentUser = {
-								username: user.usernam,
-								token: response.jwt
+								username: user.username,
+								token: response.jwt,
+								rola: response.rola
 						};
 						
 						$localStorage.currentUser = currentUser;

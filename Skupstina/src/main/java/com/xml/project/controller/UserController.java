@@ -1,6 +1,8 @@
 package com.xml.project.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import com.xml.project.model.Role;
 import com.xml.project.model.User;
 import com.xml.project.model.User_Role;
 import com.xml.project.repository.RoleRepository;
+import com.xml.project.repository.UserRepository;
 import com.xml.project.repository.UserRoleRepository;
 import com.xml.project.security.TokenUtils;
 import com.xml.project.service.UserService;
@@ -43,6 +46,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -50,6 +56,31 @@ public class UserController {
 	@Autowired
 	UserRoleRepository userRoleRepository;
 
+	
+	/**
+	 * Ispis svih registrovanih usersa koji nisu PRESIDENT
+	 * @param principal
+	 * @return
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>> getAdopt(Principal principal) {
+
+		User users = userService.findByUsername(principal.getName());
+		Role role = roleRepository.findByName("PRESIDENT");
+		
+		System.out.println(users.getRole().getRole().getName());
+		List<User> user = userService.findAll();
+		
+		List<UserDTO> userDTO = new ArrayList<>();
+		for(User u : user) {
+			if(!(u.getRole().getRole() == role))
+				userDTO.add(new UserDTO(u));
+		}
+		
+		return new ResponseEntity<>(userDTO, HttpStatus.OK);
+	}
+	
+	
 	/***
 	 * 
 	 * @param loginDTO
@@ -63,6 +94,8 @@ public class UserController {
 	public ResponseEntity<MesagesDTO> login(@RequestBody LoginDTO loginDTO) {
 		MesagesDTO messagesDTO = new MesagesDTO();
 		try {
+			
+			User users = userService.findByUsername(loginDTO.getUsername());
 			// Perform the authentication
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
 					loginDTO.getPassword());
@@ -73,6 +106,7 @@ public class UserController {
 			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
 			
 			messagesDTO.setJwt(tokenUtils.generateToken(details));
+			messagesDTO.setRola(users.getRole().getRole().getName());
 			return new ResponseEntity<MesagesDTO>(messagesDTO, HttpStatus.OK);
 		} catch (Exception ex) {
 			messagesDTO.setError("invalid");
@@ -129,22 +163,24 @@ public class UserController {
 	 * @see UserDTO
 	 * @author stefan
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/xml")
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<String> saveUser(@RequestBody UserDTO userDTO) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		
 		User user = new User();
 		User_Role user_role = new User_Role();
-
+		
 		if (userService.findByUsername(userDTO.getUsername()) != null)
 			return new ResponseEntity<String>("User width {" + userDTO.getUsername() + "} username exists!",
 					HttpStatus.CONFLICT);
+		
+		
 		if (userService.findByEmail(userDTO.getEmail()) != null)
 			return new ResponseEntity<String>("User width {" + userDTO.getEmail() + "} email exists!",
 					HttpStatus.CONFLICT);
-		// set user role
-		user_role.setRole(roleRepository.findByName("ALDERMAN"));
-		user.setRole(user_role);
-
+		
+		
 		// set user credentials
 		user.setEmail(userDTO.getEmail());
 		user.setUsername(userDTO.getUsername());
@@ -152,8 +188,14 @@ public class UserController {
 		user.setfName(userDTO.getfName());
 		user.setlName(userDTO.getlName());
 
-		user = userService.save(user);
+		userRepository.save(user);
+
+		Long id = Long.parseLong("2");
+		Role role = roleRepository.findOne(id);
+		
+		user_role.setRole(role);
 		user_role.setUser(user);
+		
 		userRoleRepository.save(user_role);
 
 		return new ResponseEntity<String>("User has been created", HttpStatus.CREATED);
@@ -166,7 +208,7 @@ public class UserController {
 	 * @see Principal
 	 * @author stefan
 	 */
-	@RequestMapping(value = "/profile", method = RequestMethod.GET, produces = { "application/xml", "text/xml" })
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getProfile(Principal principal) {
 
 		User user = userService.findByUsername(principal.getName());

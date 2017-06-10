@@ -45,16 +45,12 @@ angular.module('xmlClientApp')
 		}
 	}])
 	
-	.controller('AddActCtrl', ['$scope', '$uibModal', '$log', '_', '$routeParams', 'Act', '$location',
-	   function($scope, $uibModal, $log, _, $routeParams, Act, $location) {
-		
-		
-		
-		
+	.controller('AddActCtrl', ['$scope', '$uibModal', '$log', '_', '$rootScope', '$routeParams', 'Act', '$location',
+	   function($scope, $uibModal, $log, _, $routeParams, $rootScope, Act, $location) {
 		
 		$scope.dokument = {
 				id:'1',
-				korisnik:'Novica Nikolic',
+				korisnik:'',
 				odobreno:false,
 				naslov:'',
 				sluzbeniList:{
@@ -67,7 +63,7 @@ angular.module('xmlClientApp')
 				},
 				propisi:[{
 					id:'1',
-					korisnik:'Novica Nikolic',
+					korisnik:'',
 					naziv_propisa:'',
 					preambula:'',
 					uvodniDeo:[{
@@ -123,7 +119,7 @@ angular.module('xmlClientApp')
 								opis:''
 							}]
 						}],
-						potpis_presednika:'Novica Nikolic'
+						potpis_presednika:''
 					}],
 					dopunaZakona:{
 						glava:[{
@@ -249,7 +245,7 @@ angular.module('xmlClientApp')
 		
 		function callBack(success) {
 			if(success == 200){
-				$location.path('/act/proposed');
+				$location.path('/acts/proposed');
 			} else if(success == 400) {
 				console.log('ne radi nesto dobro');
 			}
@@ -290,6 +286,14 @@ angular.module('xmlClientApp')
 		$scope.dopuna = function(id) {
 			console.log(id);
 			window.location = '#/complement/amandman/'+id;
+		}
+		
+		$scope.deleteAct = function() {
+			
+			ActResource.getDelte(res[0]).then(function(items) {
+				console.log(items);
+				
+		    });
 		}
 		
 		

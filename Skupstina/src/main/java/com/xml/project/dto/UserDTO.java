@@ -10,12 +10,12 @@ public class UserDTO {
 	private String username;
 	private String email;
 	private String pass;
-	private RoleDTO role;
 
 	public UserDTO() {
 	}
 
-	public UserDTO(Long id, String lName, String fName, String username, String email, String pass, RoleDTO role) {
+	public UserDTO(Long id, String lName, String fName, String username,
+			String email, String pass) {
 		super();
 		this.id = id;
 		this.lName = lName;
@@ -23,7 +23,6 @@ public class UserDTO {
 		this.username = username;
 		this.email = email;
 		this.pass = pass;
-		this.role = role;
 	}
 
 	public UserDTO(User user) {
@@ -33,8 +32,7 @@ public class UserDTO {
 		this.username = user.getUsername();
 		this.email = user.getEmail();
 		this.pass = user.getPass();
-		this.role = new RoleDTO();
-		this.role.setName(user.getRole().getRole().getName());
+
 	}
 
 	public Long getId() {
@@ -85,17 +83,11 @@ public class UserDTO {
 		this.pass = pass;
 	}
 
-	public RoleDTO getRole() {
-		return role;
-	}
-
-	public void setRole(RoleDTO role) {
-		this.role = role;
-	}
 
 	@Override
 	public String toString() {
-		return "UserDTO [id=" + id + ", lName=" + lName + ", fName=" + fName + ", username=" + username + ", email="
-				+ email + ", pass=" + pass + ", role=" + role + "]";
+		return "UserDTO [id=" + id + ", lName=" + lName + ", fName=" + fName
+				+ ", username=" + username + ", email=" + email + ", pass="
+				+ pass + "]";
 	}
 }

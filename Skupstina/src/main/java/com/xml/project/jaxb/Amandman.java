@@ -8,40 +8,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-		"naslovAkta",
-		"sluzbeniListAmandmana",
-		"dopunaZakonaAmandmana",
-		"idAkta",
-		"linkAkta",
-		"Korisnik",
-		"odobreno",
-		"dopunaIzmena"
-})
+@XmlType(name = "", propOrder = { "naslovAkta", "korisnik", "sluzbeniListAmandmana",
+		"dopunaZakonaAmandmana", "idAkta", "linkAkta", "odobreno",
+		"dopunaIzmena" })
 @XmlRootElement(name = "amandman")
 public class Amandman {
 
 	@XmlElement(name = "naslovAkta")
 	private String naslovAkta;
-	
+
+	@XmlElement(name = "korisnik")
+	private String korisnik;
+
 	@XmlElement(name = "sluzbeniListAmandmana")
 	private SluzbeniListAmandmana sluzbeniListAmandmana;
-	
+
 	@XmlElement(name = "dopunaZakonaAmandmana")
 	private DopunaZakonaAmandamana dopunaZakonaAmandmana;
-	
+
 	@XmlAttribute(name = "idAkta", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String idAkta;
-	
+
 	@XmlAttribute(name = "linkAkta", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String linkAkta;
-	
-	@XmlAttribute(name = "Korisnik", namespace = "http://www.parlament.gov.rs/amandmani")
-	private String Korisnik;
-	
+
 	@XmlAttribute(name = "odobreno", namespace = "http://www.parlament.gov.rs/amandmani")
 	private boolean odobreno;
-	
+
 	@XmlAttribute(name = "dopunaIzmena", namespace = "http://www.parlament.gov.rs/amandmani")
 	private boolean dopunaIzmena;
 
@@ -57,7 +50,8 @@ public class Amandman {
 		return sluzbeniListAmandmana;
 	}
 
-	public void setSluzbeniListAmandmana(SluzbeniListAmandmana sluzbeniListAmandmana) {
+	public void setSluzbeniListAmandmana(
+			SluzbeniListAmandmana sluzbeniListAmandmana) {
 		this.sluzbeniListAmandmana = sluzbeniListAmandmana;
 	}
 
@@ -87,11 +81,11 @@ public class Amandman {
 	}
 
 	public String getKorisnik() {
-		return Korisnik;
+		return korisnik;
 	}
 
 	public void setKorisnik(String korisnik) {
-		Korisnik = korisnik;
+		this.korisnik = korisnik;
 	}
 
 	public boolean isOdobreno() {
@@ -109,7 +103,5 @@ public class Amandman {
 	public void setDopunaIzmena(boolean dopunaIzmena) {
 		this.dopunaIzmena = dopunaIzmena;
 	}
-	
-	
-	
+
 }

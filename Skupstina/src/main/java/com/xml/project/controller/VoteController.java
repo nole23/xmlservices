@@ -74,7 +74,7 @@ public class VoteController {
 		messageDTO.setMessage("glassali");
 
 		//Ispis svih korisnika
-		List<User> users = userService.findAll();
+		/*List<User> users = userService.findAll();
 		List<Voting> vote = votingService.findByName(dto.getName());
 		
 		
@@ -96,9 +96,11 @@ public class VoteController {
 			messageDTO.setVote(true);
 			return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
 		}
+		*/
 		
 		
-		
+		messageDTO.setVote(false);
+		return new ResponseEntity<MesagesDTO>(messageDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{docId}", method = RequestMethod.GET)

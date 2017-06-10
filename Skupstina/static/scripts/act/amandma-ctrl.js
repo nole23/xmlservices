@@ -11,13 +11,13 @@ angular.module('xmlClientApp')
 		ActResource.getAct(id).then(function(items) {
 			$scope.dokument = items;
 			
-			console.log(items);
+			console.log(items.korisnik);
 			
 			$scope.amandman = {
 					naslovAkta: items.naslov,
 					idAkta: items.id,
 					linkAkta: id,
-					Korisnik: items.korisnik,
+					korisnik: items.korisnik,
 					odobreno: false,
 					dopunaIzmena: false,
 					sluzbeniListAmandmana: {
@@ -133,6 +133,7 @@ angular.module('xmlClientApp')
 		ActResource.getAmandman(res[0]).then(function(items) {
 			$scope.list = items;
 			$scope.xml = res[0];
+			console.log("amandman "+JSON.stringify(items));
 	    })
 	    
 	    $scope.acceptAmandman = function () {
@@ -146,6 +147,14 @@ angular.module('xmlClientApp')
 					$scope.message = items.message;
 				}
 			})
+		}
+		
+		$scope.deleteAmandman = function() {
+			
+			ActResource.getDelteAmandman(res[0]).then(function(items) {
+				$scope.delete = true;
+				window.location = '#/amandman/proposed';
+		    });
 		}
 	    
 	}])

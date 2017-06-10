@@ -56,12 +56,17 @@ import com.marklogic.client.query.MatchDocumentSummary;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.xml.project.dto.MesagesDTO;
+import com.xml.project.dto.PublishedDTO;
 import com.xml.project.dto.SearchDTO;
+import com.xml.project.dto.UserDTO;
+import com.xml.project.dto.VoteDTO;
 import com.xml.project.jaxb.Amandman;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.Published;
 import com.xml.project.model.User;
+import com.xml.project.model.Voting;
 import com.xml.project.repository.PublishedRepository;
+import com.xml.project.repository.VotingRepository;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
 
@@ -74,6 +79,9 @@ public class ActController {
 
 	@Autowired
 	PublishedRepository publishedRepository;
+	
+	@Autowired
+	VotingRepository votingRepository;
 
 	private static DatabaseClient databaseClient;
 	private static DatabaseUtil dUtil = new DatabaseUtil();
@@ -110,13 +118,15 @@ public class ActController {
 		User user = userService.findByUsername(principal.getName());
 
 		System.out.println(doc.getPropisi());
-
+		
 		if (user == null)
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new File(XML_FILE + "skupstina.xsd"));
-
+		
+		doc.setKorisnik(user.getUsername());
+		
 		m.setSchema(schema);
 		m.setEventHandler(new MyValidationEventHandler());
 
@@ -151,11 +161,8 @@ public class ActController {
 	@RequestMapping(value = "/accept/{docId}", method = RequestMethod.GET)
 	public ResponseEntity<MesagesDTO> acceptAct(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
-
-		// connecti to marklogic
-
-		System.out.println("DOSAO");
-
+		
+		MesagesDTO mesagesDTO = new MesagesDTO();
 		String doc = "/acts/decisions/" + docId + ".xml";
 		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 		xmlMenager.readMetadata(doc, metadata);
@@ -164,8 +171,8 @@ public class ActController {
 		collections.remove("/parliament/acts/proposed");
 		collections.add("/parliament/acts/accepted");
 		xmlMenager.writeMetadata(doc, metadata);
-
-		return new ResponseEntity<MesagesDTO>(HttpStatus.OK);
+		mesagesDTO.setVote(true);
+		return new ResponseEntity<MesagesDTO>(mesagesDTO, HttpStatus.OK);
 	}
 
 	/**
@@ -243,7 +250,30 @@ public class ActController {
 
 		return new ResponseEntity<String>("izbrisano", HttpStatus.OK);
 	}
+	
+	/**
+	 * Ispis svih galsova za presednika na osnovu kog on odlucuje da li se akt usvaja ili ne usvaja
+	 * @param principal
+	 * @return
+	 */
+	@RequestMapping(value = "/adopt/proposal/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<VoteDTO>> getAdopt(Principal principal, @PathVariable String id) {
 
+		
+		List<Voting> Voting = votingRepository.findByName(id);
+		
+		List<VoteDTO> voteDTO = new ArrayList<>();
+		for(Voting v : Voting) {
+			
+			
+			voteDTO.add(new VoteDTO(v));
+		}
+		
+		return new ResponseEntity<>(voteDTO, HttpStatus.OK);
+	}
+
+
+	
 	public String getDocumentTitle(String docId) throws JAXBException {
 		
 		String title = "";

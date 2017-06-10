@@ -1,36 +1,28 @@
 package com.xml.project.dto;
 
-import com.xml.project.model.Voting;
-
-public class VoteDTO {
+public class VotePresidetnDTO {
 
 	private Long id;
 	private String tip;
 	private String name;
 	private boolean yn;
-	private UserDTO userDTO;
+	private String xmlLink;
+	private String type;
 
-	public VoteDTO() {
+	public VotePresidetnDTO() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public VoteDTO(Long id, String tip, String name, boolean yn,
-			UserDTO userDTO) {
+	public VotePresidetnDTO(Long id, String tip, String name, boolean yn,
+			String xmlLink, String type) {
 		super();
 		this.id = id;
 		this.tip = tip;
 		this.name = name;
 		this.yn = yn;
-		this.userDTO = userDTO;
-
-	}
-
-	public VoteDTO(Voting v) {
-		this.id = v.getId();
-		this.tip = v.getTip();
-		this.name = v.getName();
-		this.yn = v.isYn();
-		if (v.getUser() != null)
-			this.userDTO = new UserDTO(v.getUser());
+		this.xmlLink = xmlLink;
+		this.type = type;
 	}
 
 	public Long getId() {
@@ -65,13 +57,20 @@ public class VoteDTO {
 		this.yn = yn;
 	}
 
-	public UserDTO getUserDTO() {
-		return userDTO;
+	public String getXmlLink() {
+		return xmlLink;
 	}
 
-	public void setUserDTO(UserDTO userDTO) {
-		this.userDTO = userDTO;
+	public void setXmlLink(String xmlLink) {
+		this.xmlLink = xmlLink;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 }

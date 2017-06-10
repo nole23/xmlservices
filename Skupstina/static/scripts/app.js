@@ -69,6 +69,11 @@ angular
 	            controller: 'ReadAmandanCrtl',
 	            controllerAs: 'readCtrl'
 	        })
+	        .when('/vote/:tip/:name/:id', {
+	            templateUrl: 'views/vote.html',
+	            controller: 'VoteCrtl',
+	            controllerAs: 'readCtrl'
+	        })
 	        .otherwise({
                 redirectTo: '/'
             });
@@ -90,7 +95,23 @@ angular
         $rootScope.logout = function () {
         	LoginResources.logout();
         }
-       
+        $rootScope.getCurrentUserRole = function () {
+            if (!LoginResources.getCurrentUser()){
+              return undefined;
+            }
+            else{
+            
+              return LoginResources.getCurrentUser().rola;
+            }
+        }
+        $rootScope.getCurrentUserUser = function () {
+            if (!LoginResources.getCurrentUser()){
+              return undefined;
+            }
+            else{
+              return LoginResources.getCurrentUser().username;
+            }
+        }
         $rootScope.isLoggedIn = function () {
             if (LoginResources.getCurrentUser()){
               return true;
