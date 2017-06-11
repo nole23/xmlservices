@@ -122,6 +122,14 @@ angular.module('xmlClientApp')
 			})
 		};
 		
+		retVal.rdfConvert = function(id) {
+			var link = 'act/download/rdf/'+id;
+			return Restangular.one(link).get().then(function(success) {
+				blob = success;
+				return blob;
+			})
+		};
+		
 		
 		return retVal;
 		

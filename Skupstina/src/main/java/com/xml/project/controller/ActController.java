@@ -3,6 +3,7 @@ package com.xml.project.controller;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +70,7 @@ import com.xml.project.repository.PublishedRepository;
 import com.xml.project.repository.VotingRepository;
 import com.xml.project.service.UserService;
 import com.xml.project.util.DatabaseUtil;
+import com.xml.project.util.Helper;
 
 @RestController
 @RequestMapping(value = "api/act")
@@ -388,5 +390,26 @@ public class ActController {
 		file1 = new File(XML_FILE + docId + ".html");
 		file1.delete();
 
+	}
+	
+	@RequestMapping(value="download/rdf/{docId}", method=RequestMethod.GET)
+	public void downloadRDF(HttpServletResponse response, @PathVariable String docId) throws JAXBException, SAXException, TransformerException, IOException
+	{
+		Helper helper = new Helper();
+		helper.generateRDF(docId);
+		
+		//download rdf file
+		File rdfFile = new File(XML_FILE + docId + ".rdf");
+		String mimeType = URLConnection.guessContentTypeFromName(rdfFile.getName());
+
+		response.setContentType(mimeType);
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + rdfFile.getName() + "\""));
+		response.setContentLength((int) rdfFile.length());
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(rdfFile));
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+		
+		//delete file
+		rdfFile.delete();
+		
 	}
 }
