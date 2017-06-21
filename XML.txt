@@ -28,7 +28,7 @@
 	1.1 Download act						| X
 	2.2 Download amandman						| X
 2. PDF									
-	2.1 Download amandma						| 
+	2.1 Download amandma						| X
 	2.2 Dowbload act						| X
 
 --------Izvovz------------

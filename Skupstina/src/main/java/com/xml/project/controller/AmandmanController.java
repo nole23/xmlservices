@@ -40,6 +40,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.DocumentDescriptor;
@@ -221,7 +223,45 @@ public class AmandmanController {
 	public void convert(HttpServletResponse response, @PathVariable String docId, @PathVariable String typeId)
 			throws JAXBException, IOException, SAXException, DocumentException, TransformerException {
 
+		String doc = "/amandman/decisions/" + docId + ".xml";
+		Amandman amandman = null;
+		DOMHandle content = new DOMHandle();
+		xmlMenager.read(doc, content);
+		Document docc = content.get();
+
+		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = schemaFactory.newSchema(new File(XML_FILE + "amandma.xsd"));
+
+		unmarshaller.setSchema(schema);
+		amandman = (Amandman) unmarshaller.unmarshal(docc);
+		String outputFileName = "data/" + docId + ".html";
+		OutputStream htmlFile = new FileOutputStream(outputFileName);
+
+		TransformerFactory tf = TransformerFactory.newInstance();
+		StreamSource xslt = new StreamSource("data/amandma.xsl");
+		Transformer transformer = tf.newTransformer(xslt);
+		JAXBContext jc = JAXBContext.newInstance(Amandman.class);
+		JAXBSource source = new JAXBSource(jc, amandman);
+		transformer.transform(source, new StreamResult(htmlFile));
 		
+		File file1 = new File(XML_FILE  +docId + ".html");
+		String mimeType = URLConnection.guessContentTypeFromName(file1.getName());
+		response.setContentType(mimeType);
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file1.getName() + "\""));
+		response.setContentLength((int) file1.length());
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(file1));
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+		System.out.println("12");
+		file1.delete();
+		
+	}
+	
+	
+	@RequestMapping(value = "/download/pdf/{docId}", method = RequestMethod.GET)
+	public void downloadPDF(HttpServletResponse response, @PathVariable String docId)
+			throws JAXBException, IOException, SAXException, DocumentException, TransformerException {
+
+	
 		String doc = "/amandman/decisions/" + docId + ".xml";
 		Amandman amandman = null;
 
@@ -236,11 +276,11 @@ public class AmandmanController {
 		unmarshaller.setSchema(schema);
 		amandman = (Amandman) unmarshaller.unmarshal(docc);
 
-		String outputFileName = "data/html/" + docId + ".html";
+		String outputFileName = "data/" + docId + ".html";
 		OutputStream htmlFile = new FileOutputStream(outputFileName);
 
 		TransformerFactory tf = TransformerFactory.newInstance();
-		StreamSource xslt = new StreamSource("data/amandma.xsl");
+		StreamSource xslt = new StreamSource("data/pdfAmandman.xsl");
 		Transformer transformer = tf.newTransformer(xslt);
 
 		JAXBContext jc = JAXBContext.newInstance(Amandman.class);
@@ -248,18 +288,29 @@ public class AmandmanController {
 
 		transformer.transform(source, new StreamResult(htmlFile));
 
-		
-		File file1 = new File(XML_FILE + "html/" +docId + ".html");
+		// PDF FILE
+		com.itextpdf.text.Document myDoc = new com.itextpdf.text.Document();
+		PdfWriter writer = PdfWriter.getInstance(myDoc, new FileOutputStream(XML_FILE + docId + ".pdf"));
+
+		myDoc.open();
+
+		XMLWorkerHelper.getInstance().parseXHtml(writer, myDoc, new FileInputStream(XML_FILE + docId + ".html"));
+		myDoc.close();
+
+		File file1 = new File(XML_FILE + docId + ".pdf");
 		String mimeType = URLConnection.guessContentTypeFromName(file1.getName());
+		// END OF PDF FILE
 
 		response.setContentType(mimeType);
 		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file1.getName() + "\""));
 		response.setContentLength((int) file1.length());
 		InputStream inputStream = new BufferedInputStream(new FileInputStream(file1));
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
-
+		// delete pdf and html file
 		file1.delete();
-		
+		file1 = new File(XML_FILE + docId + ".html");
+		file1.delete();
+
 	}
 	
 	

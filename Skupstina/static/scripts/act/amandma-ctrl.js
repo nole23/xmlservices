@@ -103,6 +103,7 @@ angular.module('xmlClientApp')
 			
 			var res = id.split(".");
 			if(tip == 'HTML') {
+				
 				var fileName = id+".html";
 	            var a = document.createElement("a");
 	            document.body.appendChild(a);
@@ -116,6 +117,7 @@ angular.module('xmlClientApp')
 	            })
 			} else if(tip == 'PDF') {
 				console.log("doradi");
+				window.open('http://localhost:8080/api/amandman/download/pdf/'+res[0]);
 			} else {
 				console.log("doradi");
 			}

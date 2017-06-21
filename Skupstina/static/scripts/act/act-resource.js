@@ -87,6 +87,7 @@ angular.module('xmlClientApp')
 		};
 		
 		retVal.converte = function(id, tip) {
+			console.log("dosao");
 			var link = 'act/convert/'+id+'/'+tip;
 			return Restangular.one(link).get().then(function(success) {
 				blob = success;
@@ -95,6 +96,7 @@ angular.module('xmlClientApp')
 		};
 		
 		retVal.converteAmandman = function(id, tip) {
+			console.log("dosao");
 			var link = 'amandman/convert/'+id+'/'+tip;
 			return Restangular.one(link).get().then(function(success) {
 				blob = success;
