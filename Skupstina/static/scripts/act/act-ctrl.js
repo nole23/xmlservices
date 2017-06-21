@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('xmlClientApp')
-	.controller('ActCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 
-	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource) {
+	.controller('ActCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 'SearchResource',
+	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource, SearchResource) {
 		
 		$scope.list = [];
 		var id = $routeParams.accept;
@@ -49,7 +49,19 @@ angular.module('xmlClientApp')
 	            });
 				
 			}
+		}
+		
+		$scope.nasao = [];
+		$scope.lista = "";
+		$scope.pretraga = " ";
+		$scope.search = function() {
+			$scope.lista = $scope.keywords;
 			
+			if($scope.lista != ""){
+				SearchResource.search($scope.keywords, "acts", id).then(function (result) {
+					$scope.nasao = result;
+				});
+			}
 			
 			
 		}

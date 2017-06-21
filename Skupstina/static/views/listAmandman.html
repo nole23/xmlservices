@@ -2,6 +2,11 @@
 	<div class="c-content-box" style="width:950px;">
 		<div class="page-content-inner">
 			
+			
+			<form class="navbar-search" >
+				<input type="text" placeholder="Search" ng-change="search()" ng-model="keywords" class="form-control">
+			</form>
+			
 			<div id="page-header">
 
 				<!-- PAGE TITLE : begin -->
@@ -11,7 +16,7 @@
 			</div>
 			
 			<!-- PAGE CONTENT : begin -->
-			<div id="page-content">
+			<div id="page-content" ng-show="liste == ''">
 
 
 				<div class="c-content-box">
@@ -43,6 +48,50 @@
 								
 							</tbody>
 						</table>
+					</div>
+				</div>
+
+
+			</div>
+			<!-- PAGE CONTENT : end -->
+			
+			
+			
+			<!-- PAGE CONTENT : begin -->
+			<div id="page-content" ng-show="liste != ''">
+
+
+				<div class="c-content-box">
+					<div class="page-content-inner">
+						
+						<table>
+							<tbody>
+								<style>
+								td:first-child {
+								    background-color: #ffff;
+								}
+								</style>
+								<tr ng-repeat="l in nasao">
+									<td >
+										
+										<span style="color: #0000ff;">
+											<a ng-if="name == 'accepted'" style="color: #0000ff;" href="#/amandman/read/accepted/{{l.docUrl}}">{{l.docTitle}}</a>
+											<a ng-if="name == 'proposed'" style="color: #0000ff;" href="#/amandman/read/proposed/{{l.docUrl}}">{{l.docTitle}}</a>
+										</span> 
+										<span style="float: right; color: #DDDDD;">
+											<a href style="color: #0000ff;" ng-click="converte(l.docUrl, 'PDF')">PDF</a> | 
+											<a href style="color: #0000ff;" ng-click="converte(l.docUrl, 'HTML')">HTML</a> | 
+											<a href style="color: #0000ff;" "ng-click="converte(l.docUrl, 'RDF')">RDF</a> 
+											<a  ng-if="name == 'proposed'" href="#/vote/amandman/{{l.docTitle}}/{{l.docUrl}}" style="color: #0000ff;"> GALSANjE</a>
+										</span>
+									</td>
+								</tr>
+								
+								
+								
+							</tbody>
+						</table>
+						
 					</div>
 				</div>
 

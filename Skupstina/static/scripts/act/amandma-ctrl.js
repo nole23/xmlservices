@@ -83,8 +83,8 @@ angular.module('xmlClientApp')
 	    })
 	}])
 	
-	.controller('AmandmanCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 
-	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource) {
+	.controller('AmandmanCrtl', ['$scope', '$uibModal', '$log', '_', '$routeParams', '$window', 'ActResource', 'SearchResource',
+	   function($scope, $uibModal, $log, _, $routeParams, $window, ActResource, SearchResource) {
 		
 		$scope.list = [];
 		var id = $routeParams.accept;
@@ -118,6 +118,19 @@ angular.module('xmlClientApp')
 				console.log("doradi");
 			} else {
 				console.log("doradi");
+			}
+		}
+		
+		
+		$scope.liste = "";
+		$scope.nasao = [];
+		$scope.search = function() {
+			$scope.liste = $scope.keywords;
+			
+			if($scope.lista != ""){
+				SearchResource.search($scope.keywords, "amandman", id).then(function (result) {
+					$scope.nasao = result;
+				});
 			}
 		}
 	    

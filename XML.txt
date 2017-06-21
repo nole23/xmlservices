@@ -9,8 +9,8 @@
 	6.2	Pronalazi predlozene akte po meta podacima 		| X
 	6.3	Pregled usvojenih akta					| X
 	6.4	Pregled predlozenih akata				| X
-	6.5	Pronalazi usvoje akte po tekstu				| 
-	6.6	Pronalazi usvoje amandmane po tekstu 			| 
+	6.5	Pronalazi usvoje akte po tekstu				| X
+	6.6	Pronalazi usvoje amandmane po tekstu 			| X
 
 7.	Odbornik
 	7.1	Predlaze akte						| X
