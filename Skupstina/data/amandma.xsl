@@ -112,7 +112,7 @@
 		                	<div class="sluzbeniList">
 		                		Id akta:
 		                		<div class="element">
-									23<!-- Ovde ide nesto -->
+									<!-- Ovde ide nesto -->
 		                			<xsl:value-of select="ns2:amandman/ns2:sluzbeniListAmandmana/ns2:idAkta"/>
 		                		</div>
 		                	</div>

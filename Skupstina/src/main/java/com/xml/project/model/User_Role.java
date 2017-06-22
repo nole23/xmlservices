@@ -1,9 +1,11 @@
 package com.xml.project.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -16,7 +18,7 @@ public class User_Role {
 	@OneToOne(fetch = FetchType.LAZY)
 	private User user;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	private Role role;
 
 	public Role getRole() {

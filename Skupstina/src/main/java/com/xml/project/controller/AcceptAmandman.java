@@ -1,6 +1,10 @@
 package com.xml.project.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -15,10 +19,20 @@ import org.xml.sax.SAXException;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
+import com.marklogic.client.document.DocumentDescriptor;
+import com.marklogic.client.document.DocumentUriTemplate;
 import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.DOMHandle;
+import com.marklogic.client.io.DocumentMetadataHandle;
+import com.marklogic.client.io.InputStreamHandle;
+import com.marklogic.client.io.DocumentMetadataHandle.DocumentCollections;
 import com.xml.project.jaxb.Amandman;
+import com.xml.project.jaxb.Clan;
 import com.xml.project.jaxb.Dokument;
+import com.xml.project.jaxb.DopunaZakona;
+import com.xml.project.jaxb.DopunaZakonaAmandamana;
+import com.xml.project.jaxb.Glava;
+import com.xml.project.jaxb.Propisi;
 import com.xml.project.util.DatabaseUtil;
 
 public class AcceptAmandman {
@@ -49,7 +63,7 @@ public class AcceptAmandman {
 	}
 	
 	//Treba implementirati nekako 
-	public String Accept(String docId) throws SAXException, JAXBException {
+	public static String Accept(String docId) throws SAXException, JAXBException, IOException {
 		
 		Amandman amandman = null;
 
@@ -68,6 +82,9 @@ public class AcceptAmandman {
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
 		amandman = (Amandman) unmarshaller.unmarshal(docc);
 		
+		
+		System.out.println(amandman.getLinkAkta());
+		
 		//////////////////////////////////////////////////////
 		
 		Dokument dokument = null;
@@ -79,13 +96,88 @@ public class AcceptAmandman {
 
 		DOMHandle content1 = new DOMHandle();
 
-		String doc1 = "/amandman/decisions/" + docId + ".xml";
+		String doc1 = "/acts/decisions/" + amandman.getLinkAkta() + ".xml";
 
 		xmlMenager.read(doc1, content1);
 
 		Document docc1 = content1.get();
 		unmarshaller.setEventHandler(new MyValidationEventHandler());
-		amandman = (Amandman) unmarshaller.unmarshal(docc1);
+		dokument = (Dokument) unmarshaller.unmarshal(docc1);
+		
+		///////////////////////////////////////////////////////////
+		
+		//DopunaZakonaAmandamana amand = amandman.getDopunaZakonaAmandmana();
+		//List<Glava> glavaAmandmana = amand.getGlava();
+		
+		
+		/*
+		DopunaZakona dopuna = dokument.getPropisi().get(0).getDopunaZakona();
+		List<Glava> glava = dopuna.getGlava();
+		
+		for(Glava gl: glava) {
+			Clan[] clan = gl.getClan();
+			for(Clan cl: clan) {
+				
+				
+				for(Glava glAmand: glavaAmandmana){
+					Clan[] clanAmandman = glAmand.getClan();
+					for(Clan clAm: clanAmandman) {
+						cl.setId(clAm.getId());
+						cl.setOpis(clAm.getOpis());
+						cl.setPodaciClana(clAm.getPodaciClana());
+					}
+					
+				}
+				
+				
+				
+				
+			}
+			gl.setClan(clan);
+		}
+		
+		dopuna.setGlava(glava);
+		*/
+		List<Propisi> doku = dokument.getPropisi();
+		for(Propisi pr: doku) {
+			pr.setDopunaZakona(amandman.getDopunaZakonaAmandmana());
+		}
+		
+		dokument.setPropisi(doku);
+		
+		
+		File f = new File(XML_FILE + "/dopuna.xml");
+		FileOutputStream out = new FileOutputStream(f);
+		m.marshal(dokument, out);
+		
+		
+		
+		//Brise postojeci akt
+		ActController.deleteCollection(amandman.getLinkAkta());
+		
+		
+		//Dodaje izmenjenu verziju
+		xmlMenager = databaseClient.newXMLDocumentManager();
+		DocumentUriTemplate template = xmlMenager.newDocumentUriTemplate("xml");
+		template.setDirectory("/acts/decisions/");
+		
+		InputStreamHandle handle = new InputStreamHandle(new FileInputStream(XML_FILE + "dopuna.xml"));
+		DocumentMetadataHandle metadata = new DocumentMetadataHandle();
+		metadata.getCollections().add("/parliament/acts/accepted");
+		
+		DocumentDescriptor desc = xmlMenager.create(template, metadata, handle);
+		System.out.println("Uprade: " + desc);
+		
+		
+		
+		XMLDocumentManager xmlMenager1 = databaseClient.newXMLDocumentManager();
+		DocumentMetadataHandle metadata1 = new DocumentMetadataHandle();
+		xmlMenager1.readMetadata(doc, metadata1);
+		
+		DocumentCollections collections = metadata1.getCollections();
+		collections.remove("/parliament/amandman/proposed");
+		collections.add("/parliament/amandman/accepted");
+		xmlMenager1.writeMetadata(doc, metadata1);
 		
 		return null;
 	}

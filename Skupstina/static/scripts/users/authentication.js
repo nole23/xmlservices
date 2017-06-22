@@ -11,8 +11,21 @@
 		service.login = login;
 		service.getCurrentUser = getCurrentUser;
 		service.logout = logout;
+		service.registration = registration;
 		
 		return service;
+		
+		
+		function registration(user, callback) {
+			$http.post('http://localhost:8080/api/user/register', user)
+				.success(function(response) {
+					if(response.error != null) {
+						callback('invalid');
+					} else {
+						callback('registration');
+					}
+				})
+		}
 		
 		function login(user, callBack) {
 			$http.post('http://localhost:8080/api/user/login', user)

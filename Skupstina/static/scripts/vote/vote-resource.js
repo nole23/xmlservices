@@ -39,6 +39,21 @@ angular.module('xmlClientApp')
 			return Restangular.all(link).remove();
 		}
 		
+		retVal.acceptAmandman = function(id) {
+			console.log(id);
+			var link = 'amandman/accept/'+id;
+			return Restangular.one(link).get().then(function(resoult) {
+				message = resoult;
+				return message;
+			})
+			
+		}
+		
+		retVal.deleteAmandman = function(id) {
+			var link = 'amandman/delete/'+id;
+			return Restangular.all(link).remove();
+		}
+		
 		return retVal;
 		
 	

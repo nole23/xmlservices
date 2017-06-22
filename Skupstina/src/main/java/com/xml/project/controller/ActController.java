@@ -3,7 +3,6 @@ package com.xml.project.controller;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +46,7 @@ import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.DocumentDescriptor;
 import com.marklogic.client.document.DocumentUriTemplate;
+import com.marklogic.client.document.GenericDocumentManager;
 import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.DOMHandle;
 import com.marklogic.client.io.DocumentMetadataHandle;
@@ -57,11 +57,8 @@ import com.marklogic.client.query.MatchDocumentSummary;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.xml.project.dto.MesagesDTO;
-import com.xml.project.dto.PublishedDTO;
 import com.xml.project.dto.SearchDTO;
-import com.xml.project.dto.UserDTO;
 import com.xml.project.dto.VoteDTO;
-import com.xml.project.jaxb.Amandman;
 import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.Published;
 import com.xml.project.model.User;
@@ -243,12 +240,19 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/delete/{docId}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteCollection(@PathVariable String docId)
+	public static ResponseEntity<String> deleteCollection(@PathVariable String docId)
 			throws JAXBException, IOException, SAXException {
 
+		GenericDocumentManager docMgr = databaseClient.newDocumentManager();
+		
+		
 		String collId = "/acts/decisions/" + docId + ".xml";
-
-		xmlMenager.delete(collId);
+		docMgr.delete(collId);
+		//StringBuilder query = new StringBuilder();
+		
+		//query.delte().append("xdmp:document-delete(\"").append("/acts/decisions/2582090375257068152.xml").append("\")");
+		System.out.println("Delete: " + docMgr);
+		//xmlMenager.delete(collId);
 
 		return new ResponseEntity<String>("izbrisano", HttpStatus.OK);
 	}

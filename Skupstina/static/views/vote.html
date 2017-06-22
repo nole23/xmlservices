@@ -65,10 +65,16 @@
 					
 					<div class="bbp-username" style="float:left; margin: 5% 0 0 0; float: none; font-size: 30px;">
 						
-						<div ng-if="getCurrentUserRole()&&getCurrentUserRole()=='PRESIDENT'" class="bbp-submit-wrapper" ng-if="isLoggedIn()">
+						<div ng-if="getCurrentUserRole()&&getCurrentUserRole()=='PRESIDENT' && tip=='acts'" class="bbp-submit-wrapper" ng-if="isLoggedIn()">
 
 							<button ng-if="glasanje == true" type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="acceptAct()">USVOJEN</button> |
 							<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="deleteAct()">ODBIJEN</button>
+						</div>
+						
+						<div ng-if="getCurrentUserRole()&&getCurrentUserRole()=='PRESIDENT' && tip=='amandman'" class="bbp-submit-wrapper" ng-if="isLoggedIn()">
+
+							<button ng-if="glasanje == true" type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="acceptAmandman()">USVOJEN</button> |
+							<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="deleteAmandman()">ODBIJEN</button>
 						</div>
 						
 					</div>

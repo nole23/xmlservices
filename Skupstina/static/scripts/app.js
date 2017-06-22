@@ -74,6 +74,11 @@ angular
 	            controller: 'VoteCrtl',
 	            controllerAs: 'readCtrl'
 	        })
+	        .when('/add/new/minister', {
+	            templateUrl: 'views/poslanil.html',
+	            controller: 'UserAddCrtl'
+	        })
+	        
 	        .otherwise({
                 redirectTo: '/'
             });

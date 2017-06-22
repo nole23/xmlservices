@@ -278,6 +278,10 @@
 											Uspesno ste glasali za dati akt!
 										</div>
 										
+										<div ng-if="message1" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #99ff99; font-size: 50px; padding: 1% ; height: 50px">
+											Uspesno ste glasali protiv ovog akta!
+										</div>
+										
 										<div ng-if="vote" style="width: 100%; margin: 1% 0 1% 0; text-align: center; color: #004d00; background: #66c2ff; padding: 1% ; font-size: 30px; height: 70px">
 											Opravo je za dati akt glasalo vise od 50% poslanik! Akt je <span style="color: #FFF">USVOJEN</span>!
 										</div>
@@ -291,6 +295,14 @@
 											<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="acceptAct()">Glasati za</button> 
 
 										</div>
+										
+										<div ng-if="getCurrentUserRole()&&getCurrentUserRole()!='PRESIDENT' && !(getCurrentUserUser()&&getCurrentUserUser()== list.korisnik)" class="bbp-submit-wrapper" style="float: left; margin: -4.5% 0 0 0" ng-if="isLoggedIn()">
+
+											<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="deccidentAct()">Glasati protiv</button> 
+
+										</div>
+										
+										
 										<div ng-if="getCurrentUserRole()&&getCurrentUserRole()=='PRESIDENT'" class="bbp-submit-wrapper" ng-if="isLoggedIn()">
 
 											<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="acceptAct()">Statistika</button> 

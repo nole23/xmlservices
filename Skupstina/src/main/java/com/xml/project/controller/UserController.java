@@ -63,17 +63,14 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ResponseEntity<List<UserDTO>> getAdopt(Principal principal) {
-
-		User users = userService.findByUsername(principal.getName());
-		Role role = roleRepository.findByName("PRESIDENT");
+	public ResponseEntity<List<UserDTO>> getAdopt() {
 		
-		System.out.println(users.getRole().getRole().getName());
+		
 		List<User> user = userService.findAll();
 		
 		List<UserDTO> userDTO = new ArrayList<>();
 		for(User u : user) {
-			if(!(u.getRole().getRole() == role))
+			if(!u.getUser_role().getRole().getName().equals("PRESIDENT"))
 				userDTO.add(new UserDTO(u));
 		}
 		
@@ -106,7 +103,7 @@ public class UserController {
 			UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
 			
 			messagesDTO.setJwt(tokenUtils.generateToken(details));
-			messagesDTO.setRola(users.getRole().getRole().getName());
+			messagesDTO.setRola(users.getUser_role().getRole().getName());
 			return new ResponseEntity<MesagesDTO>(messagesDTO, HttpStatus.OK);
 		} catch (Exception ex) {
 			messagesDTO.setError("invalid");

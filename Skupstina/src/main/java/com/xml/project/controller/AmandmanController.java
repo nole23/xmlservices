@@ -46,6 +46,7 @@ import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.DocumentDescriptor;
 import com.marklogic.client.document.DocumentUriTemplate;
+import com.marklogic.client.document.GenericDocumentManager;
 import com.marklogic.client.document.XMLDocumentManager;
 import com.marklogic.client.io.DOMHandle;
 import com.marklogic.client.io.DocumentMetadataHandle;
@@ -57,7 +58,6 @@ import com.marklogic.client.query.StringQueryDefinition;
 import com.xml.project.dto.MesagesDTO;
 import com.xml.project.dto.SearchDTO;
 import com.xml.project.jaxb.Amandman;
-import com.xml.project.jaxb.Dokument;
 import com.xml.project.model.Published;
 import com.xml.project.model.User;
 import com.xml.project.repository.PublishedRepository;
@@ -187,10 +187,14 @@ public class AmandmanController {
 			throws JAXBException, IOException, SAXException {
 
 		String collId = "/amandman/decisions/" + docId + ".xml";
-
-		xmlMenager.delete(collId);
-		
 		MesagesDTO mesagesDTO = new MesagesDTO();
+		
+		GenericDocumentManager docMgr = databaseClient.newDocumentManager();
+
+		docMgr.delete(collId);
+
+		System.out.println("Delete: " + docMgr);
+		
 		mesagesDTO.setMessage("delete");
 		return new ResponseEntity<>(mesagesDTO, HttpStatus.OK);
 	}
@@ -312,6 +316,22 @@ public class AmandmanController {
 		file1.delete();
 
 	}
+	
+	
+	@RequestMapping(value = "/accept/{docId}", method = RequestMethod.GET)
+	public ResponseEntity<MesagesDTO> accepted(@PathVariable String docId) throws SAXException, JAXBException, IOException{
+		
+		
+		MesagesDTO mesagesDTO = new MesagesDTO();
+	
+		AcceptAmandman.Accept(docId);
+
+		mesagesDTO.setMessage("prihvaceno");
+		return new ResponseEntity<MesagesDTO>(mesagesDTO, HttpStatus.OK);
+	}
+	
+	
+	
 	
 	
 	public String getDocumentTitle(String docId) throws JAXBException {

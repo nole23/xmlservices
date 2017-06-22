@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:dokument xmlns="http://www.parlament.gov.rs/amandmani" xmlns:ns2="http://www.parlament.gov.rs/amandmani" ns2:id="1" ns2:Korisnik="gago" ns2:odobreno="false">
+    <ns2:naslov>Akt</ns2:naslov>
+    <ns2:sluzbeniList>
+        <ns2:broj_lista>23</ns2:broj_lista>
+        <ns2:cena>23.0</ns2:cena>
+        <ns2:mestoDatum>
+            <ns2:mesto>23</ns2:mesto>
+            <ns2:datum>23</ns2:datum>
+        </ns2:mestoDatum>
+    </ns2:sluzbeniList>
+    <ns2:propisi ns2:id="1" ns2:Korisnik="">
+        <ns2:preambula>23</ns2:preambula>
+        <ns2:naziv_propisa>23</ns2:naziv_propisa>
+        <ns2:uvodniDeo>
+            <ns2:glava ns2:id="1">
+                <ns2:podaciGlave>
+                    <ns2:naslovGlave>23</ns2:naslovGlave>
+                    <ns2:broj_glave>1</ns2:broj_glave>
+                </ns2:podaciGlave>
+                <ns2:podnaslovGlave>23</ns2:podnaslovGlave>
+                <ns2:clan ns2:id="1">
+                    <ns2:podaciClana>
+                        <ns2:naslovClana>23</ns2:naslovClana>
+                        <ns2:brojClana>1</ns2:brojClana>
+                    </ns2:podaciClana>
+                    <ns2:opis>23</ns2:opis>
+                </ns2:clan>
+            </ns2:glava>
+        </ns2:uvodniDeo>
+        <ns2:glavniDeo>
+            <ns2:glava ns2:id="1">
+                <ns2:podaciGlave>
+                    <ns2:naslovGlave>23</ns2:naslovGlave>
+                    <ns2:broj_glave>1</ns2:broj_glave>
+                </ns2:podaciGlave>
+                <ns2:podnaslovGlave>23</ns2:podnaslovGlave>
+                <ns2:clan ns2:id="1">
+                    <ns2:podaciClana>
+                        <ns2:naslovClana>23</ns2:naslovClana>
+                        <ns2:brojClana>1</ns2:brojClana>
+                    </ns2:podaciClana>
+                    <ns2:opis>23</ns2:opis>
+                </ns2:clan>
+            </ns2:glava>
+        </ns2:glavniDeo>
+        <ns2:zavrsniDeo>
+            <ns2:glava ns2:id="1">
+                <ns2:podaciGlave>
+                    <ns2:naslovGlave>23</ns2:naslovGlave>
+                    <ns2:broj_glave>1</ns2:broj_glave>
+                </ns2:podaciGlave>
+                <ns2:podnaslovGlave>23</ns2:podnaslovGlave>
+                <ns2:clan ns2:id="1">
+                    <ns2:podaciClana>
+                        <ns2:naslovClana>23</ns2:naslovClana>
+                        <ns2:brojClana>1</ns2:brojClana>
+                    </ns2:podaciClana>
+                    <ns2:opis>23</ns2:opis>
+                </ns2:clan>
+            </ns2:glava>
+            <ns2:potpis_presednika></ns2:potpis_presednika>
+        </ns2:zavrsniDeo>
+        <ns2:dopunaZakona>
+            <ns2:glava ns2:id="1">
+                <ns2:podaciGlave>
+                    <ns2:naslovGlave></ns2:naslovGlave>
+                    <ns2:broj_glave>1</ns2:broj_glave>
+                </ns2:podaciGlave>
+                <ns2:podnaslovGlave></ns2:podnaslovGlave>
+                <ns2:clan ns2:id="1">
+                    <ns2:podaciClana>
+                        <ns2:naslovClana></ns2:naslovClana>
+                        <ns2:brojClana>1</ns2:brojClana>
+                    </ns2:podaciClana>
+                    <ns2:opis></ns2:opis>
+                </ns2:clan>
+            </ns2:glava>
+        </ns2:dopunaZakona>
+    </ns2:propisi>
+</ns2:dokument>

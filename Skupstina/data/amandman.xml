@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:amandman xmlns="http://www.parlament.gov.rs/amandmani" xmlns:ns2="http://www.parlament.gov.rs/amandmani" ns2:idAkta="1" ns2:linkAkta="15950289455247835995" ns2:odobreno="false" ns2:dopunaIzmena="false">
+    <ns2:naslovAkta>Akt</ns2:naslovAkta>
+    <ns2:korisnik>nole</ns2:korisnik>
+    <ns2:sluzbeniListAmandmana>
+        <ns2:brojListaAkta>23</ns2:brojListaAkta>
+        <ns2:idAkta></ns2:idAkta>
+        <ns2:mestoDatum>
+            <ns2:mesto>23</ns2:mesto>
+            <ns2:datum>23</ns2:datum>
+        </ns2:mestoDatum>
+    </ns2:sluzbeniListAmandmana>
+    <ns2:dopunaZakonaAmandmana>
+        <ns2:glava ns2:id="1">
+            <ns2:podaciGlave>
+                <ns2:naslovGlave>Proba</ns2:naslovGlave>
+                <ns2:broj_glave>1</ns2:broj_glave>
+            </ns2:podaciGlave>
+            <ns2:podnaslovGlave>Proba</ns2:podnaslovGlave>
+            <ns2:clan ns2:id="1">
+                <ns2:podaciClana>
+                    <ns2:naslovClana>Proba</ns2:naslovClana>
+                    <ns2:brojClana>1</ns2:brojClana>
+                </ns2:podaciClana>
+                <ns2:opis>Proba</ns2:opis>
+            </ns2:clan>
+        </ns2:glava>
+    </ns2:dopunaZakonaAmandmana>
+</ns2:amandman>

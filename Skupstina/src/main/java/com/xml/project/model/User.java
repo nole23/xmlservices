@@ -32,7 +32,7 @@ public class User {
 	private String pass;
 
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private User_Role role;
+	private User_Role user_role;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Voting> voting = new HashSet<Voting>();
@@ -88,12 +88,12 @@ public class User {
 		this.pass = pass;
 	}
 
-	public User_Role getRole() {
-		return role;
+	public User_Role getUser_role() {
+		return user_role;
 	}
 
-	public void setRole(User_Role role) {
-		this.role = role;
+	public void setUser_role(User_Role user_role) {
+		this.user_role = user_role;
 	}
 
 	public Set<Voting> getVoting() {

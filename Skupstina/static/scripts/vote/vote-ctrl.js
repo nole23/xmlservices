@@ -45,8 +45,18 @@ angular.module('xmlClientApp')
 		$scope.acceptAct = function() {
 			VoteResource.acceptAct(res[0]);
 			$scope.message = true;
+		}
+		
+		$scope.acceptAmandman = function() {
+			VoteResource.acceptAmandman(res[0]).then(function(odg) {
+				$scope.messages = true;
+			})
 			
-			
+		}
+		
+		$scope.deleteAmandman = function() {
+			VoteResource.deleteAmandman(res[0]);
+			$scope.messages = true;
 		}
 		
 		

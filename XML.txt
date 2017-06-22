@@ -11,6 +11,7 @@
 	6.4	Pregled predlozenih akata				| X
 	6.5	Pronalazi usvoje akte po tekstu				| X
 	6.6	Pronalazi usvoje amandmane po tekstu 			| X
+	6.7	Pronalazi i amandmane i akte po metadate		| X
 
 7.	Odbornik
 	7.1	Predlaze akte						| X
@@ -20,7 +21,7 @@
 
 8.	Predsednik skupstine
 	8.1	Usvaja akte    						| X
-	8.2	Usvaja amandmane  					| 
+	8.2	Usvaja amandmane  					| X
 
 
 --------Pregled------------

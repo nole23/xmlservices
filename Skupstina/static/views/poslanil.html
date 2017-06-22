@@ -1,0 +1,78 @@
+<!-- PAGE CONTENT : begin -->
+<div id="page-content" style="width: 890px" >
+
+	
+	<div class="c-content-box">
+		<div class="page-content-inner">
+			<div class="vc_row wpb_row vc_row-fluid">
+				<div class="wpb_column vc_column_container vc_col-sm-12">
+					<div class="vc_column-inner ">
+						<div class="wpb_wrapper">
+							<div class="wpb_text_column wpb_content_element ">
+								<div id="page-header">
+
+									<!-- PAGE TITLE : begin -->
+									<div class="page-title"><h1>Dodavanje novog poslanika</h1></div>
+									<!-- PAGE TITLE : end -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="vc_row wpb_row vc_row-fluid">
+				<div class="wpb_column vc_column_container vc_col-sm-12">
+					<div class="vc_column-inner ">
+						<div class="wpb_wrapper">
+							<div class="c-content-box m-forced" ng-controller="UserAddCtrl">
+								<h2>Unesite osnoven parametre</h2>
+								
+								<form >
+									<fieldset class="bbp-form">
+
+										<div class="bbp-username">
+											<label for="user_login">Korisnicko ime: </label>
+											<input type="text" name="log" value="" ng-model="user.username" size="20" id="user_login" tabindex="101" />
+										</div>
+										
+										<div class="bbp-username">
+											<label for="user_login">Puno ime: </label>
+											<input type="text" name="log" value="" ng-model="user.fName" size="20" id="user_login" tabindex="101" />
+										</div>
+										
+										<div class="bbp-username">
+											<label for="user_login">Puno prezime: </label>
+											<input type="text" name="log" value="" ng-model="user.lName" size="20" id="user_login" tabindex="101" />
+										</div>
+										
+										<div class="bbp-username">
+											<label for="user_login">Email: </label>
+											<input type="text" name="log" value="" ng-model="user.email" size="20" id="user_login" tabindex="101" />
+										</div>
+
+										
+										<div style="color: red;" ng-if="message=='invalid'">
+											Korisnik vec postoji u sistemu! <br>Proverite korisnicko ime i emails!
+										</div>
+										
+										<div style="color: green;" ng-if="message=='success'">
+											Uspesno ste dodali novog korisnika!
+										</div>
+
+										<div class="bbp-submit-wrapper">
+
+											<button type="submit" tabindex="104" name="user-submit" class="button submit user-submit" ng-click="registration()">Prijava</button>
+										</div>
+									</fieldset>
+								</form>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- PAGE CONTENT : end -->

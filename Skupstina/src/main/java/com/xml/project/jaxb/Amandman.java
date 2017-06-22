@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "naslovAkta", "korisnik", "sluzbeniListAmandmana",
-		"dopunaZakonaAmandmana", "idAkta", "linkAkta", "odobreno",
-		"dopunaIzmena" })
+@XmlType(name = "", propOrder = { "naslovAkta", "korisnik",
+		"sluzbeniListAmandmana", "dopunaZakonaAmandmana", "idAkta", "linkAkta",
+		"odobreno", "dopunaIzmena" })
 @XmlRootElement(name = "amandman")
 public class Amandman {
 
@@ -24,7 +24,7 @@ public class Amandman {
 	private SluzbeniListAmandmana sluzbeniListAmandmana;
 
 	@XmlElement(name = "dopunaZakonaAmandmana")
-	private DopunaZakonaAmandamana dopunaZakonaAmandmana;
+	private DopunaZakona dopunaZakonaAmandmana;
 
 	@XmlAttribute(name = "idAkta", namespace = "http://www.parlament.gov.rs/amandmani")
 	private String idAkta;
@@ -55,12 +55,11 @@ public class Amandman {
 		this.sluzbeniListAmandmana = sluzbeniListAmandmana;
 	}
 
-	public DopunaZakonaAmandamana getDopunaZakonaAmandmana() {
+	public DopunaZakona getDopunaZakonaAmandmana() {
 		return dopunaZakonaAmandmana;
 	}
 
-	public void setDopunaZakonaAmandmana(
-			DopunaZakonaAmandamana dopunaZakonaAmandmana) {
+	public void setDopunaZakonaAmandmana(DopunaZakona dopunaZakonaAmandmana) {
 		this.dopunaZakonaAmandmana = dopunaZakonaAmandmana;
 	}
 

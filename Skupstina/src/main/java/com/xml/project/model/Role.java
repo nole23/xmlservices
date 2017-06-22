@@ -1,12 +1,15 @@
 package com.xml.project.model;
 
+import java.util.Set;
+import java.util.HashSet;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Role {
@@ -14,12 +17,12 @@ public class Role {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String name;
-	
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.ALL)
-	private User_Role role;
+
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private Set<User_Role> user_role = new HashSet<User_Role>();
 
 	public Long getId() {
 		return id;
@@ -37,12 +40,12 @@ public class Role {
 		this.name = name;
 	}
 
-	public User_Role getRole() {
-		return role;
+	public Set<User_Role> getUser_role() {
+		return user_role;
 	}
 
-	public void setRole(User_Role role) {
-		this.role = role;
+	public void setUser_role(Set<User_Role> user_role) {
+		this.user_role = user_role;
 	}
-	
+
 }

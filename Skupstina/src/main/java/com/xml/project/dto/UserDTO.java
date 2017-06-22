@@ -1,5 +1,9 @@
 package com.xml.project.dto;
 
+
+import java.util.HashSet;
+import java.util.Set;
+
 import com.xml.project.model.User;
 
 public class UserDTO {
@@ -10,12 +14,13 @@ public class UserDTO {
 	private String username;
 	private String email;
 	private String pass;
+	private Set<User_RoleDTO> user_roleDTO = new HashSet<>();
 
 	public UserDTO() {
 	}
 
 	public UserDTO(Long id, String lName, String fName, String username,
-			String email, String pass) {
+			String email, String pass, Set<User_RoleDTO> user_roleDTO) {
 		super();
 		this.id = id;
 		this.lName = lName;
@@ -23,6 +28,7 @@ public class UserDTO {
 		this.username = username;
 		this.email = email;
 		this.pass = pass;
+		this.user_roleDTO = user_roleDTO;
 	}
 
 	public UserDTO(User user) {
@@ -32,7 +38,7 @@ public class UserDTO {
 		this.username = user.getUsername();
 		this.email = user.getEmail();
 		this.pass = user.getPass();
-
+		
 	}
 
 	public Long getId() {
@@ -82,12 +88,6 @@ public class UserDTO {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	
 
-
-	@Override
-	public String toString() {
-		return "UserDTO [id=" + id + ", lName=" + lName + ", fName=" + fName
-				+ ", username=" + username + ", email=" + email + ", pass="
-				+ pass + "]";
-	}
 }

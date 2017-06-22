@@ -299,6 +299,19 @@ angular.module('xmlClientApp')
 		    });
 		}
 		
+		$scope.deccidentAct = function() {
+			ActResource.getVote(res[0], 'deccident', 'act').then(function(items) {
+				if(items.error != null) {
+					
+					$scope.error1 = items.error;
+				} else if(items.message != null) {
+					console.log(items.vote);
+					$scope.vote = items.vote;
+					$scope.message1 = items.message;
+				}
+		    });
+		}
+		
 		$scope.againstAct = function() {
 			ActResource.getVote(res[0], 'deccident', 'act').then(function(items) {
 				console.log(items);

@@ -1,28 +1,27 @@
 package com.xml.project.dto;
 
-import com.xml.project.model.Role;
-import com.xml.project.model.User;
 import com.xml.project.model.User_Role;
 
 public class User_RoleDTO {
 
 	private Long id;
-	private User user;
-	private Role role;
-	
-	public User_RoleDTO() {}
-	
-	public User_RoleDTO(Long id, User user, Role role) {
+	private UserDTO userDTO;
+	private RoleDTO roleDTO;
+
+	public User_RoleDTO() {
+	}
+
+	public User_RoleDTO(Long id, UserDTO userDTO, RoleDTO roleDTO) {
 		super();
 		this.id = id;
-		this.user = user;
-		this.role = role;
+		this.userDTO = userDTO;
+		this.roleDTO = roleDTO;
 	}
-	
+
 	public User_RoleDTO(User_Role userRole) {
 		this.id = userRole.getId();
-		this.user = userRole.getUser();
-		this.role = userRole.getRole();
+		if (userRole.getRole() != null)
+			this.roleDTO = new RoleDTO(userRole.getRole());
 	}
 
 	public Long getId() {
@@ -33,27 +32,20 @@ public class User_RoleDTO {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public UserDTO getUserDTO() {
+		return userDTO;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
 	}
 
-	public Role getRole() {
-		return role;
+	public RoleDTO getRoleDTO() {
+		return roleDTO;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoleDTO(RoleDTO roleDTO) {
+		this.roleDTO = roleDTO;
 	}
 
-	@Override
-	public String toString() {
-		return "User_RoleDTO [id=" + id + ", user=" + user + ", role=" + role
-				+ "]";
-	}
-	
-	
 }
